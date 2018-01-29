@@ -1,0 +1,107 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
+body { 
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.login-box {
+  width: 400px;
+}
+.login-box-body {
+  border-radius: 5px;
+}
+.login-page {
+  background-image: url(assets/images/login-register.jpg);
+}
+.login-logo {
+  margin-bottom: 5px;
+}
+.recover-link {
+  margin-top: 7px;
+}
+a:hover {
+  text-decoration: none;
+}
+li.active > a {
+  text-decoration: none;
+}
+/******************* Checkbox *******************/
+.checkbox {
+  padding-left: 20px;
+}
+.checkbox label {
+  display: block;
+  padding-left: 5px;
+  position: relative;
+}
+.checkbox label::before {
+  -o-transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  background-color: #ffffff;
+  border-radius: 1px;
+  border: 1px solid rgba(120, 130, 140, 0.13);
+  content: "";
+  display: inline-block;
+  height: 17px;
+  left: 0;
+  top: 3px;
+  margin-left: -20px;
+  position: absolute;
+  transition: 0.3s ease-in-out;
+  width: 17px;
+  outline: none;
+}
+.checkbox label::after {
+  color: #263238;
+  display: inline-block;
+  font-size: 11px;
+  height: 16px;
+  left: 0;
+  margin-left: -20px;
+  padding-left: 3px;
+  padding-top: 1px;
+  position: absolute;
+  top: 3px;
+  width: 16px;
+}
+.checkbox input[type="checkbox"] {
+  cursor: pointer;
+  opacity: 0;
+  z-index: 1;
+  position: absolute;
+  left: 0px;
+  outline: none;
+}
+.checkbox input[type="checkbox"]:disabled + label {
+  opacity: 0.65;
+}
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline-offset: -2px;
+  outline: none;
+}
+.checkbox input[type="checkbox"]:checked + label::after {
+  content: "\f00c";
+  font-family: 'FontAwesome';
+}
+.checkbox input[type="checkbox"]:disabled + label::before {
+  background-color: #f2f4f8;
+  cursor: not-allowed;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+  background-color: #2196F3;
+  border-color: #2196F3;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+  color: #ffffff;
+}

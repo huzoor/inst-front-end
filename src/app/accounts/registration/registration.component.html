@@ -1,0 +1,53 @@
+<div class="login-box">
+  <div class="login-box-body">
+    <div class="login-logo">
+      <a href="">Maviba Institute</a>
+    </div>
+    <p class="login-box-msg">Register New Member</p>
+    <form class="form-horizontal" novalidate [formGroup]="myform" (ngSubmit)="userAuthentication(myform)">
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" formControlName="userName" placeholder="Username">
+        </div>
+      </div>
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" formControlName="email" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <input class="form-control" type="password" formControlName="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="myDate"></my-date-picker>
+        </div>
+      </div>
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" formControlName="mobile" placeholder="Mobile No">
+        </div>
+      </div>
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <textarea class="form-control" rows="4" formControlName="address" placeholder="Address"> </textarea>
+        </div>
+      </div>
+      <div class="form-group text-center">
+        <div class="col-xs-12">
+          <button class="btn btn-primary btn-sm btn-block" type="submit">Register</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12 text-center mt-10">
+          <div>
+            Already have an account ?
+            <a class="text-primary" routerLink="/signin"> Sign In </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

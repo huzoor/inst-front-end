@@ -1,0 +1,42 @@
+<div class="login-box">
+
+  <div class="login-box-body">
+    <div class="login-logo">
+      <a href="">Maviba Institute</a>
+    </div>
+    <p class="login-box-msg">Sign In</p>
+    <form class="form-horizontal" novalidate [formGroup]="myform" (ngSubmit)="userAuthentication(myform)">
+      <div class="form-group ">
+        <div class="col-xs-12">
+          <input class="form-control" type="text" formControlName="userName" placeholder="Username / Email"> </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <input class="form-control" type="password" formControlName="password" placeholder="Password"> </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <div class="checkbox checkbox-primary pull-left">
+            <input id="checkbox-signup" type="checkbox">
+            <label for="checkbox-signup"> Remember me </label>
+          </div>
+          <div class="recover-link pull-right">
+              <a href="#"> <i class="fa fa-lock mr-5"></i> Restore Password</a>
+            </div>
+        </div>
+      </div>
+      <div class="form-group text-center">
+        <div class="col-xs-12">
+          <button class="btn btn-primary btn-sm btn-block" type="submit">Sign In</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12 text-center">
+          <a class="text-primary" routerLink="/registration"> Register New Member </a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
