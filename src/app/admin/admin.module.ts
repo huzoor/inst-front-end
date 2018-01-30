@@ -7,6 +7,8 @@ import { AdminLeftSideComponent } from './admin-left-side/admin-left-side.compon
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
+import { TeachersComponent } from './teachers/teachers.component';
+import { ParentsComponent } from './parents/parents.component';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { StudentsComponent } from './students/students.component';
     AdminHeaderComponent,
     AdminLeftSideComponent,
     AdminFooterComponent,
-    StudentsComponent
+    StudentsComponent,
+    TeachersComponent,
+    ParentsComponent
   ],
   exports: [AdminComponent]
 })

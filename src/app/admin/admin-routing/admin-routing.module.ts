@@ -4,12 +4,14 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './../dashboard/dashboard.component';
 import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
+import { TeachersComponent } from '../teachers/teachers.component';
+import { ParentsComponent } from '../parents/parents.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       {
-        path: 'admin',
+        path: '',
         component: AdminComponent,
         children: [
           {
@@ -24,6 +26,14 @@ import { StudentsComponent } from '../students/students.component';
           {
             path: 'students',
             component: StudentsComponent
+          },
+          {
+            path: 'teachers',
+            component: TeachersComponent
+          },
+          {
+            path: 'parents',
+            component: ParentsComponent
           }
         ]
       }
