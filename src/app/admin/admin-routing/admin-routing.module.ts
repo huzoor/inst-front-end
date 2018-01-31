@@ -6,7 +6,7 @@ import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
 import { TeachersComponent } from '../teachers/teachers.component';
 import { ParentsComponent } from '../parents/parents.component';
-
+import { AttendanceComponent } from '../attendance/attendance.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -33,6 +33,10 @@ import { ParentsComponent } from '../parents/parents.component';
           },
           {
             path: 'parents',
+            component: ParentsComponent
+          },
+          {
+            path: 'student-attendance',
             component: ParentsComponent
           }
         ]

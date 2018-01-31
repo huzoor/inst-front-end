@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { ParentsComponent } from './parents/parents.component';
+import { AttendanceComponent } from './attendance/attendance.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ParentsComponent } from './parents/parents.component';
     AdminFooterComponent,
     StudentsComponent,
     TeachersComponent,
-    ParentsComponent
+    ParentsComponent,
+    AttendanceComponent
   ],
   exports: [AdminComponent]
 })
