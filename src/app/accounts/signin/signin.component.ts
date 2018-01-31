@@ -23,7 +23,7 @@ export class SigninComponent implements OnInit {
 
   public userAuthentication(myForm) {
     console.log(myForm.value);
-    this.router.navigate(['/admin/dashboard']);
+    this.router.navigate(['/dashboard']);
   }
 
 }

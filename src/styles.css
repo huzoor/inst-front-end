@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
 }
 .login-page {
-  background-image: url(assets/images/login-register.jpg);
+  background-image: url(assets/images/login-register.jpg) !important;
 }
 .login-logo {
   margin-bottom: 5px;
@@ -105,4 +105,11 @@ li.active > a {
 }
 .checkbox-primary input[type="checkbox"]:checked + label::after {
   color: #ffffff;
+}
+.scroll-box {
+  height: 320px !important;
+  overflow: auto;
+}
+.scroll-footer {
+  padding: 17px !important;
 }
