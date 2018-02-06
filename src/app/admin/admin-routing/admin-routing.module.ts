@@ -4,9 +4,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './../dashboard/dashboard.component';
 import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
-import { TeachersComponent } from '../teachers/teachers.component';
-import { ParentsComponent } from '../parents/parents.component';
-import { AttendanceComponent } from '../attendance/attendance.component';
+import { InstitutesComponent } from '../institutes/institutes.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -24,20 +22,8 @@ import { AttendanceComponent } from '../attendance/attendance.component';
             component: DashboardComponent
           },
           {
-            path: 'students',
-            component: StudentsComponent
-          },
-          {
-            path: 'teachers',
-            component: TeachersComponent
-          },
-          {
-            path: 'parents',
-            component: ParentsComponent
-          },
-          {
-            path: 'student-attendance',
-            component: ParentsComponent
+            path: 'institutes',
+            component: InstitutesComponent
           }
         ]
       }

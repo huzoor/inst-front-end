@@ -10,6 +10,7 @@ import { StudentsComponent } from './students/students.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { ParentsComponent } from './parents/parents.component';
 import { AttendanceComponent } from './attendance/attendance.component';
+import { InstitutesComponent } from './institutes/institutes.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { AttendanceComponent } from './attendance/attendance.component';
     StudentsComponent,
     TeachersComponent,
     ParentsComponent,
-    AttendanceComponent
+    AttendanceComponent,
+    InstitutesComponent
   ],
   exports: [AdminComponent]
 })
