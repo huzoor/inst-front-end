@@ -1,5 +1,10 @@
 import { AdminComponent } from './admin.component';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { ModalModule } from 'ngx-bootstrap';
+
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
 import { AdminFooterComponent } from './admin-footer/admin-footer.component';
@@ -15,6 +20,11 @@ import { InstitutesComponent } from './institutes/institutes.component';
 @NgModule({
   imports: [
     CommonModule,
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    ModalModule.forRoot(),
+    ReactiveFormsModule,
     AdminRoutingModule
   ],
   declarations: [
