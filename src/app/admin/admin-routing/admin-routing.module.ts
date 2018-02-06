@@ -1,6 +1,10 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+import { LoginRedirect } from '../../shared/login-redirect.service';
+import { EnsureAuthenticated } from '../../shared/ensure-authenticated.service';
+
 import { DashboardComponent } from './../dashboard/dashboard.component';
 import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
@@ -17,23 +21,28 @@ import { ParentsComponent } from '../parents/parents.component';
           {
             path: '',
             redirectTo: 'dashboard',
-            pathMatch: 'full'
+            pathMatch: 'full',
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'dashboard',
-            component: DashboardComponent
+            component: DashboardComponent,
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'students',
-            component: StudentsComponent
+            component: StudentsComponent,
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'teachers',
-            component: TeachersComponent
+            component: TeachersComponent,
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'parents',
-            component: ParentsComponent
+            component: ParentsComponent,
+            canActivate: [EnsureAuthenticated],
           }
         ]
       }

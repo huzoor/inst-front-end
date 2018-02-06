@@ -6,6 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MyDatePickerModule } from 'mydatepicker';
 
+import { DataService } from './shared/data.service';
+import { EnsureAuthenticated } from './shared/ensure-authenticated.service';
+import { LoginRedirect } from './shared/login-redirect.service';
+
 import { AppComponent } from './app.component';
 import { SigninComponent } from './accounts/signin/signin.component';
 import { RegistrationComponent } from './accounts/registration/registration.component';
@@ -25,7 +29,11 @@ import { RegistrationComponent } from './accounts/registration/registration.comp
     MyDatePickerModule,
     AdminModule
   ],
-  providers: [],
+  providers: [
+    DataService,
+    EnsureAuthenticated,
+    LoginRedirect
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
