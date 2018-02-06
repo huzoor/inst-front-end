@@ -8,9 +8,7 @@ import { EnsureAuthenticated } from '../../shared/ensure-authenticated.service';
 import { DashboardComponent } from './../dashboard/dashboard.component';
 import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
-import { TeachersComponent } from '../teachers/teachers.component';
-import { ParentsComponent } from '../parents/parents.component';
-
+import { InstitutesComponent } from '../institutes/institutes.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -30,20 +28,9 @@ import { ParentsComponent } from '../parents/parents.component';
             canActivate: [EnsureAuthenticated],
           },
           {
-            path: 'students',
-            component: StudentsComponent,
-            canActivate: [EnsureAuthenticated],
-          },
-          {
-            path: 'teachers',
-            component: TeachersComponent,
-            canActivate: [EnsureAuthenticated],
-          },
-          {
-            path: 'parents',
-            component: ParentsComponent,
-            canActivate: [EnsureAuthenticated],
-          }
+            path: 'institutes',
+            component: InstitutesComponent
+          }          
         ]
       }
     ])

@@ -37,6 +37,9 @@ a:hover, a:focus {
 li.active > a {
   text-decoration: none;
 }
+.box {
+  border-top: 0;
+}
 /******************* Checkbox *******************/
 .checkbox {
   padding-left: 20px;
