@@ -31,6 +31,7 @@
     "@types/jqueryui": "^1.11.35",
     "admin-lte": "2.3.11",
     "angular-4-data-table": "^0.4.3",
+    "angular4-files-upload": "^1.0.2",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",

@@ -22,7 +22,8 @@
         "_variables.less",
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "styles.css"
+        "styles.css",
+        "assets/css/dataTables.bootstrap.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
@@ -30,7 +31,10 @@
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/admin-lte/dist/js/app.js",
         "assets/js/adminLTEOptions.js",
-        "assets/js/scripts.js"
+        "assets/js/scripts.js",
+        "assets/js/jquery.dataTables.min.js",
+        "assets/js/dataTables.bootstrap.min.js",
+        "assets/js/jquery.dataTable.Methods.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

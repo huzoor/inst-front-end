@@ -18,7 +18,39 @@
               </div>
               <div class="row">
                 <div class="col-sm-12">
-                  <h4 class="text-center">Institute List</h4>
+                  <table id="data-table" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Institute Name</th>
+                        <th>Institute Code</th>
+                        <th>Institute Address</th>
+                        <th>Schools Registered</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Test</td>
+                        <td>Test </td>
+                        <td>Test</td>
+                        <td> 4</td>
+                        <td>
+                          <div class="actions">
+                            <button type="button" class="btn btn-sm btn-success">
+                              <i class="fa fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-primary">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger">
+                              <i class="fa fa-close"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
                 </div>
               </div>
             </div>
@@ -28,29 +60,84 @@
     </div>
   </section>
   <ng-template #institute>
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Add Institute</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Institute</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form novalidate [formGroup]="instituteform" class="">
         <div class="row">
-          <div class="col-md-12">
-            <form novalidate [formGroup]="myform" class="form-horizontal">
-              <div class="form-group">
-                <label class="control-label col-md-3">Institute Name</label>
-                <div class="col-md-8">
-                  <input type="text" class="form-control" formControlName="instituteName">
-                </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Institute Name</label>
+              <input type="text" class="form-control" formControlName="instituteName">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Institute Code</label>
+              <input type="text" class="form-control" formControlName="code">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Institute Logo</label>
+              <input type="file" class="form-control" formControlName="logo">
+              <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
+                <span class="btn btn-primary">Browse Image</span>
+              </ng4-files-click> -->
+            </div>
+            <div class="form-group">
+              <div class="logo" style="height: 58px;">
               </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-        <button type="button" class="btn btn-success" (click)="onSubmit(myform)">Submit</button>
-      </div>
-    </ng-template>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Institute Address</label>
+              <textarea class="form-control" formControlName="address" rows="5" cols="5"></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Institute Pincode</label>
+              <input type="text" class="form-control" formControlName="pincode">
+            </div>
+            <div class="form-group">
+              <label class="control-label">City</label>
+              <input type="text" class="form-control" formControlName="city">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">State</label>
+              <input type="text" class="form-control" formControlName="state">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">District</label>
+              <input type="text" class="form-control" formControlName="district">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Country</label>
+              <input type="text" class="form-control" formControlName="country">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" class="btn btn-success" (click)="onSubmit(instituteform)">Submit</button>
+    </div>
+  </ng-template>
 </div>

@@ -14,35 +14,39 @@ export class SigninComponent implements OnInit {
   public username: FormControl;
   public password: FormControl;
   public error: any;
- 
+
 
   constructor(private router: Router, private auth: DataService) { }
 
   ngOnInit() {
-    this.username = new FormControl('',[ Validators.required]);
+    this.username = new FormControl('', [Validators.required]);
     this.password = new FormControl('', [Validators.required]);
 
     this.loginForm = new FormGroup({
       username: this.username,
       password: this.password,
-    })
+    });
   }
 
   onLogin(): void {
-      if(this.loginForm.valid) {
-        this.error = '';
-        this.auth.login(this.loginForm.value)
+    if (this.loginForm.valid) {
+      this.error = '';
+      this.auth.login(this.loginForm.value)
         .then((user) => {
-          if(user.json().success){
-              localStorage.setItem('token', user.json().auth_token);
-              this.router.navigate(['/dashboard']);
-          } else this.error = user.json().message;
+          if (user.json().success) {
+            localStorage.setItem('token', user.json().auth_token);
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.error = user.json().message;
+          }
         })
         .catch((err) => {
           console.log('Login Err', err);
-          this.error = err.json().message
+          this.error = err.json().message;
         });
-      } else this.error = `Please fill username / Password fields`
+    } else {
+      this.error = 'Please fill username / Password fields';
+    }
   }
 
 }
