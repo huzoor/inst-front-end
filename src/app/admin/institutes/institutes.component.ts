@@ -2,8 +2,10 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 //import { Ng4FilesService, Ng4FilesConfig, Ng4FilesStatus, Ng4FilesSelected } from 'angular4-files-upload';
 declare var AdminLTE: any;
+const date = new Date();
 @Component({
   selector: 'app-institutes',
   templateUrl: './institutes.component.html',
@@ -18,7 +20,7 @@ export class InstitutesComponent implements OnInit {
   public logo: FormControl;
   public address: FormControl;
   public code: FormControl;
-  public pincode: FormControl;
+  public registeredDate: FormControl;
   public state: FormControl;
   public city: FormControl;
   public district: FormControl;
@@ -40,7 +42,7 @@ export class InstitutesComponent implements OnInit {
     this.logo = new FormControl('', []);
     this.address = new FormControl('', []);
     this.code = new FormControl('', []);
-    this.pincode = new FormControl('', []);
+    this.registeredDate = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
@@ -58,7 +60,7 @@ export class InstitutesComponent implements OnInit {
       logo: this.logo,
       address: this.address,
       code: this.code,
-      pincode: this.pincode,
+      registeredDate: this.registeredDate,
       state: this.state,
       city: this.city,
       district: this.district,
@@ -71,7 +73,7 @@ export class InstitutesComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
   // public uploadImage(selectedLogo: Ng4FilesSelected): void {
   //   console.log(selectedLogo);

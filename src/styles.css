@@ -37,16 +37,7 @@ a:hover, a:focus {
 li.active > a {
   text-decoration: none;
 }
-.br-top {
-  border-top: 1px solid #aaaaaa;
-}
-.br-bottom {
-  border-bottom: 1px solid #aaaaaa;
-}
-label.control-label {
-  color: #777777;
-  font-weight: 500;
-}
+
 .box {
   border-top: 0;
 }
@@ -125,4 +116,24 @@ label.control-label {
 }
 .scroll-footer {
   padding: 17px !important;
+}
+
+.br-top {
+  border-top: 1px solid #aaaaaa;
+}
+.br-bottom {
+  border-bottom: 1px solid #aaaaaa;
+}
+label.control-label {
+  color: #777777;
+  font-weight: 500;
+}
+button.btnpicker.btnpickerenabled {
+  border-left: 1px solid #bbb;
+  background: #bbb;
+  color: #fff;
+}
+.modal-info {
+  background: #3c8dbc;
+  color: #fff;
 }

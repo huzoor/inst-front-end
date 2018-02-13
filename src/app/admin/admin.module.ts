@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ModalModule } from 'ngx-bootstrap';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
@@ -25,6 +26,7 @@ import { InstitutesComponent } from './institutes/institutes.component';
     HttpModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
+    MyDatePickerModule,
     AdminRoutingModule
   ],
   declarations: [
