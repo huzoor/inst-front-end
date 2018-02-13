@@ -29,8 +29,9 @@ import { InstitutesComponent } from '../institutes/institutes.component';
           },
           {
             path: 'institutes',
+            canActivate: [EnsureAuthenticated],
             component: InstitutesComponent
-          }          
+          }
         ]
       }
     ])
