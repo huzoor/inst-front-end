@@ -37,6 +37,16 @@ a:hover, a:focus {
 li.active > a {
   text-decoration: none;
 }
+.br-top {
+  border-top: 1px solid #aaaaaa;
+}
+.br-bottom {
+  border-bottom: 1px solid #aaaaaa;
+}
+label.control-label {
+  color: #777777;
+  font-weight: 500;
+}
 .box {
   border-top: 0;
 }

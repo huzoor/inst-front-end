@@ -23,10 +23,6 @@ export class InstitutesComponent implements OnInit {
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
-  public name: FormControl;
-  public userName: FormControl;
-  public email: FormControl;
-  public mobile: FormControl;
   // private configImage: Ng4FilesConfig = {
   //   acceptExtensions: ['jpg', 'jpeg', 'png'],
   //   maxFilesCount: 1
@@ -45,10 +41,6 @@ export class InstitutesComponent implements OnInit {
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
-    this.name = new FormControl('', []);
-    this.userName = new FormControl('', []);
-    this.email = new FormControl('', []);
-    this.mobile = new FormControl('', []);
    // this.ng4FilesService.addConfig(this.configImage, 'institute-logo');
     this.formFileds();
   }
@@ -62,11 +54,7 @@ export class InstitutesComponent implements OnInit {
       state: this.state,
       city: this.city,
       district: this.district,
-      country: this.country,
-      name: this.name,
-      userName: this.userName,
-      email: this.email,
-      mobile: this.mobile
+      country: this.country
     });
   }
 
