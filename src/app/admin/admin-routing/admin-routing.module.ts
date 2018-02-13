@@ -29,8 +29,8 @@ import { InstitutesComponent } from '../institutes/institutes.component';
           },
           {
             path: 'institutes',
-            component: DashboardComponent,
-            canActivate: [EnsureAuthenticated]
+            component: InstitutesComponent,
+            canActivate: [EnsureAuthenticated],
           }
         ]
       }
