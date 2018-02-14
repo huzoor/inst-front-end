@@ -9,6 +9,7 @@ import { DashboardComponent } from './../dashboard/dashboard.component';
 import { AdminComponent } from './../admin.component';
 import { StudentsComponent } from '../students/students.component';
 import { InstitutesComponent } from '../institutes/institutes.component';
+import { InstituteProfileComponent } from '../institute-profile/institute-profile.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -31,6 +32,11 @@ import { InstitutesComponent } from '../institutes/institutes.component';
             path: 'institutes',
             component: InstitutesComponent,
             canActivate: [EnsureAuthenticated],
+          },
+          {
+            path: 'institute-profile/:id',
+            component: InstituteProfileComponent,
+            canActivate: [EnsureAuthenticated]
           }
         ]
       }

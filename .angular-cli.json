@@ -33,8 +33,7 @@
         "assets/js/adminLTEOptions.js",
         "assets/js/scripts.js",
         "assets/js/jquery.dataTables.min.js",
-        "assets/js/dataTables.bootstrap.min.js",
-        "assets/js/jquery.dataTable.Methods.js"
+        "assets/js/dataTables.bootstrap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

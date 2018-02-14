@@ -4,11 +4,9 @@ body {
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-size: 14px;
 }
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+.m5 {
+  margin:5px 0;
 }
-
 .mt-20 {
   margin-top: 20px;
 }
@@ -118,6 +116,15 @@ li.active > a {
   padding: 17px !important;
 }
 
+
+.breadcrumb-heading {
+  font-size: 24px;
+}
+.content-header {
+  position: relative;
+  padding: 0 15px 0 15px;
+  margin-bottom: 15px;
+}
 .br-top {
   border-top: 1px solid #aaaaaa;
 }

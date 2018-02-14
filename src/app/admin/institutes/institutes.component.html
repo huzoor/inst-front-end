@@ -1,6 +1,17 @@
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
+      <section class="content-header">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="breadcrumb-heading">
+              Institute Profile
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="row">
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header with-border">
@@ -10,47 +21,41 @@
                 <i class="fa fa-plus"></i> INTITUTES </button>
             </div>
           </div>
-          <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-              <div class="row">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-6"></div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <table id="data-table" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Institute Name</th>
-                        <th>Institute Code</th>
-                        <th>Institute Address</th>
-                        <th>Schools Registered</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Test</td>
-                        <td>Test </td>
-                        <td>Test</td>
-                        <td> 4</td>
-                        <td>
-                          <div class="actions">
-                            <button type="button" class="btn btn-sm btn-success">
-                              <i class="fa fa-eye"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-primary">
-                              <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-danger">
-                              <i class="fa fa-close"></i>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          <div class="box-body table-responsive">
+            <div class="row">
+              <div class="col-sm-12">
+                <table id="data-table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Institute Name</th>
+                      <th>Institute Code</th>
+                      <th>Institute Address</th>
+                      <th>Schools Registered</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let institute of instituteList">
+                      <td>{{institute.instituteName}}</td>
+                      <td>{{institute.instituteCode}} </td>
+                      <td>{{institute.address}}</td>
+                      <td> {{institute.schoolsRegistered}}</td>
+                      <td>
+                        <div class="actions">
+                          <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
+                            <i class="fa fa-eye"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-danger">
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -58,7 +63,7 @@
       </div>
     </div>
   </section>
-  <ng-template #institute >
+  <ng-template #institute>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Add Institute</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -129,7 +134,7 @@
         <div class="main-body">
           <h4 class="main-heading br-top br-bottom">Admin Details</h4>
         </div>
-        
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">

@@ -12,6 +12,8 @@ const date = new Date();
   styleUrls: ['./institutes.component.css']
 })
 export class InstitutesComponent implements OnInit {
+  public instituteList: any = require('./institute.json');
+  public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public instituteform: FormGroup;
   public instituteName: FormControl;

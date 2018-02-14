@@ -1,0 +1,29 @@
+[{
+  "id": "M2000",
+  "instituteName": "Maviba",
+  "instituteCode": "m21",
+  "address": "maviba - karnataka",
+  "city": "Bangaloe",
+  "state": "Karnataka",
+  "country": "India",
+  "schoolsRegistered": 5
+},
+{
+  "id": "M2001",
+  "instituteName": "Maviba",
+  "instituteCode": "m21",
+  "address": "maviba - karnataka",
+  "city": "Bangaloe",
+  "state": "Karnataka",
+  "country": "India",
+  "schoolsRegistered": 3
+},{
+  "id": "M2002",
+  "instituteName": "Maviba",
+  "instituteCode": "m21",
+  "address": "maviba - karnataka",
+  "city": "Bangaloe",
+  "state": "Karnataka",
+  "country": "India",
+  "schoolsRegistered": 4
+}]
