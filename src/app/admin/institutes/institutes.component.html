@@ -31,20 +31,28 @@
                       <th>Institute Code</th>
                       <th>Institute Address</th>
                       <th>Schools Registered</th>
+                      <th>Admin</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                      <th>Registered On</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let institute of instituteList">
                       <td>{{institute.instituteName}}</td>
-                      <td>{{institute.instituteCode}} </td>
+                      <td>{{institute.code}} </td>
                       <td>{{institute.address}}</td>
-                      <td> {{institute.schoolsRegistered}}</td>
+                      <td>{{institute.schoolsRegistered}}</td>
+                      <td>{{institute.instituteAdminName}}</td>
+                      <td>{{institute.email}}</td>
+                      <td>{{institute.mobile}}</td>
+                      <td>{{formatDate(institute.registeredDate)}}</td>
                       <td>
                         <div class="actions">
-                          <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
+                          <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
                             <i class="fa fa-eye"></i>
-                          </button>
+                          </button> -->
                           <button type="button" class="btn btn-sm btn-primary">
                             <i class="fa fa-edit"></i>
                           </button>
@@ -138,8 +146,8 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Name</label>
-              <input type="text" class="form-control" formControlName="name" required>
+              <label class="control-label">Admin Name</label>
+              <input type="text" class="form-control" formControlName="instituteAdminName" required>
             </div>
           </div>
           <div class="col-md-6">

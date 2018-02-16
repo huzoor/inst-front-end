@@ -1,29 +1,41 @@
-[{
-  "id": "M2000",
-  "instituteName": "Maviba",
-  "instituteCode": "m21",
-  "address": "maviba - karnataka",
-  "city": "Bangaloe",
-  "state": "Karnataka",
-  "country": "India",
-  "schoolsRegistered": 5
-},
-{
-  "id": "M2001",
-  "instituteName": "Maviba",
-  "instituteCode": "m21",
-  "address": "maviba - karnataka",
-  "city": "Bangaloe",
-  "state": "Karnataka",
-  "country": "India",
-  "schoolsRegistered": 3
-},{
-  "id": "M2002",
-  "instituteName": "Maviba",
-  "instituteCode": "m21",
-  "address": "maviba - karnataka",
-  "city": "Bangaloe",
-  "state": "Karnataka",
-  "country": "India",
-  "schoolsRegistered": 4
-}]
+[
+  {
+    "instituteName":"Inst-1",
+    "code":"code1",
+    "registeredDate":"2018-02-15T18:30:00.000Z",
+    "logoPath":"../Images/logo.png",
+    "address":"KA",
+    "city":"Banglore",
+    "state":"KA",
+    "instituteAdminName":"inst-admin",
+    "userName":"inst-user",
+    "email":"admin@gmail.com",
+    "mobile":1231432
+  },
+  {
+    "instituteName":"Inst-2",
+    "code":"code2",
+    "registeredDate":"2018-02-09T18:30:00.000Z",
+    "logoPath":"../Images/logo.png",
+    "address":"AP",
+    "city":"Hyd",
+    "state":"AP",
+    "instituteAdminName":"inst2-admin",
+    "userName":"inst2-user",
+    "email":"admin@gmail.com",
+    "mobile":12341234
+  },
+  {
+    "instituteName":"Inst-3",
+    "code":"code3",
+    "registeredDate":"2018-02-23T18:30:00.000Z",
+    "logoPath":"../Images/logo.png",
+    "address":"AP",
+    "city":"Hyd",
+    "state":"AP",
+    "instituteAdminName":"inst3-admin",
+    "userName":"inst3-user",
+    "email":"admin@gmail.com",
+    "mobile":1234123412
+  }
+  ]

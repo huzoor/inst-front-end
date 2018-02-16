@@ -46,6 +46,11 @@ export class DataService {
     let url: string = `${this.BASE_URL}/addInstitute`;
     return this.http.post(url, institute, {headers: this.headers}).toPromise();
   }
+  
+  getInstitutes(institute): Promise<any> {
+    let url: string = `${this.BASE_URL}/getInstitutes`;
+    return this.http.get(url, {headers: this.headers}).toPromise();
+  }
 
 
   test(): string {

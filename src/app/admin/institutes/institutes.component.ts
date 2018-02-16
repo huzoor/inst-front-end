@@ -14,7 +14,8 @@ const date = new Date();
   styleUrls: ['./institutes.component.css']
 })
 export class InstitutesComponent implements OnInit {
-  public instituteList: any = require('./institute.json');
+  // public instituteList: any = require('./institute.json');
+  public instituteList: any ;
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public instituteform: FormGroup;
@@ -29,7 +30,7 @@ export class InstitutesComponent implements OnInit {
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
-  public name: FormControl;
+  public instituteAdminName: FormControl;
   public userName: FormControl;
   public email: FormControl;
   public mobile: FormControl;
@@ -38,7 +39,7 @@ export class InstitutesComponent implements OnInit {
   //   acceptExtensions: ['jpg', 'jpeg', 'png'],
   //   maxFilesCount: 1
   // };
-  constructor(private modalService: BsModalService,private eleRef: ElementRef, private auth: DataService ) { }
+  constructor(private modalService: BsModalService,private eleRef: ElementRef, private dataService: DataService ) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -51,12 +52,29 @@ export class InstitutesComponent implements OnInit {
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
-    this.name = new FormControl('', []);
+    this.instituteAdminName = new FormControl('', []);
     this.userName = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
    // this.ng4FilesService.addConfig(this.configImage, 'institute-logo');
     this.formFileds();
+
+    this.getInstitutesList();
+  }
+  getInstitutesList(){
+    this.dataService.getInstitutes(this.instituteform.value)
+        .then((resp)=>{
+          if (resp.json().success) {
+            console.log('Inst Loaded ', resp.json().institutes);
+            this.instituteList = resp.json().institutes
+          } else {
+            console.log('Inst Load Failed')
+            this.error = 'Institutes loading failed..!';
+          }
+        })
+  }
+  formatDate(dt){
+    return (new Date(dt).toISOString().slice(0,10));
   }
   formFileds() {
     this.instituteform = new FormGroup({
@@ -69,7 +87,7 @@ export class InstitutesComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      name: this.name,
+      instituteAdminName: this.instituteAdminName,
       userName: this.userName,
       email: this.email,
       mobile: this.mobile
@@ -89,19 +107,15 @@ export class InstitutesComponent implements OnInit {
   //   this.selectedLogo = Array.from(selectedLogo.files).map(file => file.name);
   // }
   public onSubmit(instituteform) {
-    console.log(instituteform.value);
     if (this.instituteform.valid) {
-
       this.error = '';
-      this.auth.addInstitute(this.instituteform.value)
+      this.dataService.addInstitute(this.instituteform.value)
           .then((resp)=>{
             if (resp.json().success) {
-              console.log('Inst Added Successfully');
               this.instituteform.reset();
-              let closeBtn = document.getElementById('closeInstForm');
-              closeBtn.click();
+              document.getElementById('closeInstForm').click();
+              this.getInstitutesList();
             } else {
-              console.log('Inst Add Failed')
               this.error = resp.json().message;
             }
           })
@@ -109,9 +123,7 @@ export class InstitutesComponent implements OnInit {
           console.log('Add Inst Err', err);
           this.error = err.json().message;
         });
-
     }
 
-    
   }
 }
