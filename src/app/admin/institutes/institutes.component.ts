@@ -1,9 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 //import { Ng4FilesService, Ng4FilesConfig, Ng4FilesStatus, Ng4FilesSelected } from 'angular4-files-upload';
+
+import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
 const date = new Date();
 @Component({
@@ -31,12 +33,12 @@ export class InstitutesComponent implements OnInit {
   public userName: FormControl;
   public email: FormControl;
   public mobile: FormControl;
+  public error: any;
   // private configImage: Ng4FilesConfig = {
   //   acceptExtensions: ['jpg', 'jpeg', 'png'],
   //   maxFilesCount: 1
   // };
-  constructor(private modalService: BsModalService
-  ) { }
+  constructor(private modalService: BsModalService,private eleRef: ElementRef, private auth: DataService ) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -87,6 +89,29 @@ export class InstitutesComponent implements OnInit {
   //   this.selectedLogo = Array.from(selectedLogo.files).map(file => file.name);
   // }
   public onSubmit(instituteform) {
-    console.log(instituteform);
+    console.log(instituteform.value);
+    if (this.instituteform.valid) {
+
+      this.error = '';
+      this.auth.addInstitute(this.instituteform.value)
+          .then((resp)=>{
+            if (resp.json().success) {
+              console.log('Inst Added Successfully');
+              this.instituteform.reset();
+              let closeBtn = document.getElementById('closeInstForm');
+              closeBtn.click();
+            } else {
+              console.log('Inst Add Failed')
+              this.error = resp.json().message;
+            }
+          })
+          .catch((err) => {
+          console.log('Add Inst Err', err);
+          this.error = err.json().message;
+        });
+
+    }
+
+    
   }
 }

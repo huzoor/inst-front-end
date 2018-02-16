@@ -165,8 +165,11 @@
         </div>
       </form>
     </div>
+    <div class="col-xs-12 alert alert-warning" *ngIf="error">
+      <strong>info!</strong> {{error}}
+    </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
       <button type="button" class="btn btn-success" [disabled]="instituteform.invalid" (click)="onSubmit(instituteform)">Submit</button>
     </div>
   </ng-template>
