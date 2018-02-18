@@ -32,6 +32,7 @@ export class InstitutesComponent implements OnInit {
   public country: FormControl;
   public instituteAdminName: FormControl;
   public userName: FormControl;
+  public password: FormControl;
   public email: FormControl;
   public mobile: FormControl;
   public error: any;
@@ -54,6 +55,7 @@ export class InstitutesComponent implements OnInit {
     this.country = new FormControl('', []);
     this.instituteAdminName = new FormControl('', []);
     this.userName = new FormControl('', []);
+    this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
    // this.ng4FilesService.addConfig(this.configImage, 'institute-logo');
@@ -89,6 +91,7 @@ export class InstitutesComponent implements OnInit {
       country: this.country,
       instituteAdminName: this.instituteAdminName,
       userName: this.userName,
+      password: this.password,
       email: this.email,
       mobile: this.mobile
     });
