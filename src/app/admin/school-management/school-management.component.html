@@ -1,13 +1,24 @@
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
+      <section class="content-header">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="breadcrumb-heading">
+              School Management
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="row">
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title">Institutes List</h3>
+            <h3 class="box-title">Schools List</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-info btn-sm" (click)="openModal(institute)">
-                <i class="fa fa-plus"></i> INTITUTES </button>
+              <button type="button" class="btn btn-info btn-sm" (click)="openModal(schoolmodal)">
+                <i class="fa fa-plus"></i> ADD SCHOOL </button>
             </div>
           </div>
           <div class="box-body table-responsive">
@@ -16,30 +27,21 @@
                 <table id="data-table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Institute Name</th>
-                      <th>Institute Code</th>
-                      <th>Institute Address</th>
-                      <th>Schools Registered</th>
-                      <th>Admin</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Registered On</th>
+                      <th>School Name</th>
+                      <th>School Code</th>
+                      <th>School Address</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let institute of instituteList">
-                      <td>{{institute.instituteName}}</td>
-                      <td>{{institute.code}} </td>
-                      <td>{{institute.address}}</td>
-                      <td>{{institute.schoolsRegistered}}</td>
-                      <td>{{institute.instituteAdminName}}</td>
-                      <td>{{institute.email}}</td>
-                      <td>{{institute.mobile}}</td>
-                      <td>{{formatDate(institute.registeredDate)}}</td>
+                    <tr *ngFor="let School of SchoolList">
+                      <td>{{School.SchoolName}}</td>
+                      <td>{{School.code}} </td>
+                      <td>{{School.address}}</td>
+                      <td>{{School.schoolsRegistered}}</td>
                       <td>
                         <div class="actions">
-                          <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
+                          <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/School-profile/{{School.id}}">
                             <i class="fa fa-eye"></i>
                           </button> -->
                           <button type="button" class="btn btn-sm btn-primary">
@@ -60,33 +62,30 @@
       </div>
     </div>
   </section>
-  <ng-template #institute>
+  <ng-template #schoolmodal>
     <div class="modal-header modal-info ">
-      <h4 class="modal-title pull-left">Add Institute</h4>
+      <h4 class="modal-title pull-left">Add School</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <form novalidate [formGroup]="instituteform" class="custom-form">
+      <form novalidate [formGroup]="schoolForm" class="custom-form">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Institute Name</label>
-              <input type="text" class="form-control" formControlName="instituteName" required>
+              <label class="control-label">School Name</label>
+              <input type="text" class="form-control" formControlName="schoolName" required>
             </div>
             <div class="form-group">
-              <label class="control-label">Institute Code</label>
+              <label class="control-label">School Code</label>
               <input type="text" class="form-control" formControlName="code" required>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Institute Logo</label>
+              <label class="control-label">School Logo</label>
               <input type="file" class="form-control" formControlName="logo">
-              <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
-                <span class="btn btn-primary">Browse Image</span>
-              </ng4-files-click> -->
             </div>
             <div class="form-group">
               <label class="control-label">Registration Date</label>
@@ -97,7 +96,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Institute Address</label>
+              <label class="control-label">School Address</label>
               <textarea class="form-control" formControlName="address" rows="4" cols="5" required></textarea>
             </div>
           </div>
@@ -128,17 +127,32 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Opening Time</label>
+              <timepicker  formControlName="openingTime"></timepicker>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Closing Time</label>
+              <timepicker  formControlName="closingTime"></timepicker>
+            </div>
+          </div>
+        </div>
         <div class="main-body">
           <h4 class="main-heading br-top br-bottom">Admin Details</h4>
         </div>
-
         <div class="row">
-          <!-- <div class="col-md-6">
+          <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Admin Name</label>
-              <input type="text" class="form-control" formControlName="instituteAdminName" required>
+              <label class="control-label">School Admin Name</label>
+              <input type="text" class="form-control" formControlName="schoolAdminName" required>
             </div>
-          </div> -->
+          </div>
+        </div>
+        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">User Name</label>
@@ -173,7 +187,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="instituteform.invalid" (click)="onSubmit(instituteform)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="schoolForm.invalid" (click)="onSubmit(schoolForm)">Submit</button>
     </div>
   </ng-template>
 </div>

@@ -125,7 +125,7 @@ li.active > a {
   padding: 0 15px 0 15px;
   margin-bottom: 15px;
 }
-.institute-form .form-group {
+.custom-form .form-group {
   margin-bottom: 5px;
 }
 .br-top {
@@ -146,4 +146,8 @@ button.btnpicker.btnpickerenabled {
 .modal-info {
   background: #3c8dbc;
   color: #fff;
+}
+.main-heading {
+  padding: 10px 0;
+  margin-bottom: 10px;
 }
