@@ -67,12 +67,12 @@ export class InstitutesComponent implements OnInit {
       .then((resp) => {
         if (resp.json().success) {
           console.log('Inst Loaded ', resp.json().institutes);
-          this.instituteList = resp.json().institutes
+          this.instituteList = resp.json().institutes;
         } else {
-          console.log('Inst Load Failed')
+          console.log('Inst Load Failed');
           this.error = 'Institutes loading failed..!';
         }
-      })
+      });
   }
   formatDate(dt) {
     return (new Date(dt).toISOString().slice(0, 10));
