@@ -12,6 +12,7 @@ declare var AdminLTE: any;
   styleUrls: ['./school-management.component.css']
 })
 export class SchoolManagementComponent implements OnInit {
+  public placeholder = 'mm/dd/yyyy';
   public schoolInfo: any;
   public modalRef: BsModalRef;
   public schoolForm: FormGroup;
