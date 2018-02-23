@@ -47,11 +47,13 @@ import { StaffManagementComponent } from '../staff-management/staff-management.c
           },
           {
             path: 'academic-setup',
-            component: AcademicSetupComponent
+            component: AcademicSetupComponent,
+            canActivate: [EnsureAuthenticated]
           },
           {
             path: 'staff-management',
-            component: StaffManagementComponent
+            component: StaffManagementComponent,
+            canActivate: [EnsureAuthenticated]
           },
         ]
       }

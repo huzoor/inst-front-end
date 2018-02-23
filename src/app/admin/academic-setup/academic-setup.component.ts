@@ -13,8 +13,9 @@ declare var AdminLTE: any;
 export class AcademicSetupComponent implements OnInit {
   public modalRef: BsModalRef;
   public classForm: FormGroup;
+  public subjectForm: FormGroup;
   public classList: any;
-  public subjectsList: any;
+  public subjectList: any;
   public error: any;
   public className: any;
   public subjectName: any;
@@ -26,11 +27,24 @@ export class AcademicSetupComponent implements OnInit {
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
     this.formFileds();
+
+    this.classList = [{
+      id: 1,
+      className: 'First'
+    }];
+    this.subjectList = [{
+      id: 1,
+      subjectName: 'English'
+    }];
   }
 
   formFileds() {
     this.classForm = new FormGroup({
       className: this.className
+    });
+
+    this.subjectForm = new FormGroup({
+      subjectName: this.subjectName
     });
   }
 
@@ -38,24 +52,75 @@ export class AcademicSetupComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
-  // public onSubmit(instituteform) {
-  //   if (this.classForm.valid) {
-  //     this.error = '';
-  //     this.dataService.addInstitute(this.instituteform.value)
-  //       .then((resp) => {
-  //         if (resp.json().success) {
-  //           this.instituteform.reset();
-  //           this.modalRef.hide();
-  //           this.getInstitutesList();
-  //         } else {
-  //           this.error = resp.json().message;
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log('Add Inst Err', err);
-  //         this.error = err.json().message;
-  //       });
-  //   }
+  public editClass(classData, template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.className = classData.className;
+  }
 
-  // }
+
+  public getClassList(): void {
+    this.dataService.getClassData()
+      .then((resp) => {
+        if (resp.json().success) {
+          this.classList = resp;
+        } else {
+          this.error = resp.json().message;
+        }
+      })
+      .catch((err) => {
+        this.error = err.json().message;
+      });
+  }
+
+  public getSubjectList(): void {
+    this.dataService.getSubjectData()
+      .then((resp) => {
+        if (resp.json().success) {
+          this.subjectList = resp;
+        } else {
+          this.error = resp.json().message;
+        }
+      })
+      .catch((err) => {
+        this.error = err.json().message;
+      });
+  }
+
+  public saveClass(classForm) {
+    if (this.classForm.valid) {
+      this.error = '';
+      this.dataService.saveClass(this.classForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.classForm.reset();
+            this.modalRef.hide();
+            this.getClassList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
+  }
+
+  public saveSubject(classForm) {
+    if (this.classForm.valid) {
+      this.error = '';
+      this.dataService.saveSubject(this.classForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.classForm.reset();
+            this.modalRef.hide();
+            this.getSubjectList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
+  }
 }

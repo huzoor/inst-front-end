@@ -19,6 +19,7 @@ export class StaffManagementComponent implements OnInit {
   public placeholder = 'mm/dd/yyyy';
   public userName: FormControl;
   public subject: FormControl;
+  public staffType: FormControl;
   public experience: FormControl;
   public gender: FormControl;
   public email: FormControl;
@@ -41,6 +42,7 @@ export class StaffManagementComponent implements OnInit {
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
+    this.staffType = new FormControl('', []);
     this.experience = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.image = new FormControl('', []);
@@ -51,23 +53,13 @@ export class StaffManagementComponent implements OnInit {
     this.country = new FormControl('', []);
     this.formFileds();
   }
-  // getInstitutesList() {
-  //   this.dataService.getInstitutes(this.staffForm.value)
-  //     .then((resp) => {
-  //       if (resp.json().success) {
-  //         console.log('Inst Loaded ', resp.json().institutes);
-  //         this.staffList = resp.json().institutes;
-  //       } else {
-  //         console.log('Inst Load Failed');
-  //         this.error = 'Institutes loading failed..!';
-  //       }
-  //     });
-  // }
+
   formFileds() {
     this.staffForm = new FormGroup({
       userName: this.userName,
       gender: this.gender,
       email: this.email,
+      staffType: this.staffType,
       mobile: this.mobile,
       subject: this.subject,
       experience: this.experience,
@@ -79,12 +71,12 @@ export class StaffManagementComponent implements OnInit {
       country: this.country
     });
   }
-
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-  }
   public handleFileInput(data: any): void {
     console.log(data.item(0).name);
+  }
+  public openModal(template: TemplateRef<any>) {
+    console.log(template);
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
   // public onSubmit(staffForm) {
   //   if (this.staffForm.valid) {

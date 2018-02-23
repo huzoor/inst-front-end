@@ -36,8 +36,8 @@ export class SchoolManagementComponent implements OnInit {
   public mobile: FormControl;
   public error: any;
   constructor(private modalService: BsModalService,
-     private eleRef: ElementRef,
-     private dataService: DataService) { }
+    private eleRef: ElementRef,
+    private dataService: DataService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -59,18 +59,18 @@ export class SchoolManagementComponent implements OnInit {
     this.mobile = new FormControl('', []);
     this.formFileds();
 
-  //  this.getSchoolsList();
+    this.getSchoolsList();
   }
-  // getSchoolsList() {
-  //   this.dataService.getSchoolList(this.schoolform.value)
-  //     .then((resp) => {
-  //       if (resp.json().success) {
-  //         this.schoolInfo = resp.json().schools;
-  //       } else {
-  //         this.error = 'schools loading failed..!';
-  //       }
-  //     });
-  // }
+  getSchoolsList() {
+    this.dataService.getSchoolList(this.schoolForm.value)
+      .then((resp) => {
+        if (resp.json().success) {
+          this.schoolInfo = resp.json().schools;
+        } else {
+          this.error = 'schools loading failed..!';
+        }
+      });
+  }
 
   formFileds() {
     this.schoolForm = new FormGroup({
@@ -98,21 +98,21 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public onSubmit(schoolForm) {
-    // if (this.schoolform.valid) {
-    //   this.error = '';
-    //   this.dataService.saveSchools(this.schoolform.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.schoolform.reset();
-    //         this.modalRef.hide();
-    //         //this.getSchoolsList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.error = err.json().message;
-    //     });
-    // }
+    if (this.schoolForm.valid) {
+      this.error = '';
+      this.dataService.saveSchools(this.schoolForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.schoolForm.reset();
+            this.modalRef.hide();
+            this.getSchoolsList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
   }
 }

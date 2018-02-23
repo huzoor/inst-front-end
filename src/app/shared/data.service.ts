@@ -57,6 +57,26 @@ export class DataService {
     return this.http.post(url, institute, { headers: this.headers }).toPromise();
   }
 
+  saveClass(claasForm): Promise<any> {
+    let url: string = `${this.BASE_URL}/addSubjects`;
+    return this.http.post(url, claasForm, { headers: this.headers }).toPromise();
+  }
+
+  getClassData(): Promise<any> {
+    let url: string = `${this.BASE_URL}/addSubjects`;
+    return this.http.get('url', { headers: this.headers }).toPromise();
+  }
+
+  saveSubject(subjects): Promise<any> {
+    let url: string = `${this.BASE_URL}/addSubjects`;
+    return this.http.post(url, subjects, { headers: this.headers }).toPromise();
+  }
+
+  getSubjectData(): Promise<any> {
+    let url: string = `${this.BASE_URL}/addSubjects`;
+    return this.http.post(url, { headers: this.headers }).toPromise();
+  }
+
   getSchoolList(institute): Promise<any> {
     let url: string = `${this.BASE_URL}/getInstitutes`;
     return this.http.get(url, { headers: this.headers }).toPromise();
