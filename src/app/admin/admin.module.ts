@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ModalModule } from 'ngx-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
-import {TimepickerModule} from 'ngx-bootstrap'
+import { TimepickerModule } from 'ngx-bootstrap';
 
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
@@ -17,6 +17,8 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { InstitutesComponent } from './institutes/institutes.component';
 import { InstituteProfileComponent } from './institute-profile/institute-profile.component';
 import { SchoolManagementComponent } from './school-management/school-management.component';
+import { AcademicSetupComponent } from './academic-setup/academic-setup.component';
+import { StaffManagementComponent } from './staff-management/staff-management.component';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ import { SchoolManagementComponent } from './school-management/school-management
     AttendanceComponent,
     InstitutesComponent,
     InstituteProfileComponent,
-    SchoolManagementComponent
+    SchoolManagementComponent,
+    AcademicSetupComponent,
+    StaffManagementComponent
   ],
   exports: [AdminComponent]
 })

@@ -1,0 +1,177 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Staff Management</h3>
+            <div class="pull-right box-tools">
+              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(staff)">
+                <i class="fa fa-plus"></i> Add Staff </button>
+            </div>
+          </div>
+          <div class="box-body table-responsive">
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#tab_1" data-toggle="tab">Teaching Staff</a>
+                </li>
+                <li>
+                  <a href="#tab_2" data-toggle="tab">Non Teaching Staff</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>User Name</th>
+                            <th>Subject</th>
+                            <th>Experience</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Koppala</td>
+                            <td>Computers </td>
+                            <td>3</td>
+                            <td>
+                              <div class="actions">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger">
+                                  <i class="fa fa-close"></i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_2">
+                  The European
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #staff>
+    <div class="modal-header modal-info ">
+      <h4 class="modal-title pull-left">Add Staff</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form novalidate [formGroup]="staffForm" class="custom-form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Name</label>
+              <input type="text" class="form-control" formControlName="userName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Gender</label>
+              <div>
+                <label class="radio-inline">
+                  <input type="radio" formControlName="gender" value="male" [(ngModel)]='gender'>Male
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" formControlName="gender" value="female" [(ngModel)]='gender'>Female
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Email</label>
+              <input type="text" class="form-control" formControlName="email" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Mobile</label>
+              <input type="text" class="form-control" formControlName="mobile" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Experience</label>
+              <input type="text" class="form-control" formControlName="experience" required>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Subject</label>
+              <input type="text" class="form-control" formControlName="subject" required>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Image</label>
+              <input type="file" class="form-control" formControlName="image" (change)="handleFileInput($event.target.files)">
+              <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
+                        <span class="btn btn-primary">Browse Image</span>
+                      </ng4-files-click> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Address</label>
+              <textarea class="form-control" formControlName="address" rows="4" cols="5" required></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">City</label>
+              <input type="text" class="form-control" formControlName="city" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">District</label>
+              <input type="text" class="form-control" formControlName="district" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">State</label>
+              <input type="text" class="form-control" formControlName="state" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Country</label>
+              <input type="text" class="form-control" formControlName="country" required>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- <div class="col-xs-12 alert alert-warning" *ngIf="error">
+      <strong>info!</strong> {{error}}
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="onSubmit(staffForm)">Submit</button>
+    </div>
+  </ng-template>
+</div>

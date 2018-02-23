@@ -10,6 +10,8 @@ import { AdminComponent } from './../admin.component';
 import { InstitutesComponent } from '../institutes/institutes.component';
 import { InstituteProfileComponent } from '../institute-profile/institute-profile.component';
 import { SchoolManagementComponent } from '../school-management/school-management.component';
+import { AcademicSetupComponent } from '../academic-setup/academic-setup.component';
+import { StaffManagementComponent } from '../staff-management/staff-management.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -42,7 +44,15 @@ import { SchoolManagementComponent } from '../school-management/school-managemen
             path: 'school-management',
             component: SchoolManagementComponent,
             canActivate: [EnsureAuthenticated]
-          }
+          },
+          {
+            path: 'academic-setup',
+            component: AcademicSetupComponent
+          },
+          {
+            path: 'staff-management',
+            component: StaffManagementComponent
+          },
         ]
       }
     ])
