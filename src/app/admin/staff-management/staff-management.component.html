@@ -28,6 +28,8 @@
                         <thead>
                           <tr>
                             <th>User Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
                             <th>Subject</th>
                             <th>Experience</th>
                             <th>Actions</th>
@@ -36,6 +38,8 @@
                         <tbody>
                           <tr>
                             <td>Koppala</td>
+                            <td>koppala@gmail.com</td>
+                            <td>9741409108</td>
                             <td>Computers </td>
                             <td>3</td>
                             <td>
@@ -55,37 +59,39 @@
                   </div>
                 </div>
                 <div class="tab-pane" id="tab_2">
-                    <div class="row">
-                        <div class="col-sm-12">
-                          <table class="table table-bordered table-striped">
-                            <thead>
-                              <tr>
-                                <th>User Name</th>
-                                <th>Subject</th>
-                                <th>Experience</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Koppala</td>
-                                <td>Computers </td>
-                                <td>3</td>
-                                <td>
-                                  <div class="actions">
-                                    <button type="button" class="btn btn-sm btn-primary">
-                                      <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger">
-                                      <i class="fa fa-close"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>User Name</th>
+                            <th>Mobile</th>
+                            <th>Work Type</th>
+                            <th>Experience</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Koppala</td>
+                            <td>9741409108 </td>
+                            <td>Cleaning </td>
+                            <td>3</td>
+                            <td>
+                              <div class="actions">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger">
+                                  <i class="fa fa-close"></i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -102,23 +108,20 @@
       </button>
     </div>
     <div class="modal-body">
-      <form novalidate [formGroup]="staffForm" class="custom-form">
+      <form novalidate [formGroup]="staffForm" class="custom-form" autocomplete="off">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Staff Name</label>
-              <input type="text" class="form-control" formControlName="userName" required>
+              <label class="control-label"> Name</label>
+              <input type="text" class="form-control" formControlName="staffName" required>
             </div>
           </div>
+
           <div class="col-md-6">
-              <div class="form-group">
-                  <label class="control-label">Staff Type</label>
-                  <select  class="form-control" formControlName="staffType">
-                    <option> Select Type</option>
-                    <option value="teaching">Teaching</option>
-                    <option value="non-teaching">Non Teaching</option>
-                    </select>
-                </div>
+            <div class="form-group">
+              <label class="control-label">User Name</label>
+              <input type="text" class="form-control" formControlName="userName" required>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -137,30 +140,55 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Mobile</label>
-              <input type="text" class="form-control" formControlName="mobile" required>
+              <label class="control-label"> Role</label>
+              <select class="form-control" formControlName="staffRole">
+                <option value=""> Select Type</option>
+                <option value="teaching">Teaching</option>
+                <option value="non-teaching">Non Teaching</option>
+              </select>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Experience</label>
-              <input type="number" class="form-control" formControlName="experience" required>
+              <label class="control-label">Email </label>
+              <input type="text" class="form-control" formControlName="email" required>
             </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Password </label>
+              <input type="text" class="form-control" formControlName="password" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Mobile</label>
+              <input type="text" class="form-control" formControlName="mobile" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Image</label>
+              <input type="file" class="form-control" formControlName="image" (change)="uploadImage($event.target.files)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Subject</label>
               <input type="text" class="form-control" formControlName="subject" required>
             </div>
           </div>
-
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label"> Image</label>
-              <input type="file" class="form-control" formControlName="image" (change)="handleFileInput($event.target.files)">
-              <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
-                        <span class="btn btn-primary">Browse Image</span>
-                      </ng4-files-click> -->
+              <label class="control-label">Experience</label>
+              <input type="number" class="form-control" formControlName="experience" required>
             </div>
           </div>
         </div>
@@ -205,7 +233,7 @@
     </div> -->
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="onSubmit(staffForm)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="saveStaffForm(staffForm)">Submit</button>
     </div>
   </ng-template>
 </div>

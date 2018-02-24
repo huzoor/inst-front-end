@@ -3,7 +3,6 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-//import { Ng4FilesService, Ng4FilesConfig, Ng4FilesStatus, Ng4FilesSelected } from 'angular4-files-upload';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -35,10 +34,6 @@ export class InstitutesComponent implements OnInit {
   public email: FormControl;
   public mobile: FormControl;
   public error: any;
-  // private configImage: Ng4FilesConfig = {
-  //   acceptExtensions: ['jpg', 'jpeg', 'png'],
-  //   maxFilesCount: 1
-  // };
   constructor(private modalService: BsModalService, private eleRef: ElementRef, private dataService: DataService) { }
 
   ngOnInit() {
@@ -57,7 +52,6 @@ export class InstitutesComponent implements OnInit {
     this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
-    // this.ng4FilesService.addConfig(this.configImage, 'institute-logo');
     this.formFileds();
 
     this.getInstitutesList();

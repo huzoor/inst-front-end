@@ -1,7 +1,8 @@
 import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
+import { Http } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, Form } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 
 import { DataService } from '../../shared/data.service';
@@ -14,18 +15,20 @@ const date = new Date();
 })
 export class StaffManagementComponent implements OnInit {
   public staffList: any;
+  public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
-  public placeholder = 'mm/dd/yyyy';
+  public staffName: FormControl;
   public userName: FormControl;
+  public password: FormControl;
+  public photoPath: FormControl;
   public subject: FormControl;
-  public staffType: FormControl;
+  public staffRole: FormControl;
   public experience: FormControl;
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
   public image: FormControl;
-  public imageError: boolean;
   public address: FormControl;
   public state: FormControl;
   public city: FormControl;
@@ -33,16 +36,20 @@ export class StaffManagementComponent implements OnInit {
   public country: FormControl;
   public error: any;
   constructor(private modalService: BsModalService,
-      private eleRef: ElementRef,
-      private dataService: DataService) { }
+    private eleRef: ElementRef,
+    private dataService: DataService,
+    private $http: Http) { }
 
   ngOnInit() {
     AdminLTE.init();
     this.userName = new FormControl('', []);
+    this.staffName = new FormControl('', []);
+    this.password = new FormControl('', []);
+    this.photoPath = new FormControl('', []);
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
-    this.staffType = new FormControl('', []);
+    this.staffRole = new FormControl('', []);
     this.experience = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.image = new FormControl('', []);
@@ -56,10 +63,13 @@ export class StaffManagementComponent implements OnInit {
 
   formFileds() {
     this.staffForm = new FormGroup({
+      staffName: this.staffName,
       userName: this.userName,
+      password: this.password,
       gender: this.gender,
       email: this.email,
-      staffType: this.staffType,
+      photoPath: this.photoPath,
+      staffRole: this.staffRole,
       mobile: this.mobile,
       subject: this.subject,
       experience: this.experience,
@@ -71,17 +81,16 @@ export class StaffManagementComponent implements OnInit {
       country: this.country
     });
   }
-  public handleFileInput(data: any): void {
-    console.log(data.item(0).name);
+  public uploadImage(data: any): void {
+    console.log(data[0]);
   }
   public openModal(template: TemplateRef<any>) {
-    console.log(template);
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
-  // public onSubmit(staffForm) {
+  // public saveStaffForm(staffForm) {
   //   if (this.staffForm.valid) {
   //     this.error = '';
-  //     this.dataService.addInstitute(this.staffForm.value)
+  //     this.dataService.saveStaff(this.staffForm.value)
   //       .then((resp) => {
   //         if (resp.json().success) {
   //           this.staffForm.reset();

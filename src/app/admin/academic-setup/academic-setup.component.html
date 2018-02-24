@@ -69,7 +69,7 @@
                       <td>{{subject.subjectName}}</td>
                       <td>
                         <div class="actions">
-                          <button type="button" class="btn btn-sm btn-primary">
+                          <button type="button" class="btn btn-sm btn-primary" (click)="editSubject(subject, subjectModal)">
                             <i class="fa fa-edit"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-danger">
@@ -124,7 +124,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
                 <label class="control-label m5">Subject Name</label>
-                <input type="text" class="form-control" formControlName="subjectName" required>
+                <input type="text" class="form-control" formControlName="subjectName" [(ngModel)]="subjectName" required>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-        <button type="button" class="btn btn-success" [disabled]="classForm.invalid" (click)="saveSubject(subjectForm)">Submit</button>
+        <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" (click)="saveSubject(subjectForm)">Submit</button>
       </div>
     </ng-template>
 </div>

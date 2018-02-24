@@ -17,8 +17,8 @@ export class AcademicSetupComponent implements OnInit {
   public classList: any;
   public subjectList: any;
   public error: any;
-  public className: any;
-  public subjectName: any;
+  public className: any = '';
+  public subjectName: any = '';
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
@@ -49,6 +49,8 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
+    this.className = '';
+    this.subjectName = '';
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
@@ -57,6 +59,10 @@ export class AcademicSetupComponent implements OnInit {
     this.className = classData.className;
   }
 
+  public editSubject(subjectData, template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.subjectName = subjectData.subjectName;
+  }
 
   public getClassList(): void {
     this.dataService.getClassData()
