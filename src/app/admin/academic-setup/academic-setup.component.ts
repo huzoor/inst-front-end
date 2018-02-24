@@ -19,6 +19,7 @@ export class AcademicSetupComponent implements OnInit {
   public error: any;
   public className: any = '';
   public subjectName: any = '';
+  public userName: any = '';
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
@@ -26,25 +27,30 @@ export class AcademicSetupComponent implements OnInit {
     AdminLTE.init();
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
+    this.userName = new FormControl('inst1-INST', []);
     this.formFileds();
 
-    this.classList = [{
-      id: 1,
-      className: 'First'
-    }];
-    this.subjectList = [{
-      id: 1,
-      subjectName: 'English'
-    }];
+    // this.classList = [{
+    //   id: 1,
+    //   className: 'First'
+    // }];
+    // this.subjectList = [{
+    //   id: 1,
+    //   subjectName: 'English'
+    // }];
+
+    this.getEntitiesList();
   }
 
   formFileds() {
     this.classForm = new FormGroup({
-      className: this.className
+      className: this.className,
+      userName: this.userName,
     });
 
     this.subjectForm = new FormGroup({
-      subjectName: this.subjectName
+      subjectName: this.subjectName,
+      userName: this.userName,
     });
   }
 
@@ -64,43 +70,31 @@ export class AcademicSetupComponent implements OnInit {
     this.subjectName = subjectData.subjectName;
   }
 
-  public getClassList(): void {
-    this.dataService.getClassData()
+  public getEntitiesList(): void {
+    this.dataService.getEntitiesList()
       .then((resp) => {
-        if (resp.json().success) {
-          this.classList = resp;
+        let res = resp.json()
+        if (res.success) {
+          this.classList = res.entities[0].Classes;
+          this.subjectList = res.entities[0].Subjects;
         } else {
           this.error = resp.json().message;
         }
-      })
-      .catch((err) => {
+      }).catch((err) => {
+        console.log('err',err)
         this.error = err.json().message;
       });
   }
 
-  public getSubjectList(): void {
-    this.dataService.getSubjectData()
-      .then((resp) => {
-        if (resp.json().success) {
-          this.subjectList = resp;
-        } else {
-          this.error = resp.json().message;
-        }
-      })
-      .catch((err) => {
-        this.error = err.json().message;
-      });
-  }
-
-  public saveClass(classForm) {
+  public addClass(classForm) {
     if (this.classForm.valid) {
       this.error = '';
-      this.dataService.saveClass(this.classForm.value)
+      this.dataService.addClass(this.classForm.value)
         .then((resp) => {
           if (resp.json().success) {
-            this.classForm.reset();
+            this.className = new FormControl('',[])
             this.modalRef.hide();
-            this.getClassList();
+            this.getEntitiesList();
           } else {
             this.error = resp.json().message;
           }
@@ -111,15 +105,15 @@ export class AcademicSetupComponent implements OnInit {
     }
   }
 
-  public saveSubject(classForm) {
-    if (this.classForm.valid) {
+  public addSubject(subjectForm) {
+    if (this.subjectForm.valid) {
       this.error = '';
-      this.dataService.saveSubject(this.classForm.value)
+      this.dataService.addSubject(this.subjectForm.value)
         .then((resp) => {
           if (resp.json().success) {
-            this.classForm.reset();
+            this.subjectName = new FormControl('',[])
             this.modalRef.hide();
-            this.getSubjectList();
+            this.getEntitiesList();
           } else {
             this.error = resp.json().message;
           }

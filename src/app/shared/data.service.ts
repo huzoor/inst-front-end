@@ -53,24 +53,27 @@ export class DataService {
   }
 
   saveSchools(institute): Promise<any> {
-    let url: string = `${this.BASE_URL}/addSchools`;
+    let url: string = `${this.BASE_URL}/addSchool`;
     return this.http.post(url, institute, { headers: this.headers }).toPromise();
   }
 
-  saveClass(claasForm): Promise<any> {
-    let url: string = `${this.BASE_URL}/addSubjects`;
+  addClass(claasForm): Promise<any> {
+    let url: string = `${this.BASE_URL}/addClass`;
     return this.http.post(url, claasForm, { headers: this.headers }).toPromise();
   }
-
-  getClassData(): Promise<any> {
-    let url: string = `${this.BASE_URL}/addSubjects`;
-    return this.http.get('url', { headers: this.headers }).toPromise();
-  }
-
-  saveSubject(subjects): Promise<any> {
-    let url: string = `${this.BASE_URL}/addSubjects`;
+  
+  addSubject(subjects): Promise<any> {
+    let url: string = `${this.BASE_URL}/addSubject`;
     return this.http.post(url, subjects, { headers: this.headers }).toPromise();
   }
+
+  getEntitiesList(): Promise<any> {
+    let url: string = `${this.BASE_URL}/getAcadamicEntities`;
+    // this.headers.append('userName','inst1-INST')
+    let localHeaders: Headers = new Headers({ 'Content-Type': 'application/json', 'userName':'inst1-INST' });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
 
   getSubjectData(): Promise<any> {
     let url: string = `${this.BASE_URL}/addSubjects`;
@@ -78,7 +81,7 @@ export class DataService {
   }
 
   getSchoolList(institute): Promise<any> {
-    let url: string = `${this.BASE_URL}/getInstitutes`;
+    let url: string = `${this.BASE_URL}/getSchools`;
     return this.http.get(url, { headers: this.headers }).toPromise();
   }
 

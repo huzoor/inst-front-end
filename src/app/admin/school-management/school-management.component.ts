@@ -13,7 +13,7 @@ declare var AdminLTE: any;
 })
 export class SchoolManagementComponent implements OnInit {
   public placeholder = 'mm/dd/yyyy';
-  public schoolInfo: any;
+  public SchoolsList: any;
   public modalRef: BsModalRef;
   public schoolForm: FormGroup;
   public schoolName: FormControl;
@@ -34,6 +34,7 @@ export class SchoolManagementComponent implements OnInit {
   public password: FormControl;
   public email: FormControl;
   public mobile: FormControl;
+  public instituteUserName: FormControl;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -57,6 +58,7 @@ export class SchoolManagementComponent implements OnInit {
     this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
+    this.instituteUserName = new FormControl('inst1-INST', []);
     this.formFileds();
 
     this.getSchoolsList();
@@ -65,7 +67,7 @@ export class SchoolManagementComponent implements OnInit {
     this.dataService.getSchoolList(this.schoolForm.value)
       .then((resp) => {
         if (resp.json().success) {
-          this.schoolInfo = resp.json().schools;
+          this.SchoolsList = resp.json().schools;
         } else {
           this.error = 'schools loading failed..!';
         }
@@ -89,7 +91,8 @@ export class SchoolManagementComponent implements OnInit {
       userName: this.userName,
       password: this.password,
       email: this.email,
-      mobile: this.mobile
+      mobile: this.mobile,
+      instituteUserName: this.instituteUserName,
     });
   }
 

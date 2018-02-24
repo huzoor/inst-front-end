@@ -22,9 +22,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let class of classList">
-                      <td>{{class.id}}</td>
-                      <td>{{class.className}}</td>
+                    <tr *ngFor="let class of classList; let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{class}}</td>
                       <td>
                         <div class="actions">
                           <button type="button" class="btn btn-sm btn-primary" (click)="editClass(class, classModal)">
@@ -64,9 +64,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                      <tr *ngFor="let subject of subjectList">
-                      <td>{{subject.id}}</td>
-                      <td>{{subject.subjectName}}</td>
+                      <tr *ngFor="let subject of subjectList; let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{subject}}</td>
                       <td>
                         <div class="actions">
                           <button type="button" class="btn btn-sm btn-primary" (click)="editSubject(subject, subjectModal)">
@@ -108,7 +108,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="classForm.invalid" (click)="saveClass(classForm)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="classForm.invalid" (click)="addClass(classForm)">Submit</button>
     </div>
   </ng-template>
   <ng-template #subjectModal>
@@ -132,7 +132,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-        <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" (click)="saveSubject(subjectForm)">Submit</button>
+        <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" (click)="addSubject(subjectForm)">Submit</button>
       </div>
     </ng-template>
 </div>
