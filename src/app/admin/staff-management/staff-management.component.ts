@@ -18,13 +18,15 @@ export class StaffManagementComponent implements OnInit {
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
-  public staffName: FormControl;
+  public name: FormControl;
   public userName: FormControl;
   public password: FormControl;
   public photoPath: FormControl;
   public subject: FormControl;
   public staffRole: FormControl;
   public experience: FormControl;
+  public yearOfPassing: FormControl;
+  public qualification: FormControl;
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
@@ -34,6 +36,8 @@ export class StaffManagementComponent implements OnInit {
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
+  public schoolUserName: any;
+
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -43,7 +47,7 @@ export class StaffManagementComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.userName = new FormControl('', []);
-    this.staffName = new FormControl('', []);
+    this.name = new FormControl('', []);
     this.password = new FormControl('', []);
     this.photoPath = new FormControl('', []);
     this.gender = new FormControl('', []);
@@ -51,6 +55,8 @@ export class StaffManagementComponent implements OnInit {
     this.mobile = new FormControl('', []);
     this.staffRole = new FormControl('', []);
     this.experience = new FormControl('', []);
+    this.yearOfPassing = new FormControl('', []);
+    this.qualification = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.image = new FormControl('', []);
     this.address = new FormControl('', []);
@@ -63,7 +69,7 @@ export class StaffManagementComponent implements OnInit {
 
   formFileds() {
     this.staffForm = new FormGroup({
-      staffName: this.staffName,
+      name: this.name,
       userName: this.userName,
       password: this.password,
       gender: this.gender,
@@ -73,6 +79,8 @@ export class StaffManagementComponent implements OnInit {
       mobile: this.mobile,
       subject: this.subject,
       experience: this.experience,
+      yearOfPassing: this.yearOfPassing,
+      qualification: this.qualification,
       image: this.image,
       address: this.address,
       state: this.state,
@@ -87,24 +95,26 @@ export class StaffManagementComponent implements OnInit {
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
-  // public saveStaffForm(staffForm) {
-  //   if (this.staffForm.valid) {
-  //     this.error = '';
-  //     this.dataService.saveStaff(this.staffForm.value)
-  //       .then((resp) => {
-  //         if (resp.json().success) {
-  //           this.staffForm.reset();
-  //           this.modalRef.hide();
-  //           this.getInstitutesList();
-  //         } else {
-  //           this.error = resp.json().message;
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log('Add Inst Err', err);
-  //         this.error = err.json().message;
-  //       });
-  //   }
+  public addStaff(staffForm) {
+    if (this.staffForm.valid) {
+      this.error = '';
+      let staffFormInfo: Object = this.staffForm.value;
+      staffFormInfo['schoolUserName'] = 'sch1-SCH';
+      this.dataService.addStaff(staffFormInfo)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.staffForm.reset();
+            this.modalRef.hide();
+            // this.getStaffList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          console.log('Add Staff Err', err);
+          this.error = err.json().message;
+        });
+    }
 
-  // }
+  }
 }

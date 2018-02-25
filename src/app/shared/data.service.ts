@@ -47,14 +47,19 @@ export class DataService {
     return this.http.post(url, institute, { headers: this.headers }).toPromise();
   }
 
-  getInstitutes(institute): Promise<any> {
+  getInstitutes(): Promise<any> {
     let url: string = `${this.BASE_URL}/getInstitutes`;
     return this.http.get(url, { headers: this.headers }).toPromise();
   }
 
-  saveSchools(institute): Promise<any> {
+  addSchool(school): Promise<any> {
     let url: string = `${this.BASE_URL}/addSchool`;
-    return this.http.post(url, institute, { headers: this.headers }).toPromise();
+    return this.http.post(url, school, { headers: this.headers }).toPromise();
+  }
+
+  addStaff(staff): Promise<any> {
+    let url: string = `${this.BASE_URL}/addStaff`;
+    return this.http.post(url, staff, { headers: this.headers }).toPromise();
   }
 
   addClass(claasForm): Promise<any> {
@@ -69,7 +74,6 @@ export class DataService {
 
   getEntitiesList(): Promise<any> {
     let url: string = `${this.BASE_URL}/getAcadamicEntities`;
-    // this.headers.append('userName','inst1-INST')
     let localHeaders: Headers = new Headers({ 'Content-Type': 'application/json', 'userName':'inst1-INST' });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }

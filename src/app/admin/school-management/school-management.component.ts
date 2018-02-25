@@ -103,7 +103,7 @@ export class SchoolManagementComponent implements OnInit {
   public onSubmit(schoolForm) {
     if (this.schoolForm.valid) {
       this.error = '';
-      this.dataService.saveSchools(this.schoolForm.value)
+      this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.schoolForm.reset();

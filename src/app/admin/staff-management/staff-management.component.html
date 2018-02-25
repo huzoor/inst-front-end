@@ -113,7 +113,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label"> Name</label>
-              <input type="text" class="form-control" formControlName="staffName" required>
+              <input type="text" class="form-control" formControlName="name" required>
             </div>
           </div>
 
@@ -192,6 +192,22 @@
             </div>
           </div>
         </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Qualification</label>
+              <input type="text" class="form-control" formControlName="qualification" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Year Of Passing</label>
+              <input type="number" class="form-control" formControlName="yearOfPassing" required>
+            </div>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -233,7 +249,7 @@
     </div> -->
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="saveStaffForm(staffForm)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="addStaff(staffForm)">Submit</button>
     </div>
   </ng-template>
 </div>
