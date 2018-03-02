@@ -1,0 +1,18 @@
+.main-header .navbar {
+  margin-left: 0;
+}
+header.main-header {
+  background: #3c8dbc;
+}
+a.sidebar-toggle {
+  color: #fff;
+  width: 50px;
+}
+nav.navbar.navbar-static-top {
+  text-align: center;
+}
+a.inst-logo {
+  font-size: 30px;
+  color: #fff;
+  line-height: 1.6;
+}

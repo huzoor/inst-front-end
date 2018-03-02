@@ -1,0 +1,112 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <section class="content-header">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="breadcrumb-heading">
+              Leave Management
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Leave List</h3>
+            <div class="pull-right box-tools">
+              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(leaveModal)">
+                <i class="fa fa-plus"></i> APPLY LEAVE </button>
+            </div>
+          </div>
+          <div class="box-body table-responsive">
+            <div class="row">
+              <div class="col-sm-12">
+                <table id="data-table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>From Date</th>
+                      <th>To Date</th>
+                      <th>Reason</th>
+                      <th>Status</th>
+                      <th>actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let leave of leavesList">
+                      <td>{{leave.fromDate}}</td>
+                      <td>{{leave.toDate}} </td>
+                      <td>{{leave.Reason}}</td>
+                      <td>
+                        <div class="text-warning">Approval Waiting </div>
+                      </td>
+                      <td>
+                        <div class="actions">
+                          <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-danger">
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #leaveModal>
+    <div class="modal-header modal-info ">
+      <h4 class="modal-title pull-left">Add Student</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form novalidate [formGroup]="leaveForm" class="custom-form">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="control-label"> Reason
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" formControlName="reason" rows="4" cols="5" required></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">From Date
+                <span class="text-danger">*</span>
+              </label>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="fromDate"></my-date-picker>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">To Date
+                <span class="text-danger">*</span>
+              </label>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="toDate"></my-date-picker>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-12 alert alert-warning" *ngIf="error">
+      <strong>info!</strong> {{error}}
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" class="btn btn-success" [disabled]="leaveForm.invalid" (click)="onSubmit(leaveForm)">Apply Leave</button>
+    </div>
+  </ng-template>
+</div>

@@ -19,6 +19,8 @@ import { InstituteProfileComponent } from './institute-profile/institute-profile
 import { SchoolManagementComponent } from './school-management/school-management.component';
 import { AcademicSetupComponent } from './academic-setup/academic-setup.component';
 import { StaffManagementComponent } from './staff-management/staff-management.component';
+import { StudentManagementComponent } from './student-management/student-management.component';
+import { LeaveManagementComponent } from './leave-management/leave-management.component';
 
 @NgModule({
   imports: [
@@ -43,7 +45,9 @@ import { StaffManagementComponent } from './staff-management/staff-management.co
     InstituteProfileComponent,
     SchoolManagementComponent,
     AcademicSetupComponent,
-    StaffManagementComponent
+    StaffManagementComponent,
+    StudentManagementComponent,
+    LeaveManagementComponent
   ],
   exports: [AdminComponent]
 })
