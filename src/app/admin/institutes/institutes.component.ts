@@ -57,7 +57,7 @@ export class InstitutesComponent implements OnInit {
     this.getInstitutesList();
   }
   getInstitutesList() {
-    this.dataService.getInstitutes(this.instituteform.value)
+    this.dataService.getInstitutes()
       .then((resp) => {
         if (resp.json().success) {
           console.log('Inst Loaded ', resp.json().institutes);

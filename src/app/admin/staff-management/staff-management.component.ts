@@ -14,7 +14,10 @@ const date = new Date();
   styleUrls: ['./staff-management.component.css']
 })
 export class StaffManagementComponent implements OnInit {
-  public staffList: any;
+  public staffList: Object = {
+    teaching:[],
+    nonTeching: []
+  }
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
@@ -65,6 +68,8 @@ export class StaffManagementComponent implements OnInit {
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.formFileds();
+
+    this.getStaffList();
   }
 
   formFileds() {
@@ -95,6 +100,26 @@ export class StaffManagementComponent implements OnInit {
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
+
+  getStaffList() {
+    this.dataService.getStaffList()
+      .then((resp) => {
+        if (resp.json().success) {
+          let staffDetails = resp.json().staffList;
+          staffDetails.map((item)=>{
+            if(item.staffRole === 'teaching') this.staffList['teaching'].push(item)
+            else this.staffList['nonTeching'].push(item)
+          })
+
+          console.log('Staff Loaded ',this.staffList);
+
+        } else {
+          console.log('Staff Load Failed');
+          this.error = 'StaffInfo loading failed..!';
+        }
+      });
+  }
+
   public addStaff(staffForm) {
     if (this.staffForm.valid) {
       this.error = '';
@@ -105,7 +130,7 @@ export class StaffManagementComponent implements OnInit {
           if (resp.json().success) {
             this.staffForm.reset();
             this.modalRef.hide();
-            // this.getStaffList();
+            this.getStaffList();
           } else {
             this.error = resp.json().message;
           }

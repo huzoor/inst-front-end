@@ -62,6 +62,12 @@ export class DataService {
     return this.http.post(url, staff, { headers: this.headers }).toPromise();
   }
 
+  getStaffList(): Promise<any> {
+    let url: string = `${this.BASE_URL}/getStaffList`;
+    let staffHeaders: Headers = new Headers({ 'Content-Type': 'application/json', 'schoolUserName':'sch1-SCH' });
+    return this.http.get(url, { headers: staffHeaders }).toPromise();
+  }
+
   addClass(claasForm): Promise<any> {
     let url: string = `${this.BASE_URL}/addClass`;
     return this.http.post(url, claasForm, { headers: this.headers }).toPromise();

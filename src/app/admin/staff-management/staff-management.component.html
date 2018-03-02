@@ -24,24 +24,26 @@
                 <div class="tab-pane active" id="tab_1">
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
+                      <table class="table table-bordered table-striped" *ngIf="staffList.teaching.length > 0">
                         <thead>
                           <tr>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
+                            <th>Name</th>
                             <th>Subject</th>
-                            <th>Experience</th>
+                            <th>Qualification</th>
+                            <th>Mobile</th>                            
+                            <th>Address</th>
+                            <th>yearOfPassing</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Koppala</td>
-                            <td>koppala@gmail.com</td>
-                            <td>9741409108</td>
-                            <td>Computers </td>
-                            <td>3</td>
+                          <tr *ngFor="let staff of staffList.teaching">
+                            <td>{{staff.name}}</td>
+                            <td>{{staff.subject}}</td>
+                            <td>{{staff.qualification}} </td>
+                            <td>{{staff.mobile}} </td>                            
+                            <td>{{staff.address}}</td>
+                            <td>{{staff.yearOfPassing}}</td>
                             <td>
                               <div class="actions">
                                 <button type="button" class="btn btn-sm btn-primary">
@@ -61,22 +63,26 @@
                 <div class="tab-pane" id="tab_2">
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
+                      <table class="table table-bordered table-striped" *ngIf="staffList.nonTeching.length > 0">
                         <thead>
                           <tr>
-                            <th>User Name</th>
-                            <th>Mobile</th>
-                            <th>Work Type</th>
-                            <th>Experience</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Qualification</th>
+                            <th>Mobile</th>                            
+                            <th>Address</th>
+                            <th>yearOfPassing</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Koppala</td>
-                            <td>9741409108 </td>
-                            <td>Cleaning </td>
-                            <td>3</td>
+                          <tr *ngFor="let staff of staffList.nonTeching">
+                            <td>{{staff.name}}</td>
+                            <td>{{staff.subject}}</td>
+                            <td>{{staff.qualification}} </td>
+                            <td>{{staff.mobile}} </td>                            
+                            <td>{{staff.address}}</td>
+                            <td>{{staff.yearOfPassing}}</td>
                             <td>
                               <div class="actions">
                                 <button type="button" class="btn btn-sm btn-primary">
