@@ -12,6 +12,10 @@ import { InstituteProfileComponent } from '../institute-profile/institute-profil
 import { SchoolManagementComponent } from '../school-management/school-management.component';
 import { AcademicSetupComponent } from '../academic-setup/academic-setup.component';
 import { StaffManagementComponent } from '../staff-management/staff-management.component';
+import { AttendanceComponent } from '../attendance/attendance.component';
+import { StudentManagementComponent } from '../student-management/student-management.component';
+import { LeaveManagementComponent } from '../leave-management/leave-management.component';
+
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -52,9 +56,23 @@ import { StaffManagementComponent } from '../staff-management/staff-management.c
           },
           {
             path: 'staff-management',
-            component: StaffManagementComponent,
+            component: StaffManagementComponent
+          },
+          {
+            path: 'attendance',
+            component: AttendanceComponent,
             canActivate: [EnsureAuthenticated]
           },
+          {
+            path: 'student-management',
+            component: StudentManagementComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'leave-management',
+            component: LeaveManagementComponent,
+            canActivate: [EnsureAuthenticated]
+          }
         ]
       }
     ])

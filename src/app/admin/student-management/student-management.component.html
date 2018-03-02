@@ -1,0 +1,161 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <section class="content-header">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="breadcrumb-heading">
+              Student Management
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Student List</h3>
+            <div class="pull-right box-tools">
+              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(studentModal)">
+                <i class="fa fa-plus"></i> ADD STUDENT </button>
+            </div>
+          </div>
+          <div class="box-body table-responsive">
+            <div class="row">
+              <div class="col-sm-12">
+                <table id="data-table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th> Class</th>
+                      <th>Roll Number</th>
+                      <th>Father Name</th>
+                      <th>Mobile</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let student of studentList">
+                      <td>{{student.studentName}}</td>
+                      <td>{{student.rollNumber}} </td>
+                      <td>{{student.fatherName}}</td>
+                      <td>{{student.mobile}}</td>
+                      <td>
+                        <div class="actions">
+                          <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-danger">
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #studentModal>
+    <div class="modal-header modal-info ">
+      <h4 class="modal-title pull-left">Add Student</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form novalidate [formGroup]="studentForm" class="custom-form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Student Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="studentName" required>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Class <span class="text-danger">*</span></label>
+              <select class="form-control" formControlName="className">
+                <option value="">Select Class</option>
+                <option value="First Class">Fisrt Class</option>
+                <option value="Second Class">Second Class</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Student Photo</label>
+              <input type="file" class="form-control" formControlName="studentPhoto">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Date Of Birth <span class="text-danger">*</span></label>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="dob"></my-date-picker>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Gender <span class="text-danger">*</span></label>
+              <div>
+                <label class="radio-inline">
+                  <input type="radio" formControlName="gender" value="male">Male
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" formControlName="gender" value="female">Female
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label"> Address <span class="text-danger">*</span></label>
+              <textarea class="form-control" formControlName="address" rows="4" cols="5" required></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="main-body">
+          <h4 class="main-heading br-top br-bottom">Parents Details</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Father Name </label>
+              <input type="text" class="form-control" formControlName="fatherName">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Mother Name</label>
+              <input type="text" class="form-control" formControlName="motherName">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Email</label>
+              <input type="text" class="form-control" formControlName="email">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Mobile </label>
+              <input type="text" class="form-control" formControlName="mobile" required>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-12 alert alert-warning" *ngIf="error">
+      <strong>info!</strong> {{error}}
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" class="btn btn-success" [disabled]="studentForm.invalid" (click)="onSubmit(studentForm)">Save</button>
+    </div>
+  </ng-template>
+</div>

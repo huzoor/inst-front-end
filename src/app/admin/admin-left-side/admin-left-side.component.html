@@ -12,19 +12,6 @@
           <i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
-    <!-- search form -->
-    <!-- <form action="#" method="get" class="sidebar-form">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-            <i class="fa fa-search"></i>
-          </button>
-        </span>
-      </div>
-    </form> -->
-    <!-- /.search form -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <!-- <li class="header">MAIN NAVIGATION</li> -->
       <!-- <li class="active treeview">
@@ -59,16 +46,34 @@
       </li>
       <li routerLinkActive="active">
         <a routerLink="/academic-setup">
-          <i class="fa fa-address-book-o"></i>
+          <i class="fa fa-building"></i>
           <span>Academic Setup</span>
         </a>
       </li>
       <li routerLinkActive="active">
         <a routerLink="/staff-management">
-          <i class="fa fa-address-book-o"></i>
+          <i class="fa fa-user-circle-o"></i>
           <span>Staff Managemnt</span>
         </a>
       </li>
+      <li routerLinkActive="active">
+        <a routerLink="/attendance">
+          <i class="fa fa-address-book-o"></i>
+          <span>Attendance</span>
+        </a>
+      </li>
+      <li routerLinkActive="active">
+          <a routerLink="/student-management">
+            <i class="fa fa-users"></i>
+            <span>Student Management</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+            <a routerLink="/leave-management">
+              <i class="fa fa-list-alt"></i>
+              <span>Leave Management</span>
+            </a>
+          </li>
     </ul>
   </section>
   <!-- /.sidebar -->
