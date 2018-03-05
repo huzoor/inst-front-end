@@ -84,6 +84,7 @@
       "check-whitespace"
     ],
     "prefer-const": true,
+    "prefer-let": true,
     "quotemark": [
       true,
       "single"

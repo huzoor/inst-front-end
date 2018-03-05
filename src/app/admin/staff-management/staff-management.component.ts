@@ -16,9 +16,9 @@ const date = new Date();
 })
 export class StaffManagementComponent implements OnInit {
   public staffList: Object = {
-    teaching:[],
+    teaching: [],
     nonTeching: []
-  }
+  };
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
@@ -50,10 +50,10 @@ export class StaffManagementComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
-    private $http: Http) { 
-       this.staffRoles = staffRoles;
-       this.countriesList = countriesList;
-    }
+    private $http: Http) {
+    this.staffRoles = staffRoles;
+    this.countriesList = countriesList;
+  }
 
   ngOnInit() {
     AdminLTE.init();
@@ -114,16 +114,19 @@ export class StaffManagementComponent implements OnInit {
       .then((resp) => {
         if (resp.json().success) {
           this.staffList = {
-            teaching:[],
+            teaching: [],
             nonTeching: []
-          }
-          let staffDetails = resp.json().staffList;
-          staffDetails.map((item)=>{
-            if(item.staffRole === 'teaching') this.staffList['teaching'].push(item)
-            else this.staffList['nonTeching'].push(item)
-          })
+          };
+          const staffDetails = resp.json().staffList;
+          staffDetails.map((item) => {
+            if (item.staffRole === 'teaching') {
+              this.staffList['teaching'].push(item);
+            } else {
+              this.staffList['nonTeching'].push(item);
+            }
+          });
 
-          console.log('Staff Loaded ',this.staffList);
+          console.log('Staff Loaded ', this.staffList);
 
         } else {
           console.log('Staff Load Failed');
@@ -135,7 +138,7 @@ export class StaffManagementComponent implements OnInit {
   public addStaff(staffForm) {
     if (this.staffForm.valid) {
       this.error = '';
-      let staffFormInfo: Object = this.staffForm.value;
+      const staffFormInfo: Object = this.staffForm.value;
       staffFormInfo['schoolUserName'] = 'sch1-SCH';
       this.dataService.addStaff(staffFormInfo)
         .then((resp) => {
@@ -155,11 +158,11 @@ export class StaffManagementComponent implements OnInit {
 
   }
 
-  public  changeCountry(ctry){
-    this.statesList = statesList.filter((item)=> item.countryCode == ctry);
+  public changeCountry(ctry) {
+    this.statesList = statesList.filter((item) => item.countryCode === ctry);
   }
 
-  public changeState(ste){
-    this.districtsList = districtsList.filter((item)=> item.stateCode == ste);
+  public changeState(ste) {
+    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
 }
