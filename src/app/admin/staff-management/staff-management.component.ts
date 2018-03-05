@@ -4,6 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators, Form } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { staffRoles, countriesList, statesList, districtsList } from '../../shared/AppConstants';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -41,11 +42,18 @@ export class StaffManagementComponent implements OnInit {
   public country: FormControl;
   public schoolUserName: any;
 
+  public staffRoles: any[];
+  public countriesList: any[];
+  public statesList: any[];
+  public districtsList: any[];
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
-    private $http: Http) { }
+    private $http: Http) { 
+       this.staffRoles = staffRoles;
+       this.countriesList = countriesList;
+    }
 
   ngOnInit() {
     AdminLTE.init();
@@ -105,6 +113,10 @@ export class StaffManagementComponent implements OnInit {
     this.dataService.getStaffList()
       .then((resp) => {
         if (resp.json().success) {
+          this.staffList = {
+            teaching:[],
+            nonTeching: []
+          }
           let staffDetails = resp.json().staffList;
           staffDetails.map((item)=>{
             if(item.staffRole === 'teaching') this.staffList['teaching'].push(item)
@@ -141,5 +153,13 @@ export class StaffManagementComponent implements OnInit {
         });
     }
 
+  }
+
+  public  changeCountry(ctry){
+    this.statesList = statesList.filter((item)=> item.countryCode == ctry);
+  }
+
+  public changeState(ste){
+    this.districtsList = districtsList.filter((item)=> item.stateCode == ste);
   }
 }

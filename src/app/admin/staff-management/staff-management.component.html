@@ -149,8 +149,9 @@
               <label class="control-label"> Role</label>
               <select class="form-control" formControlName="staffRole">
                 <option value=""> Select Type</option>
-                <option value="teaching">Teaching</option>
-                <option value="non-teaching">Non Teaching</option>
+                <option *ngFor="let role of staffRoles" [value]="role.type">
+                  {{role.type}}
+                </option>
               </select>
             </div>
           </div>
@@ -198,7 +199,6 @@
             </div>
           </div>
         </div>
-        
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -213,7 +213,7 @@
             </div>
           </div>
         </div>
-        
+        <hr />
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -223,6 +223,32 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
+              <label class="control-label">Country</label>
+              <select class="form-control" #selectCountryElem formControlName="country" 
+                      (change)="changeCountry(selectCountryElem.value)" required>
+                <option value=""> Select Country</option>
+                <option *ngFor="let ctry of countriesList" [value]="ctry.code" >
+                  {{ctry.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">State</label>
+              <select class="form-control" #selectStateElem formControlName="state" 
+                      (change)="changeState(selectStateElem.value)" required>
+                <option value=""> Select State</option>
+                <option *ngFor="let ste of statesList" [value]="ste.name">
+                  {{ste.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
               <label class="control-label">City</label>
               <input type="text" class="form-control" formControlName="city" required>
             </div>
@@ -230,24 +256,16 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">District</label>
-              <input type="text" class="form-control" formControlName="district" required>
+              <select class="form-control" formControlName="district" required> 
+                  <option value=""> Select District</option>
+                  <option *ngFor="let dst of districtsList" [value]="dst.name">
+                    {{dst.name}}
+                  </option>
+                </select>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">State</label>
-              <input type="text" class="form-control" formControlName="state" required>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Country</label>
-              <input type="text" class="form-control" formControlName="country" required>
-            </div>
-          </div>
-        </div>
+       
       </form>
     </div>
     <!-- <div class="col-xs-12 alert alert-warning" *ngIf="error">
