@@ -6,11 +6,11 @@
           <div class="box-header with-border">
             <h3 class="box-title">Attendance</h3>
           </div>
-          <div class="box-body table-responsive">
+          <div class="box-body">
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
                 <li class="active">
-                  <a href="#tab_1" data-toggle="tab">Add Attendance</a>
+                  <a href="#tab_1" data-toggle="tab">Take Attendance</a>
                 </li>
                 <li>
                   <a href="#tab_2" data-toggle="tab">View Attendance</a>
@@ -23,7 +23,6 @@
                       <form novalidate [formGroup]="attendanceForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label class="control-label">Select Class</label>
                             <select class="form-control" formControlName="className">
                               <option value="">Select Class</option>
                               <option value="First Class">First Class</option>
@@ -32,7 +31,6 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label class="control-label">Select Subject</label>
                             <select class="form-control" formControlName="subject">
                               <option value="">Select Subject</option>
                               <option value="First Class">English</option>
@@ -41,53 +39,44 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label class="control-label">Select Date</label>
                             <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="selectDate"></my-date-picker>
                           </div>
+                        </div>
+                        <div class="col-md-3">
+
+                          <button type="button" class="btn btn-success" (click)="getStudentsList(attendanceForm)">Submit</button>
+
                         </div>
                       </form>
                     </div>
                   </div>
-                </div>
-              </div>
-              <!-- <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                  <div class="row">
+                  <div class="row" *ngIf="showAttendanceList">
                     <div class="col-sm-12">
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Subject</th>
-                            <th>Experience</th>
-                            <th>Actions</th>
+                            <th>
+                              <input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAllStudents()"> Check All
+                            </th>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Koppala</td>
-                            <td>koppala@gmail.com</td>
-                            <td>9741409108</td>
-                            <td>Computers </td>
-                            <td>3</td>
+                          <tr *ngFor="let student of studentList">
                             <td>
-                              <div class="actions">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-danger">
-                                  <i class="fa fa-close"></i>
-                                </button>
-                              </div>
+                              <input type="checkbox" [(ngModel)]="student.selected" (change)="checkAllSelected(student)">
                             </td>
+                            <td>{{student.name}}</td>
+                            <td>{{student.rollNumber}}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="tab-content">
                 <div class="tab-pane" id="tab_2">
                   <div class="row">
                     <div class="col-sm-12">
@@ -123,7 +112,7 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>

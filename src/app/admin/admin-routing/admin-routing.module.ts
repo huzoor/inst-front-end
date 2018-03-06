@@ -56,7 +56,8 @@ import { LeaveManagementComponent } from '../leave-management/leave-management.c
           },
           {
             path: 'staff-management',
-            component: StaffManagementComponent
+            component: StaffManagementComponent,
+            canActivate: [EnsureAuthenticated]
           },
           {
             path: 'attendance',

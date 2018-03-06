@@ -73,12 +73,28 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Student Name <span class="text-danger">*</span></label>
+              <label class="control-label">Student Name
+                <span class="text-danger">*</span>
+              </label>
               <input type="text" class="form-control" formControlName="studentName" required>
             </div>
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Class <span class="text-danger">*</span></label>
-              <select class="form-control" formControlName="className">
+              <label class="control-label">Date Of Birth
+                <span class="text-danger">*</span>
+              </label>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="dob"></my-date-picker>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Class
+                <span class="text-danger">*</span>
+              </label>
+              <select class="form-control" formControlName="classEnrolled">
                 <option value="">Select Class</option>
                 <option value="First Class">Fisrt Class</option>
                 <option value="Second Class">Second Class</option>
@@ -87,19 +103,17 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Student Photo</label>
-              <input type="file" class="form-control" formControlName="studentPhoto">
-            </div>
-            <div class="form-group">
-              <label class="control-label">Date Of Birth <span class="text-danger">*</span></label>
-              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="dob"></my-date-picker>
+              <label class="control-label">Roll Number <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" formControlName="rollNumber">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label"> Gender <span class="text-danger">*</span></label>
+              <label class="control-label"> Gender
+                <span class="text-danger">*</span>
+              </label>
               <div>
                 <label class="radio-inline">
                   <input type="radio" formControlName="gender" value="male">Male
@@ -112,11 +126,57 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label"> Address <span class="text-danger">*</span></label>
+              <label class="control-label"> Address
+                <span class="text-danger">*</span>
+              </label>
               <textarea class="form-control" formControlName="address" rows="4" cols="5" required></textarea>
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Country <span class="text-danger">*</span></label>
+              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
+                <option value=""> Select Country</option>
+                <option *ngFor="let ctry of countriesList" [value]="ctry.code">
+                  {{ctry.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">State <span class="text-danger">*</span></label>
+              <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
+                <option value=""> Select State</option>
+                <option *ngFor="let ste of statesList" [value]="ste.name">
+                  {{ste.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">District <span class="text-danger">*</span></label>
+                  <select class="form-control" formControlName="district" required>
+                    <option value=""> Select District</option>
+                    <option *ngFor="let dst of districtsList" [value]="dst.name">
+                      {{dst.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">City <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="city" required>
+            </div>
+          </div>
+        </div>
+
         <div class="main-body">
           <h4 class="main-heading br-top br-bottom">Parents Details</h4>
         </div>
@@ -143,7 +203,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Mobile </label>
+              <label class="control-label">Mobile <span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="mobile" required>
             </div>
           </div>

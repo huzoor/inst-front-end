@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
+import { staffRoles, countriesList, statesList, districtsList } from '../../shared/AppConstants';
 
 declare var AdminLTE: any;
 @Component({
@@ -17,8 +18,8 @@ export class StudentManagementComponent implements OnInit {
   public modalRef: BsModalRef;
   public studentForm: FormGroup;
   public studentName: FormControl;
-  public className: FormControl;
-  public studentPhoto: FormControl;
+  public classEnrolled: FormControl;
+  public schoolUserName: FormControl;
   public dob: FormControl;
   public address: FormControl;
   public rollNumber: FormControl;
@@ -31,6 +32,10 @@ export class StudentManagementComponent implements OnInit {
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
+  public staffRoles: any[];
+  public countriesList: any[];
+  public statesList: any[];
+  public districtsList: any[];
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -38,14 +43,16 @@ export class StudentManagementComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
+    this.staffRoles = staffRoles;
+    this.countriesList = countriesList;
     this.studentName = new FormControl('', []);
-    this.studentPhoto = new FormControl('', []);
+    this.schoolUserName = new FormControl('', []);
     this.dob = new FormControl('', []);
     this.address = new FormControl('', []);
     this.rollNumber = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
-    this.className = new FormControl('', []);
+    this.classEnrolled = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.fatherName = new FormControl('', []);
@@ -71,7 +78,7 @@ export class StudentManagementComponent implements OnInit {
   formFileds() {
     this.studentForm = new FormGroup({
       studentName: this.studentName,
-      studentPhoto: this.studentPhoto,
+      schoolUserName: this.schoolUserName,
       dob: this.dob,
       address: this.address,
       rollNumber: this.rollNumber,
@@ -79,7 +86,7 @@ export class StudentManagementComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      className: this.className,
+      classEnrolled: this.classEnrolled,
       fatherName: this.fatherName,
       motherName: this.motherName,
       gender: this.gender,
@@ -92,7 +99,18 @@ export class StudentManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
+  public changeCountry(ctry) {
+    this.statesList = statesList.filter((item) => item.countryCode === ctry);
+  }
+
+  public changeState(ste) {
+    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
+  }
+
   public onSubmit(studentForm) {
+    this.studentForm.value.schoolUserName = 'School1';
+    this.studentForm.value.dob = this.studentForm.value.dob.formatted;
+    console.log(this.studentForm.value);
     // if (this.studentForm.valid) {
     //   this.error = '';
     //   this.dataService.addStudent(this.studentForm.value)
