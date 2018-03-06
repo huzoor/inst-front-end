@@ -33,7 +33,7 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="subject">
                               <option value="">Select Subject</option>
-                              <option value="First Class">English</option>
+                              <option value="English">English</option>
                             </select>
                           </div>
                         </div>
@@ -43,9 +43,7 @@
                           </div>
                         </div>
                         <div class="col-md-3">
-
                           <button type="button" class="btn btn-success" (click)="getStudentsList(attendanceForm)">Submit</button>
-
                         </div>
                       </form>
                     </div>
@@ -73,42 +71,69 @@
                         </tbody>
                       </table>
                     </div>
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-success" (click)="saveAttendance()">Save</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="tab-content">
+
                 <div class="tab-pane" id="tab_2">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>User Name</th>
-                            <th>Mobile</th>
-                            <th>Work Type</th>
-                            <th>Experience</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Koppala</td>
-                            <td>9741409108 </td>
-                            <td>Cleaning </td>
-                            <td>3</td>
-                            <td>
-                              <div class="actions">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-danger">
-                                  <i class="fa fa-close"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  <div class="row mt-10">
+                    <div class="col-md-12">
+                      <form novalidate [formGroup]="attendanceForm" class="custom-form">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="className">
+                              <option value="">Select Class</option>
+                              <option value="First Class">First Class</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="subject">
+                              <option value="">Select Subject</option>
+                              <option value="English">English</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="selectDate"></my-date-picker>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-success" (click)="viewAttendance(attendanceForm)">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-12" *ngIf="showAttendance" style="padding: 20px 30px;">
+                      <div class="box">
+                        <div class="box-header with-border bg-info">
+                          <h3 class="box-title">View Attendance</h3>
+                        </div>
+                        <div class="box-body table-responsive">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <table class="table table-bordered table-striped">
+                                <thead>
+                                  <tr>
+                                    <th *ngFor="let roll of viewCurrentAttendance">{{roll.rollNumber}}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td *ngFor="let roll of viewCurrentAttendance">
+                                      <span *ngIf="roll.selected">P</span>
+                                      <span *ngIf="!roll.selected">A</span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

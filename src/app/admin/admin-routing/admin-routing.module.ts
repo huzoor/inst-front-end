@@ -15,6 +15,7 @@ import { StaffManagementComponent } from '../staff-management/staff-management.c
 import { AttendanceComponent } from '../attendance/attendance.component';
 import { StudentManagementComponent } from '../student-management/student-management.component';
 import { LeaveManagementComponent } from '../leave-management/leave-management.component';
+import { TimelineComponent } from '../timeline/timeline.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,11 @@ import { LeaveManagementComponent } from '../leave-management/leave-management.c
           {
             path: 'leave-management',
             component: LeaveManagementComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'timeline',
+            component: TimelineComponent,
             canActivate: [EnsureAuthenticated]
           }
         ]
