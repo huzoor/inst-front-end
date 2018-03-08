@@ -21,6 +21,7 @@ import { AcademicSetupComponent } from './academic-setup/academic-setup.componen
 import { StaffManagementComponent } from './staff-management/staff-management.component';
 import { StudentManagementComponent } from './student-management/student-management.component';
 import { LeaveManagementComponent } from './leave-management/leave-management.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { LeaveManagementComponent } from './leave-management/leave-management.co
     AcademicSetupComponent,
     StaffManagementComponent,
     StudentManagementComponent,
-    LeaveManagementComponent
+    LeaveManagementComponent,
+    TimelineComponent
   ],
   exports: [AdminComponent]
 })

@@ -21,6 +21,9 @@ export class AttendanceComponent implements OnInit {
   public studentList: any = [];
   public selectedAll: any;
   public selectedStudent: any = [];
+  public addAttendance: any;
+  public viewCurrentAttendance: any;
+  public showAttendance = false;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -61,11 +64,10 @@ export class AttendanceComponent implements OnInit {
     }];
   }
   public selectAllStudents(): void {
-    this.selectedStudent = [];
     for (let i = 0; i < this.studentList.length; i++) {
       this.studentList[i].selected = this.selectedAll;
       if (this.selectedAll) {
-        this.selectedStudent.push(this.studentList[i]);
+        this.selectedStudent.push({rollNumber: this.studentList[i].rollNumber});
       } else {
         this.selectedStudent = [];
       }
@@ -73,14 +75,50 @@ export class AttendanceComponent implements OnInit {
   }
 
   public checkAllSelected(row) {
-    this.studentList = JSON.parse(JSON.stringify(row));
-    console.log(this.studentList.selected);
-    if (this.studentList.selected === true) {
-      this.selectedStudent.push(this.studentList);
+    if (row.selected === true) {
+      this.selectedStudent.push({rollNumber: row.rollNumber});
     } else {
-      this.selectedStudent.splice(this.selectedStudent.indexOf(this.studentList), 1);
+      this.selectedStudent.splice(this.selectedStudent.indexOf({rollNumber: row.rollNumber}), 1);
     }
     console.log(this.selectedStudent);
   }
 
+  public saveAttendance(): void {
+    let saveAttendance: any = {
+      class: this.className.value,
+      subject: this.subject.value,
+      date: this.selectDate.value.formatted,
+      presentList: this.selectedStudent
+    };
+    console.log(JSON.stringify(saveAttendance));
+  }
+
+  public viewAttendance(): void {
+    this.showAttendance = true;
+    this.viewCurrentAttendance = [{
+      rollNumber: 2000,
+      name: 'koppala',
+      selected: true
+    },
+    {
+      rollNumber: 2001,
+      name: 'koppala1',
+      selected: false
+    },
+    {
+      rollNumber: 2002,
+      name: 'koppala2',
+      selected: true
+    },
+    {
+      rollNumber: 2002,
+      name: 'koppala1',
+      selected: true
+    },
+    {
+      rollNumber: 2004,
+      name: 'koppala1',
+      selected: false
+    }];
+  }
 }
