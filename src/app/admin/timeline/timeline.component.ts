@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { timeLineConfig } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
 
 declare var AdminLTE: any;
@@ -18,6 +19,8 @@ export class TimelineComponent implements OnInit {
   public messageType: FormControl;
   public messageTo: FormControl;
   public message: FormControl;
+
+  public timeLineConfig: Object =  timeLineConfig;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,

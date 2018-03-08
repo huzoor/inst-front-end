@@ -78,9 +78,12 @@ export class DataService {
     return this.http.post(url, subjects, { headers: this.headers }).toPromise();
   }
 
-  getEntitiesList(): Promise<any> {
+  getEntitiesList(instituteUserName): Promise<any> {
     let url: string = `${this.BASE_URL}/getAcadamicEntities`;
-    let localHeaders: Headers = new Headers({ 'Content-Type': 'application/json', 'userName':'inst1-INST' });
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      instituteUserName
+    });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 

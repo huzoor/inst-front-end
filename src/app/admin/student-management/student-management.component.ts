@@ -13,8 +13,6 @@ declare var AdminLTE: any;
   styleUrls: ['./student-management.component.css']
 })
 export class StudentManagementComponent implements OnInit {
-  public placeholder = 'mm/dd/yyyy';
-  public studentList: any;
   public modalRef: BsModalRef;
   public studentForm: FormGroup;
   public name: FormControl;
@@ -37,6 +35,9 @@ export class StudentManagementComponent implements OnInit {
   public countriesList: any[];
   public statesList: any[];
   public districtsList: any[];
+  public placeholder = 'mm/dd/yyyy';
+  public studentList: any[];
+  public classList: any[];
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -71,14 +72,10 @@ export class StudentManagementComponent implements OnInit {
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
 
- 
     this.dataService.getStudentList({schoolUserName,instituteUserName })
       .then((resp) => {
-        if (resp.json().success) {
-          this.studentList = resp.json().studentsList;
-        } else {
-          this.error = 'schools loading failed..!';
-        }
+        if (resp.json().success) this.studentList = resp.json().studentsList;
+        else this.error = 'schools loading failed..!';
       });
   }
 
@@ -103,8 +100,30 @@ export class StudentManagementComponent implements OnInit {
     });
   }
 
+  getEntitiesList(): Promise<any> {
+      // Get instituteUserName from localStorage
+      let instituteUserName = 'inst1-INST';
+     return this.dataService.getEntitiesList(instituteUserName)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.classList = resp.json().Classes;
+            return true;
+          } else {
+            this.error = resp.json().message;
+            return false;
+          }
+        }).catch((err) => {
+          console.log('err',err)
+          this.error = err.json().message;
+          return false;
+        })
+  }
+
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.getEntitiesList().then((canOpenModel)=>{
+      if(canOpenModel) 
+        this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    })
   }
 
   public changeCountry(ctry) {
@@ -128,13 +147,8 @@ export class StudentManagementComponent implements OnInit {
             this.studentForm.reset();
             this.modalRef.hide();
             this.getStudentList();
-          } else {
-            this.error = resp.json().message;
-          }
-        })
-        .catch((err) => {
-          this.error = err.json().message;
-        });
+          } else this.error = resp.json().message;
+        }).catch((err) => this.error = err.json().message);
     }
   }
 }

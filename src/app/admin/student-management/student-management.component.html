@@ -97,8 +97,9 @@
               </label>
               <select class="form-control" formControlName="classEnrolled">
                 <option value="">Select Class</option>
-                <option value="First Class">Fisrt Class</option>
-                <option value="Second Class">Second Class</option>
+                <option *ngFor="let cls of classList" [value]="cls">
+                  {{cls}}
+                </option>
               </select>
             </div>
           </div>

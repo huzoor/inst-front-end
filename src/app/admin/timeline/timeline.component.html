@@ -97,8 +97,9 @@
               </label>
               <select class="form-control" formControlName="messageType" required>
                 <option value="">Select Message Type</option>
-                <option value="news">News</option>
-                <option value="Circular">Circular</option>
+                <option *ngFor="let msgType of timeLineConfig.messageTypes" [value]="msgType">
+                  {{msgType}}
+                </option>
               </select>
             </div>
           </div>
@@ -109,9 +110,9 @@
               </label>
               <select class="form-control" formControlName="messageTo" required>
                 <option value="">Select Message To</option>
-                <option value="school">School</option>
-                <option value="student">Student</option>
-                <option value="class">Class</option>
+                <option *ngFor="let recType of timeLineConfig.recipientType" [value]="recType">
+                  {{recType}}
+                </option>
               </select>
             </div>
           </div>

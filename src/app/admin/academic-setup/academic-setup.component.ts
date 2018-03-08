@@ -14,12 +14,13 @@ export class AcademicSetupComponent implements OnInit {
   public modalRef: BsModalRef;
   public classForm: FormGroup;
   public subjectForm: FormGroup;
-  public classList: any;
-  public subjectList: any;
+  public userName: FormControl;
+  
+  public classList: any[];
+  public subjectList: any[];
   public error: any;
   public className: any = '';
   public subjectName: any = '';
-  public userName: any = '';
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
@@ -27,18 +28,8 @@ export class AcademicSetupComponent implements OnInit {
     AdminLTE.init();
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
-    this.userName = new FormControl('inst1-INST', []);
+    this.userName = new FormControl('', []);
     this.formFileds();
-
-    // this.classList = [{
-    //   id: 1,
-    //   className: 'First'
-    // }];
-    // this.subjectList = [{
-    //   id: 1,
-    //   subjectName: 'English'
-    // }];
-
     this.getEntitiesList();
   }
 
@@ -71,12 +62,14 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public getEntitiesList(): void {
-    this.dataService.getEntitiesList()
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    this.dataService.getEntitiesList(instituteUserName)
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
-          this.classList = res.entities[0].Classes;
-          this.subjectList = res.entities[0].Subjects;
+          this.classList = res.Classes;
+          this.subjectList = res.Subjects;
         } else {
           this.error = resp.json().message;
         }
@@ -89,6 +82,7 @@ export class AcademicSetupComponent implements OnInit {
   public addClass(classForm) {
     if (this.classForm.valid) {
       this.error = '';
+      this.classForm.value.userName = 'inst1-INST';
       this.dataService.addClass(this.classForm.value)
         .then((resp) => {
           if (resp.json().success) {

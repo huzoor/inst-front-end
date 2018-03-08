@@ -20,3 +20,21 @@ export const districtsList = [
     {"name": "MSR", "code": "MSR", "stateCode":"KN"}, 
 ];
 
+export const timeLineConfig = {
+    messageTypes:['News', 'Circular'],
+    recipientType:['School', 'Student', 'Class'] 
+}
+
+export const leveTypes = {
+  student: [
+        { type:'CL', desc:'Casual Leve'},
+        { type:'SL', desc:'Sick Leve'},
+    ],
+  nonStudent: [
+    { type:'CL', desc:'Casual Leve'},
+    { type:'SL', desc:'Sick Leve'},
+    { type:'ML', desc:'Metarnity Leve'},
+    { type:'PL', desc:'Peternity Leve'},
+  ]
+}
+
