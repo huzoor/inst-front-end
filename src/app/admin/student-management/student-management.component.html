@@ -28,7 +28,7 @@
                   <thead>
                     <tr>
                       <th>Student Name</th>
-                      <th> Class</th>
+                      <th>Class</th>
                       <th>Roll Number</th>
                       <th>Father Name</th>
                       <th>Mobile</th>
@@ -37,7 +37,8 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentList">
-                      <td>{{student.studentName}}</td>
+                      <td>{{student.name}}</td>
+                      <td>{{student.classEnrolled}} </td>
                       <td>{{student.rollNumber}} </td>
                       <td>{{student.fatherName}}</td>
                       <td>{{student.mobile}}</td>
@@ -76,7 +77,7 @@
               <label class="control-label">Student Name
                 <span class="text-danger">*</span>
               </label>
-              <input type="text" class="form-control" formControlName="studentName" required>
+              <input type="text" class="form-control" formControlName="name" required>
             </div>
           </div>
           <div class="col-md-6">

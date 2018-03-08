@@ -17,9 +17,10 @@ export class StudentManagementComponent implements OnInit {
   public studentList: any;
   public modalRef: BsModalRef;
   public studentForm: FormGroup;
-  public studentName: FormControl;
+  public name: FormControl;
   public classEnrolled: FormControl;
   public schoolUserName: FormControl;
+  public instituteUserName: FormControl;
   public dob: FormControl;
   public address: FormControl;
   public rollNumber: FormControl;
@@ -45,8 +46,9 @@ export class StudentManagementComponent implements OnInit {
     AdminLTE.init();
     this.staffRoles = staffRoles;
     this.countriesList = countriesList;
-    this.studentName = new FormControl('', []);
+    this.name = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
+    this.instituteUserName = new FormControl('', []);
     this.dob = new FormControl('', []);
     this.address = new FormControl('', []);
     this.rollNumber = new FormControl('', []);
@@ -65,20 +67,26 @@ export class StudentManagementComponent implements OnInit {
     this.getStudentList();
   }
   getStudentList() {
-    // this.dataService.getStudentList(this.studentForm.value)
-    //   .then((resp) => {
-    //     if (resp.json().success) {
-    //       this.studentList = resp.json().schools;
-    //     } else {
-    //       this.error = 'schools loading failed..!';
-    //     }
-    //   });
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+
+ 
+    this.dataService.getStudentList({schoolUserName,instituteUserName })
+      .then((resp) => {
+        if (resp.json().success) {
+          this.studentList = resp.json().studentsList;
+        } else {
+          this.error = 'schools loading failed..!';
+        }
+      });
   }
 
   formFileds() {
     this.studentForm = new FormGroup({
-      studentName: this.studentName,
+      name: this.name,
       schoolUserName: this.schoolUserName,
+      instituteUserName: this.instituteUserName,
       dob: this.dob,
       address: this.address,
       rollNumber: this.rollNumber,
@@ -108,24 +116,25 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public onSubmit(studentForm) {
-    this.studentForm.value.schoolUserName = 'School1';
+    this.studentForm.value.schoolUserName = 'sch1-SCH';
+    this.studentForm.value.instituteUserName = 'inst1-INST';
     this.studentForm.value.dob = this.studentForm.value.dob.formatted;
     console.log(this.studentForm.value);
-    // if (this.studentForm.valid) {
-    //   this.error = '';
-    //   this.dataService.addStudent(this.studentForm.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.studentForm.reset();
-    //         this.modalRef.hide();
-    //         this.getStudentList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.error = err.json().message;
-    //     });
-    // }
+    if (this.studentForm.valid) {
+      this.error = '';
+      this.dataService.addStudent(this.studentForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.studentForm.reset();
+            this.modalRef.hide();
+            this.getStudentList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
   }
 }

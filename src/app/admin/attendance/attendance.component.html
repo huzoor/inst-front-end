@@ -55,20 +55,20 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
+                            <th>Roll Number</th>                           
+                            <th>Student Name</th>
                             <th>
                               <input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAllStudents()"> Check All
                             </th>
-                            <th>Student Name</th>
-                            <th>Roll Number</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let student of studentList">
+                            <td>{{student.rollNumber}}</td>                          
+                            <td>{{student.name}}</td>
                             <td>
                               <input type="checkbox" [(ngModel)]="student.selected" (change)="checkAllSelected(student)">
                             </td>
-                            <td>{{student.name}}</td>
-                            <td>{{student.rollNumber}}</td>
                           </tr>
                         </tbody>
                       </table>

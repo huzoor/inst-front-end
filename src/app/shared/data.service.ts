@@ -95,6 +95,20 @@ export class DataService {
     return this.http.get(url, { headers: this.headers }).toPromise();
   }
 
+  addStudent(student): Promise<any> {
+    let url: string = `${this.BASE_URL}/addStudent`;
+    return this.http.post(url, student, { headers: this.headers }).toPromise();
+  }
+
+  getStudentList(requestObj): Promise<any> {
+    let url: string = `${this.BASE_URL}/getStudentsList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestObj,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
   test(): string {
     return 'working';
   }
