@@ -71,7 +71,6 @@ export class StudentManagementComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
-
     this.dataService.getStudentList({schoolUserName,instituteUserName })
       .then((resp) => {
         if (resp.json().success) this.studentList = resp.json().studentsList;
@@ -135,6 +134,7 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public onSubmit(studentForm) {
+    // Get this info From local storage
     this.studentForm.value.schoolUserName = 'sch1-SCH';
     this.studentForm.value.instituteUserName = 'inst1-INST';
     this.studentForm.value.dob = this.studentForm.value.dob.formatted;

@@ -19,9 +19,15 @@ export class TimelineComponent implements OnInit {
   public messageType: FormControl;
   public messageTo: FormControl;
   public message: FormControl;
+  public schoolUserName: FormControl;
+  public instituteUserName: FormControl;
+  public schoolName: FormControl;
+  public instituteName: FormControl;
 
   public timeLineConfig: Object =  timeLineConfig;
+  public timeLineEvents: any[];
   public error: any;
+  
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -31,8 +37,13 @@ export class TimelineComponent implements OnInit {
     this.messageType = new FormControl('', []);
     this.message = new FormControl('', []);
     this.messageTo = new FormControl('', []);
+    this.schoolUserName = new FormControl('', []);
+    this.schoolName = new FormControl('', []);
+    this.instituteUserName = new FormControl('', []);
+    this.instituteName = new FormControl('', []);
+    
     this.formFileds();
-
+    this.getTimelineEvents();
   }
 
   formFileds() {
@@ -47,22 +58,34 @@ export class TimelineComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
-  public onSubmit(timeLineForm) {
-    // if (this.timeLineForm.valid) {
-    //   this.error = '';
-    //   this.dataService.timeline(this.timeLineForm.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.timeLineForm.reset();
-    //         this.modalRef.hide();
-    //         this.getLeavesList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.error = err.json().message;
-    //     });
-    // }
+  getTimelineEvents() {
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    this.dataService.getTimelineEvents({schoolUserName,instituteUserName})
+      .then((resp) => {
+        if (resp.json().success) this.timeLineEvents = resp.json().timeLineEvets;
+        else this.error = 'schools loading failed..!';
+      });
+  }
+
+  public onSubmitTimeline(timeLineForm) {
+    if (this.timeLineForm.valid) {
+      // Get this info From local storage
+      this.timeLineForm.value.schoolUserName = 'sch1-SCH';
+      this.timeLineForm.value.instituteUserName = 'inst1-INST';
+      this.timeLineForm.value.schoolName = 'school1';
+      this.timeLineForm.value.instituteName = 'Inst1';
+      this.error = '';    
+      this.dataService.addTimelineEvent(this.timeLineForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.timeLineForm.reset();
+            this.modalRef.hide();
+            this.getTimelineEvents();
+          } else this.error = resp.json().message;
+          
+        }).catch((err) =>  this.error = err.json().message );
+    }
   }
 }

@@ -109,8 +109,11 @@ export class StaffManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
-  getStaffList() {
-    this.dataService.getStaffList()
+  getStaffList() {  
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';  
+    this.dataService.getStaffList({schoolUserName, instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
           this.staffList = {
@@ -119,15 +122,9 @@ export class StaffManagementComponent implements OnInit {
           };
           const staffDetails = resp.json().staffList;
           staffDetails.map((item) => {
-            if (item.staffRole === 'teaching') {
-              this.staffList['teaching'].push(item);
-            } else {
-              this.staffList['nonTeching'].push(item);
-            }
+            if (item.staffRole === 'teaching') this.staffList['teaching'].push(item);
+            else this.staffList['nonTeching'].push(item);
           });
-
-          console.log('Staff Loaded ', this.staffList);
-
         } else {
           console.log('Staff Load Failed');
           this.error = 'StaffInfo loading failed..!';
@@ -138,9 +135,10 @@ export class StaffManagementComponent implements OnInit {
   public addStaff(staffForm) {
     if (this.staffForm.valid) {
       this.error = '';
-      const staffFormInfo: Object = this.staffForm.value;
-      staffFormInfo['schoolUserName'] = 'sch1-SCH';
-      this.dataService.addStaff(staffFormInfo)
+      // Get this info from localStorage
+      this.staffForm.value.schoolUserName = 'sch1-SCH';
+      this.staffForm.value.instituteUserName = 'inst1-INST';
+      this.dataService.addStaff(this.staffForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.staffForm.reset();

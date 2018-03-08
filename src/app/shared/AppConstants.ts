@@ -22,7 +22,7 @@ export const districtsList = [
 
 export const timeLineConfig = {
     messageTypes:['News', 'Circular'],
-    recipientType:['School', 'Student', 'Class'] 
+    recipientType:['School', 'Teachers', 'Student'] 
 }
 
 export const leveTypes = {

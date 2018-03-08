@@ -62,9 +62,12 @@ export class DataService {
     return this.http.post(url, staff, { headers: this.headers }).toPromise();
   }
 
-  getStaffList(): Promise<any> {
+  getStaffList(inputHeaders): Promise<any> {
     let url: string = `${this.BASE_URL}/getStaffList`;
-    let staffHeaders: Headers = new Headers({ 'Content-Type': 'application/json', 'schoolUserName':'sch1-SCH' });
+    let staffHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json',
+      ...inputHeaders
+    });
     return this.http.get(url, { headers: staffHeaders }).toPromise();
   }
 
@@ -103,12 +106,26 @@ export class DataService {
     return this.http.post(url, student, { headers: this.headers }).toPromise();
   }
 
-  getStudentList(requestObj): Promise<any> {
+  getStudentList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getStudentsList`;
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
-      ...requestObj,
+      ...requestDetails,
      });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+  addTimelineEvent(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/addTimelineEvent`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+
+  getTimelineEvents(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getTimelineEvents`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+    });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
