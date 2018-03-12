@@ -30,12 +30,12 @@
                   <ng-template #schoolUserDisplay>
                     <h3 class="profile-username">{{TLEvent.schoolName}}</h3>
                   </ng-template>
-                  <div class="text-muted m5"> <strong> {{TLEvent.createdOn | date}} - {{TLEvent.createdOn | date:'shortTime'}} </strong> </div>
+                  <div class="text-muted m5"> <strong> {{TLEvent.createdOn | date:'dd-MM-yyyy h:mm a'}} </strong> </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="box-body table-responsive">
+          <div class="box-body">
             <div class="row pd-15">
               <div class="col-sm-12">
                   {{TLEvent.message}}

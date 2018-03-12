@@ -21,7 +21,7 @@
                 <i class="fa fa-plus"></i> APPLY LEAVE </button>
             </div>
           </div>
-          <div class="box-body table-responsive">
+          <div class="box-body">
             <div class="row">
               <div class="col-sm-12">
                 <table id="data-table" class="table table-bordered table-striped">
@@ -31,20 +31,25 @@
                       <th>To Date</th>
                       <th>Reason</th>
                       <th>Status</th>
+                      <th>Approved By</th>
                       <th>actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let leave of leavesList">
-                      <td>{{leave.fromDate}}</td>
-                      <td>{{leave.toDate}} </td>
-                      <td>{{leave.Reason}}</td>
+                      <td>{{leave.fromDate | date:'dd-MM-yyyy'}}</td>
+                      <td>{{leave.toDate  | date:'dd-MM-yyyy' }} </td>
+                      <td>{{leave.reason}}</td>
                       <td>
-                        <div class="text-warning">Approval Waiting </div>
+                        <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple">A waiting approval </div>
+                        <ng-template #notApprovedTmple>
+                          <div class="text-success"> Approved </div>
+                        </ng-template>
                       </td>
+                      <td>{{leave.approvedBy}}</td>
                       <td>
-                        <div class="actions">
-                          <button type="button" class="btn btn-sm btn-primary">
+                        <div class="actions" *ngIf="!leave.isApproved">
+                          <button type="button" class="btn btn-sm btn-primary" >
                             <i class="fa fa-edit"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-danger">

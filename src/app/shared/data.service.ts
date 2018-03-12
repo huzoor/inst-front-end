@@ -129,6 +129,21 @@ export class DataService {
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
+  applyLeave(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/applyLeave`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+ 
+
+  getleavesList(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getLeavesList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
   test(): string {
     return 'working';
   }

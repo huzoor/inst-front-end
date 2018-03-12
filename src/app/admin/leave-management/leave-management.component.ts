@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
 
 declare var AdminLTE: any;
@@ -18,7 +19,11 @@ export class LeaveManagementComponent implements OnInit {
   public leaveForm: FormGroup;
   public fromDate: FormControl;
   public toDate: FormControl;
-  public reason: FormControl;
+  public reason: FormControl; 
+  public appliedBy: FormControl; 
+  public userRole: FormControl; 
+  public schoolUserName: FormControl;
+  public instituteUserName: FormControl; 
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -29,19 +34,27 @@ export class LeaveManagementComponent implements OnInit {
     this.fromDate = new FormControl('', []);
     this.reason = new FormControl('', []);
     this.toDate = new FormControl('', []);
+    this.appliedBy = new FormControl('', []);
+    this.userRole = new FormControl('', []);
+    this.schoolUserName = new FormControl('', []);
+    this.instituteUserName = new FormControl('', []);
     this.formFileds();
 
     this.getLeavesList();
   }
   getLeavesList() {
-    // this.dataService.getleavesList()
-    //   .then((resp) => {
-    //     if (resp.json().success) {
-    //       this.leavesList = resp.json().schools;
-    //     } else {
-    //       this.error = 'schools loading failed..!';
-    //     }
-    //   });
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let appliedBy = 'huzoor-STF';
+    this.dataService.getleavesList({schoolUserName, instituteUserName, appliedBy })
+      .then((resp) => {
+        if (resp.json().success) {
+          this.leavesList = resp.json().LeavesList;
+        } else {
+          this.error = 'LeavesList loading failed..!';
+        }
+      });
   }
 
   formFileds() {
@@ -57,21 +70,27 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   public onSubmit(leaveForm) {
-    // if (this.leaveForm.valid) {
-    //   this.error = '';
-    //   this.dataService.applyLeave(this.leaveForm.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.leaveForm.reset();
-    //         this.modalRef.hide();
-    //         this.getLeavesList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.error = err.json().message;
-    //     });
-    // }
+    // Get this info From local storage
+    this.leaveForm.value.schoolUserName = 'sch1-SCH';
+    this.leaveForm.value.instituteUserName = 'inst1-INST';
+    this.leaveForm.value.appliedBy = 'huzoor-STF';
+    this.leaveForm.value.userRole = 'staff';
+
+    if (this.leaveForm.valid) {
+      this.error = '';
+      this.dataService.applyLeave(this.leaveForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.leaveForm.reset();
+            this.modalRef.hide();
+            this.getLeavesList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
   }
 }
