@@ -1,0 +1,52 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Time Table</h3>
+          </div>
+          <div class="box-body">
+
+            <div class="row">
+              <form class="form-horizontal" [formGroup]="classForm">
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="pwd">Select Class</label>
+                  <div class="col-sm-2">
+                    <select class="form-control" formControlName="selectedClass" (change)="getClassWiseTimeTable(selectedClass.value)">
+                      <option value="">Select Class</option>
+                      <option value="First">First</option>
+                      <option value="Second">Second</option>
+                      <option value="Third">Third</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table table-bordered" style="background: #efefef;" *ngIf="timeTableList.length !== 0">
+                  <tbody>
+                    <tr *ngFor="let timings of timeTableList">
+                      <td class="day-heading">
+                        <div>{{timings.day}}</div>
+                      </td>
+                      <td *ngFor="let period of timings.list">
+                        <div class="periods-list">
+                          <div class="">{{period.time}} </div>
+                          <div class=""> {{period.subject}} </div>
+                          <div class="">{{period.teacher}}</div>
+                          <div class=""> {{period.break}}</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

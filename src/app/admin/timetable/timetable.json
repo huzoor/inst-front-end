@@ -1,0 +1,148 @@
+[
+    {
+        "class": "First",
+        "timetable": [
+            {
+                "day": "MON",
+                "list": [
+                    {
+                        "time": "10AM - 11AM",
+                        "subject": "Telugu",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "11AM - 12PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "12PM - 1PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "1PM - 2PM",
+                        "break": "Lunch Break"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "Sports",
+                        "teacher": "Ali"
+                    }
+                ]
+            },
+            {
+                "day": "TUE",
+                "list": [
+                    {
+                        "time": "10AM - 11AM",
+                        "subject": "Telugu",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "11AM - 12PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "12PM - 1PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "1PM - 2PM",
+                        "break": "Lunch Break"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "Sports",
+                        "teacher": "Ali"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "class": "Second",
+        "timetable": [
+            {
+                "day": "MON",
+                "list": [
+                    {
+                        "time": "10AM - 11AM",
+                        "subject": "Telugu",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "11AM - 12PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "12PM - 1PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "1PM - 2PM",
+                        "break": "Lunch Break"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "Sports",
+                        "teacher": "Ali"
+                    }
+                ]
+            },
+            {
+                "day": "TUE",
+                "list": [
+                    {
+                        "time": "10AM - 11AM",
+                        "subject": "Telugu",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "11AM - 12PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "12PM - 1PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "1PM - 2PM",
+                        "break": "Lunch Break"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "English",
+                        "teacher": "Ali"
+                    },
+                    {
+                        "time": "3PM - 4PM",
+                        "subject": "Sports",
+                        "teacher": "Ali"
+                    }
+                ]
+            }
+        ]
+    }
+]

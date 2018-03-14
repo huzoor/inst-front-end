@@ -22,6 +22,8 @@ import { StaffManagementComponent } from './staff-management/staff-management.co
 import { StudentManagementComponent } from './student-management/student-management.component';
 import { LeaveManagementComponent } from './leave-management/leave-management.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { TimetableComponent } from './timetable/timetable.component';
+import { ExaminationComponent } from './examination/examination.component';
 
 @NgModule({
   imports: [
@@ -49,7 +51,9 @@ import { TimelineComponent } from './timeline/timeline.component';
     StaffManagementComponent,
     StudentManagementComponent,
     LeaveManagementComponent,
-    TimelineComponent
+    TimelineComponent,
+    TimetableComponent,
+    ExaminationComponent
   ],
   exports: [AdminComponent]
 })

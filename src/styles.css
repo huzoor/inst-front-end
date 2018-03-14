@@ -154,3 +154,16 @@ button.btnpicker.btnpickerenabled {
   padding: 10px 0;
   margin-bottom: 10px;
 }
+td.day-heading {
+  background: #f9f9f9;
+  line-height: 7 !important;
+  text-align: center;
+  border-right: 1px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+}
+.periods-list {
+  background: #fff;
+  min-height: 100px;
+  padding: 7px 10px;
+  line-height: 2;
+}

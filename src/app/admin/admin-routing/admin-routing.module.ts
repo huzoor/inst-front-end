@@ -16,6 +16,8 @@ import { AttendanceComponent } from '../attendance/attendance.component';
 import { StudentManagementComponent } from '../student-management/student-management.component';
 import { LeaveManagementComponent } from '../leave-management/leave-management.component';
 import { TimelineComponent } from '../timeline/timeline.component';
+import { TimetableComponent } from '../timetable/timetable.component';
+import { ExaminationComponent } from '../examination/examination.component';
 
 @NgModule({
   imports: [
@@ -78,6 +80,16 @@ import { TimelineComponent } from '../timeline/timeline.component';
           {
             path: 'timeline',
             component: TimelineComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'timetable',
+            component: TimetableComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'exams',
+            component: ExaminationComponent,
             canActivate: [EnsureAuthenticated]
           }
         ]
