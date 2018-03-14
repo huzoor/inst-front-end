@@ -19,6 +19,8 @@ export class AttendanceComponent implements OnInit {
   public className: FormControl;
   public subject: FormControl;
   public studentList: any = [];
+  public classList: any = [];
+  public subjectsList: any = [];
   public selectedAll: any;
   public selectedStudent: any = [];
   public addAttendance: any;
@@ -35,6 +37,7 @@ export class AttendanceComponent implements OnInit {
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
     this.formFileds();
+    this.getEntitiesList();
   }
 
   formFileds() {
@@ -45,24 +48,36 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
-  public getStudentsList(form): void {
+  public getStudentsList(formInfo) {
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
-    this.studentList = [{
-      rollNumber: 2000,
-      name: 'koppala',
-      selected: false
-    },
-    {
-      rollNumber: 2001,
-      name: 'koppala1',
-      selected: false
-    },
-    {
-      rollNumber: 2002,
-      name: 'koppala2',
-      selected: false
-    }];
+    console.log('formInfo', formInfo.value);
+    this.dataService.getStudentsList({schoolUserName, instituteUserName, classEnrolled})
+      .then((resp) => {
+        if (resp.json().success) this.studentList = resp.json().studentsList;
+        else this.error = 'students list loading failed..!';
+      });
   }
+
+  public getEntitiesList() {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+   this.dataService.getEntitiesList(instituteUserName)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.classList = resp.json().Classes;
+        this.subjectsList = resp.json().Subjects;
+      }
+        else this.error = resp.json().message;
+    }).catch((err) => {
+      console.log('err',err)
+      this.error = err.json().message;
+    })
+  }
+
   public selectAllStudents(): void {
     for (let i = 0; i < this.studentList.length; i++) {
       this.studentList[i].selected = this.selectedAll;
@@ -84,13 +99,33 @@ export class AttendanceComponent implements OnInit {
   }
 
   public saveAttendance(): void {
-    let saveAttendance: any = {
+    // Get instituteUserName from localStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let attendanceTakenBy = 'huzoor-STF';
+
+    let saveAttendance: Object = {
       class: this.className.value,
       subject: this.subject.value,
       date: this.selectDate.value.formatted,
-      presentList: this.selectedStudent
+      presentiesList: this.selectedStudent,
+      schoolUserName,
+      instituteUserName,
+      attendanceTakenBy,
     };
-    console.log(JSON.stringify(saveAttendance));
+    console.log(saveAttendance);
+
+    this.dataService.addAttendance(saveAttendance)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.classList = resp.json().Classes;
+        this.subjectsList = resp.json().Subjects;
+      }
+        else this.error = resp.json().message;
+    }).catch((err) => {
+      console.log('err',err)
+      this.error = err.json().message;
+    })
   }
 
   public viewAttendance(): void {

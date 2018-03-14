@@ -106,7 +106,7 @@ export class DataService {
     return this.http.post(url, student, { headers: this.headers }).toPromise();
   }
 
-  getStudentList(requestDetails): Promise<any> {
+  getStudentsList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getStudentsList`;
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
@@ -142,6 +142,11 @@ export class DataService {
       ...requestDetails,
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+  addAttendance(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/saveAttendance`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
 
   test(): string {

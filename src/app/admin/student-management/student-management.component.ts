@@ -71,10 +71,10 @@ export class StudentManagementComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
-    this.dataService.getStudentList({schoolUserName,instituteUserName })
+    this.dataService.getStudentsList({schoolUserName,instituteUserName })
       .then((resp) => {
         if (resp.json().success) this.studentList = resp.json().studentsList;
-        else this.error = 'schools loading failed..!';
+        else this.error = 'students list loading failed..!';
       });
   }
 

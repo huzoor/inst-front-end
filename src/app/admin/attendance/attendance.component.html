@@ -25,7 +25,9 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="className">
                               <option value="">Select Class</option>
-                              <option value="First Class">First Class</option>
+                              <option *ngFor="let cls of classList" [value]="cls">
+                                {{cls}}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -33,7 +35,9 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="subject">
                               <option value="">Select Subject</option>
-                              <option value="English">English</option>
+                              <option *ngFor="let subj of subjectsList" [value]="subj">
+                                {{subj}}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -85,7 +89,9 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="className">
                               <option value="">Select Class</option>
-                              <option value="First Class">First Class</option>
+                              <option *ngFor="let cls of classList" [value]="cls">
+                                {{cls}}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -93,7 +99,9 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="subject">
                               <option value="">Select Subject</option>
-                              <option value="English">English</option>
+                              <option *ngFor="let subj of subjectsList" [value]="subj">
+                                {{subj}}
+                              </option>
                             </select>
                           </div>
                         </div>
@@ -112,7 +120,7 @@
                         <div class="box-header with-border bg-info">
                           <h3 class="box-title">View Attendance</h3>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                           <div class="row">
                             <div class="col-sm-12">
                               <table class="table table-bordered table-striped">
