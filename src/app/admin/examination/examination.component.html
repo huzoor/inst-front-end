@@ -1,7 +1,203 @@
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
-     <h2 class="text-center">Examinations</h2>
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Examination</h3>
+            <div class="pull-right box-tools">
+              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(exams)">
+                <i class="fa fa-plus"></i> Create Exams </button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#tab_1" data-toggle="tab">Create Examination</a>
+                </li>
+                <li>
+                  <a href="#tab_2" data-toggle="tab">Enter Marks</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Exam Type</th>
+                            <th>Exam Date</th>
+                            <th>Total Marks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngIf="examList.length === 0">
+                            <td colspan="5" class="text-center"> No Exams </td>
+                          </tr>
+                          <tr *ngFor="let exam of examList">
+                            <td>{{exam.class}}</td>
+                            <td>{{exam.subject}}</td>
+                            <td>{{exam.examType}}</td>
+                            <td>{{exam.examDate}}</td>
+                            <td>{{exam.totalMarks}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="tab_2">
+                  <div class="row mt-10">
+                    <div class="col-md-12">
+                      <form novalidate [formGroup]="examinationForm" class="custom-form">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="className">
+                              <option value="">Select Class</option>
+                              <option *ngFor="let class of classList" [value]="class">
+                                {{class}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="subject">
+                              <option value="">Select Subject</option>
+                              <option *ngFor="let subject of subjectsList" [value]="subject">
+                                {{subject}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <select class="form-control" formControlName="examType">
+                              <option value="">Exam Type</option>
+                              <option value="UNIT TEST I"> UNIT TEST I </option>
+                              <option value="UNIT TEST II"> UNIT TEST II </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-success" (click)="enterStudentMarks(examinationForm)">Enter</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-12" *ngIf="showStudentsList" style="padding: 20px 30px;">
+                      <div class="box">
+                        <div class="box-header with-border bg-info">
+                          <h3 class="box-title">Enter Marks -- {{examType }}</h3>
+                        </div>
+                        <div class="box-body">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <table class="table table-bordered table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>Student Name</th>
+                                    <th>Roll Number</th>
+                                    <th>Obtained Marks</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let student of studentList">
+                                    <td> {{student.name}}</td>
+                                    <td> {{student.rollNumber}}</td>
+                                    <td>
+                                      <input type="number" class="form-control" [(ngModel)]="student.marks">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="col-md-12">
+                              <button type="button" class="btn btn-success pull-right" (click)="saveStudentMarks(studentList)">Save Marks</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <ng-template #exams>
+      <div class="modal-header modal-info ">
+        <h4 class="modal-title pull-left">Create Exams</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form novalidate [formGroup]="examinationForm" class="custom-form" autocomplete="off">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"> Class</label>
+                <select class="form-control" formControlName="className">
+                  <option value="">Select Class</option>
+                  <option *ngFor="let class of classList" [value]="class">
+                    {{class}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Subject</label>
+                <select class="form-control" formControlName="subject">
+                  <option value="">Select Subject</option>
+                  <option *ngFor="let subject of subjectsList" [value]="subject">
+                    {{subject}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"> Exam Type</label>
+                <select class="form-control" formControlName="examType">
+                  <option value="">Exam Type</option>
+                  <option value="UNIT TEST I"> UNIT TEST I </option>
+                  <option value="UNIT TEST II"> UNIT TEST II </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Total Marks</label>
+                <input type="number" class="form-control" formControlName="marks">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label"> Exam Date</label>
+                <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="examDate"></my-date-picker>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="createExams(examinationForm)">Create Exam</button>
+      </div>
+    </ng-template>
   </section>
 </div>
