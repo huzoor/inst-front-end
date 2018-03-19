@@ -70,7 +70,6 @@ export class AcademicSetupComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
-          // this.subjectList = res.Subjects;
         } else this.error = resp.json().message;
         
       }).catch((err) => {
@@ -90,7 +89,6 @@ export class AcademicSetupComponent implements OnInit {
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
-          // this.classList = res.Classes;
           this.subjectList = res.Subjects;
         } else this.error = resp.json().message;
         
@@ -126,8 +124,6 @@ export class AcademicSetupComponent implements OnInit {
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = 'inst1-INST';
-      // this.subjectForm.value.schoolUserName = 'sch1-SCH';
-      // this.subjectForm.value.classId = '5aae7b9917463a27e8436f3b';
 
       this.dataService.addSubject(this.subjectForm.value)
         .then((resp) => {
