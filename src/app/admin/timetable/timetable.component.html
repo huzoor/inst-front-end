@@ -31,12 +31,13 @@
                       <td class="day-heading">
                         <div>{{timings.day}}</div>
                       </td>
-                      <td *ngFor="let period of timings.list">
-                        <div class="periods-list">
-                          <div class="">{{period.time}} </div>
-                          <div class=""> {{period.subject}} </div>
-                          <div class="">{{period.teacher}}</div>
-                          <div class=""> {{period.break}}</div>
+                      <td *ngFor="let period of timings.list; let i = index">
+                          <input id="lists[{{i}}]" type="checkbox" name="lists[{{i}}]" />
+                        <div class="periods-list" id="checkbox">
+                          <label id="label-checkbox" for="lists[{{i}}]"><div class="">{{period.time}} </div>
+                            <div class=""> {{period.subject}} </div>
+                            <div class="">{{period.teacher}}</div>
+                            <div class=""> {{period.break}}</div></label>
                         </div>
                       </td>
                     </tr>

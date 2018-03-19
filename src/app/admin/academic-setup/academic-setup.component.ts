@@ -15,7 +15,7 @@ export class AcademicSetupComponent implements OnInit {
   public classForm: FormGroup;
   public subjectForm: FormGroup;
   public userName: FormControl;
-  
+  public schoolName: any = '';
   public classList: any[];
   public subjectList: any[];
   public error: any;
@@ -29,6 +29,7 @@ export class AcademicSetupComponent implements OnInit {
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
     this.userName = new FormControl('', []);
+    this.schoolName = new FormControl('', []);
     this.formFileds();
     this.getEntitiesList();
   }
@@ -37,17 +38,20 @@ export class AcademicSetupComponent implements OnInit {
     this.classForm = new FormGroup({
       className: this.className,
       userName: this.userName,
+      schoolName: this.schoolName
     });
 
     this.subjectForm = new FormGroup({
       subjectName: this.subjectName,
       userName: this.userName,
+      schoolName: this.schoolName
     });
   }
 
   public openModal(template: TemplateRef<any>) {
     this.className = '';
     this.subjectName = '';
+    this.schoolName = '';
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
