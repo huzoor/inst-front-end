@@ -81,11 +81,14 @@ export class DataService {
     return this.http.post(url, subjects, { headers: this.headers }).toPromise();
   }
 
-  getEntitiesList(instituteUserName): Promise<any> {
-    let url: string = `${this.BASE_URL}/getAcadamicEntities`;
+  getEntitiesList(requestDeatils): Promise<any> {
+    let url: string;
+    if(requestDeatils.entityType == 'classes') url = `${this.BASE_URL}/getClassesList`;
+    else url = `${this.BASE_URL}/getSubjectsList`;
+
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
-      instituteUserName
+      ...requestDeatils
     });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
@@ -145,7 +148,7 @@ export class DataService {
   }
 
   addAttendance(fromInfo):  Promise<any> {
-    let url: string = `${this.BASE_URL}/saveAttendance`;
+    let url: string = `${this.BASE_URL}/addAttendance`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
 

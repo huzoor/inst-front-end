@@ -14,7 +14,7 @@ export class AcademicSetupComponent implements OnInit {
   public modalRef: BsModalRef;
   public classForm: FormGroup;
   public subjectForm: FormGroup;
-  public userName: FormControl;
+  public instituteUserName: FormControl;
   
   public classList: any[];
   public subjectList: any[];
@@ -28,20 +28,19 @@ export class AcademicSetupComponent implements OnInit {
     AdminLTE.init();
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
-    this.userName = new FormControl('', []);
+    this.instituteUserName = new FormControl('', []);
     this.formFileds();
-    this.getEntitiesList();
+    this.getClassesList();
+    this.getSubjectsList();
   }
 
   formFileds() {
     this.classForm = new FormGroup({
-      className: this.className,
-      userName: this.userName,
+      className: this.className
     });
 
     this.subjectForm = new FormGroup({
-      subjectName: this.subjectName,
-      userName: this.userName,
+      subjectName: this.subjectName
     });
   }
 
@@ -61,18 +60,40 @@ export class AcademicSetupComponent implements OnInit {
     this.subjectName = subjectData.subjectName;
   }
 
-  public getEntitiesList(): void {
+  public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
-    this.dataService.getEntitiesList(instituteUserName)
+    let entityType ='classes';
+
+    this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
+          // this.subjectList = res.Subjects;
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
+  }
+ 
+  public getSubjectsList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+    let classId = '5aae7b9917463a27e8436f3b';
+    let entityType ='subjects';
+
+    this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType, classId })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          // this.classList = res.Classes;
           this.subjectList = res.Subjects;
-        } else {
-          this.error = resp.json().message;
-        }
+        } else this.error = resp.json().message;
+        
       }).catch((err) => {
         console.log('err',err)
         this.error = err.json().message;
@@ -82,16 +103,18 @@ export class AcademicSetupComponent implements OnInit {
   public addClass(classForm) {
     if (this.classForm.valid) {
       this.error = '';
-      this.classForm.value.userName = 'inst1-INST';
+      this.classForm.value.instituteUserName = 'inst1-INST';
+      this.classForm.value.schoolUserName = 'sch1-SCH';
+      
       this.dataService.addClass(this.classForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.className = new FormControl('',[])
             this.modalRef.hide();
-            this.getEntitiesList();
-          } else {
+            this.getClassesList();
+          } else 
             this.error = resp.json().message;
-          }
+          
         })
         .catch((err) => {
           this.error = err.json().message;
@@ -102,12 +125,16 @@ export class AcademicSetupComponent implements OnInit {
   public addSubject(subjectForm) {
     if (this.subjectForm.valid) {
       this.error = '';
+      this.subjectForm.value.instituteUserName = 'inst1-INST';
+      // this.subjectForm.value.schoolUserName = 'sch1-SCH';
+      // this.subjectForm.value.classId = '5aae7b9917463a27e8436f3b';
+
       this.dataService.addSubject(this.subjectForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.subjectName = new FormControl('',[])
             this.modalRef.hide();
-            this.getEntitiesList();
+            this.getSubjectsList();
           } else {
             this.error = resp.json().message;
           }

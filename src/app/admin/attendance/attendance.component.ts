@@ -54,10 +54,13 @@ export class AttendanceComponent implements OnInit {
     let instituteUserName = 'inst1-INST';
     let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
-    console.log('formInfo', formInfo.value);
+    // console.log('formInfo', formInfo.value);
     this.dataService.getStudentsList({schoolUserName, instituteUserName, classEnrolled})
       .then((resp) => {
-        if (resp.json().success) this.studentList = resp.json().studentsList;
+        if (resp.json().success) {
+          if(resp.json().studentsList.length == 0)  this.error = 'No students found...';          
+          else this.studentList = resp.json().studentsList;
+        }
         else this.error = 'students list loading failed..!';
       });
   }
@@ -82,21 +85,35 @@ export class AttendanceComponent implements OnInit {
     for (let i = 0; i < this.studentList.length; i++) {
       this.studentList[i].selected = this.selectedAll;
       if (this.selectedAll) {
-        this.selectedStudent.push({rollNumber: this.studentList[i].rollNumber});
+        this.selectedStudent.push({ classCode: this.className.value, 
+                                    subjectCode: this.subject.value, 
+                                    rollNumber: this.studentList[i].rollNumber,
+                                    isAttended: true,
+                                  });
       } else {
-        this.selectedStudent = [];
+        this.selectedStudent.push({ classCode: this.className.value, 
+          subjectCode: this.subject.value, 
+          rollNumber: this.studentList[i].rollNumber,
+          isAttended: false,
+        });
       }
     }
   }
 
   public checkAllSelected(row) {
     if (row.selected === true) {
-      this.selectedStudent.push({rollNumber: row.rollNumber});
+      this.selectedStudent.push({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true });
     } else {
-      this.selectedStudent.splice(this.selectedStudent.indexOf({rollNumber: row.rollNumber}), 1);
+      this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true}), 1);
     }
     console.log(this.selectedStudent);
   }
+
+  public removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+}
 
   public saveAttendance(): void {
     // Get instituteUserName from localStorage
@@ -104,24 +121,25 @@ export class AttendanceComponent implements OnInit {
     let instituteUserName = 'inst1-INST';
     let attendanceTakenBy = 'huzoor-STF';
 
+    let filterdArr = this.removeDuplicates(this.selectedStudent, 'rollNumber')
+
     let saveAttendance: Object = {
-      class: this.className.value,
-      subject: this.subject.value,
-      date: this.selectDate.value.formatted,
-      presentiesList: this.selectedStudent,
+      classCode: this.className.value,
+      subjectCode: this.subject.value,
+      createdOn: this.selectDate.value.formatted,
+      presentiesList:filterdArr,
       schoolUserName,
       instituteUserName,
       attendanceTakenBy,
     };
+
     console.log(saveAttendance);
 
     this.dataService.addAttendance(saveAttendance)
     .then((resp) => {
-      if (resp.json().success) {
-        this.classList = resp.json().Classes;
-        this.subjectsList = resp.json().Subjects;
-      }
-        else this.error = resp.json().message;
+      if(resp.json().success) 
+        this.error = resp.json().message;
+      else this.error = resp.json().message;
     }).catch((err) => {
       console.log('err',err)
       this.error = err.json().message;

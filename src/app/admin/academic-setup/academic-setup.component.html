@@ -24,7 +24,7 @@
                   <tbody>
                     <tr *ngFor="let class of classList; let i = index">
                       <td>{{i+1}}</td>
-                      <td>{{class}}</td>
+                      <td>{{class.className}}</td>
                       <td>
                         <div class="actions">
                           <button type="button" class="btn btn-sm btn-primary" (click)="editClass(class, classModal)">
@@ -66,7 +66,7 @@
                   <tbody>
                       <tr *ngFor="let subject of subjectList; let i = index">
                       <td>{{i+1}}</td>
-                      <td>{{subject}}</td>
+                      <td>{{subject.subjectName}}</td>
                       <td>
                         <div class="actions">
                           <button type="button" class="btn btn-sm btn-primary" (click)="editSubject(subject, subjectModal)">
