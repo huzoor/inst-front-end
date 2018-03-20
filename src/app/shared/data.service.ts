@@ -152,6 +152,22 @@ export class DataService {
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
 
+  addExam(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/addExam`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
+  }
+  
+
+  getExamsList(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getExamsList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+
   test(): string {
     return 'working';
   }

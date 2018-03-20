@@ -81,11 +81,9 @@ export class AcademicSetupComponent implements OnInit {
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
-    let classId = '5aae7b9917463a27e8436f3b';
     let entityType ='subjects';
 
-    this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType, classId })
+    this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {

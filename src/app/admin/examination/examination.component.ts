@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { examTypes } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
 
 declare var AdminLTE: any;
@@ -17,11 +18,12 @@ export class ExaminationComponent implements OnInit {
   public modalRef: BsModalRef;
   public examinationForm: FormGroup;
   public examDate: FormControl;
-  public className: FormControl;
-  public subject: FormControl;
+  public classCode: FormControl;
+  public subjectCode: FormControl;
   public examType: FormControl
-  public marks: FormControl;
+  public totalMarks: FormControl;
   public examList: any = [];
+  public examTypes: any[] = examTypes;
   public classList: any = [];
   public subjectsList: any = [];
   public showStudentsList: boolean = false;
@@ -33,20 +35,15 @@ export class ExaminationComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
-    this.examDate = new FormControl('', []);
-    this.subject = new FormControl('', []);
-    this.className = new FormControl('', []);
+    this.examDate = new FormControl(new Date(), []);
+    this.subjectCode = new FormControl('', []);
+    this.classCode = new FormControl('', []);
     this.examType = new FormControl('', []);
-    this.marks = new FormControl('', []);
+    this.totalMarks = new FormControl(0, []);
     this.formFileds();
-    this.examList = [{
-      class: "first class",
-      subject: "Telugu",
-      examType: "UNIT-TEST I",
-      examDate: "12/06/2018",
-      totalMarks: 50
-    }];
-    this.getEntitiesList();
+    this.getClassesList();
+    this.getSubjectsList();
+  
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -55,45 +52,98 @@ export class ExaminationComponent implements OnInit {
 
   formFileds() {
     this.examinationForm = new FormGroup({
-      className: this.className,
-      subject: this.subject,
+      classCode: this.classCode,
+      subjectCode: this.subjectCode,
       examType: this.examType,
-      marks: this.marks,
+      totalMarks: this.totalMarks,
       examDate: this.examDate
     });
   }
 
 
-  public getEntitiesList() {
+  public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
-   this.dataService.getEntitiesList(instituteUserName)
-    .then((resp) => {
-      if (resp.json().success) {
-        this.classList = resp.json().Classes;
-        this.subjectsList = resp.json().Subjects;
-      }
-        else this.error = resp.json().message;
-    }).catch((err) => {
-      console.log('err',err)
-      this.error = err.json().message;
-    })
+    let entityType ='classes';
+
+    this.dataService.getEntitiesList({instituteUserName, entityType })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.classList = res.Classes;
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
+  }
+ 
+  public getSubjectsList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+    
+
+    this.dataService.getEntitiesList({instituteUserName, schoolUserName })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.subjectsList = res.Subjects;
+          this.getExamsList();
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
   }
 
+  getClassName(code){
+    return this.classList.filter(i=> i._id == code)[0].className;
+  }
+ 
+  getSubjectName(code){
+    return this.subjectsList.filter(i=> i._id == code)[0].subjectName
+  }
+ 
+  getExamTypeDesc(type){
+    return this.examTypes.filter(i=> i.type == type)[0].desc;
+  }
 
   public createExams(examForm): void {
-    console.log(examForm);
-    // this.dataService.saveExamType(examForm)
-    // .then((resp) => {
-    //   if (resp.json().success) {
-    //     this.classList = resp.json().Classes;
-    //     this.subjectsList = resp.json().Subjects;
-    //   }
-    //     else this.error = resp.json().message;
-    // }).catch((err) => {
-    //   console.log('err',err)
-    //   this.error = err.json().message;
-    // });
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+    if(examForm.valid){
+      examForm.value.instituteUserName = instituteUserName;
+      examForm.value.schoolUserName = schoolUserName;
+      this.dataService.addExam(examForm.value)
+      .then((resp) => {
+        if (resp.json().success) {
+          this.modalRef.hide();
+          this.getExamsList();
+        } else this.error = resp.json().message;
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = 'Error in adding Exam';
+      });
+   }
+  }
+
+  public getExamsList(): void {
+  
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+
+    this.dataService.getExamsList({instituteUserName, schoolUserName})
+    .then((resp) => {
+      if (resp.json().success) {
+        this.examList = resp.json().examsList
+      } else this.error = resp.json().message;
+    }).catch((err) => {
+      console.log('err',err)
+      this.error = 'Error in adding Exam';
+    });
   }
 
   public enterStudentMarks(marksForm): void {

@@ -25,7 +25,7 @@ export const timeLineConfig = {
     recipientType:['School', 'Teachers', 'Student'] 
 }
 
-export const leveTypes = {
+export const leaveTypes = {
   student: [
         { type:'CL', desc:'Casual Leve'},
         { type:'SL', desc:'Sick Leve'},
@@ -37,4 +37,17 @@ export const leveTypes = {
     { type:'PL', desc:'Peternity Leve'},
   ]
 }
+
+export const examTypes =  [
+    { type:'UT1', desc:'UNIT-TEST I'},
+    { type:'UT2', desc:'UNIT-TEST II'},
+    { type:'UT3', desc:'UNIT-TEST III'},
+    { type:'UT4', desc:'UNIT-TEST IV'},
+    { type:'UT5', desc:'UNIT-TEST V'},
+    { type:'UT6', desc:'UNIT-TEST VI'},
+    { type:'QY', desc:'QUART YEARLY'},
+    { type:'HY', desc:'HALF YEARLY'},
+    { type:'YY', desc:'Annual Exam'},
+  ]
+
 

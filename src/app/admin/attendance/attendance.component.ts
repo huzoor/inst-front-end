@@ -37,7 +37,9 @@ export class AttendanceComponent implements OnInit {
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
     this.formFileds();
-    this.getEntitiesList();
+    this.getClassesList();
+    this.getSubjectsList();
+    // this.getEntitiesList();
   }
 
   formFileds() {
@@ -65,7 +67,7 @@ export class AttendanceComponent implements OnInit {
       });
   }
 
-  public getEntitiesList() {
+  /*public getEntitiesList() {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
    this.dataService.getEntitiesList(instituteUserName)
@@ -79,6 +81,42 @@ export class AttendanceComponent implements OnInit {
       console.log('err',err)
       this.error = err.json().message;
     })
+  } */
+
+  public getClassesList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let entityType ='classes';
+
+    this.dataService.getEntitiesList({instituteUserName, entityType })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.classList = res.Classes;
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
+  }
+ 
+  public getSubjectsList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let entityType ='subjects';
+
+    this.dataService.getEntitiesList({instituteUserName, entityType })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.subjectsList = res.Subjects;
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
   }
 
   public selectAllStudents(): void {
