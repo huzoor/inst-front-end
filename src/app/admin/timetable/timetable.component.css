@@ -1,3 +1,31 @@
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
     border: 0;
 }
+#checkbox {
+    border: solid 1px #fff;
+}
+
+label#label-checkbox {
+    width: 100%;
+    font-weight: normal;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+input:checked + #checkbox {
+    border: solid 1px #3c8dbc;
+}
+
+.check {
+    visibility: hidden;
+}
+
+input:checked + #checkbox .check {
+    visibility: visible;
+}
+
+input.checkbox:checked + #checkbox:before {
+    content: "";
+}
