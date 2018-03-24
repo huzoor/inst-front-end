@@ -16,8 +16,8 @@ export class AcademicSetupComponent implements OnInit {
   public subjectForm: FormGroup;
   public instituteUserName: FormControl;
   public schoolUserName: any = '';
-  public classList: any[];
-  public subjectList: any[];
+  public classList: any[] = new Array();
+  public subjectList: any[] = new Array();
   public error: any;
   public className: any = '';
   public subjectName: any = '';

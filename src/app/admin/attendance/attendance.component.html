@@ -84,10 +84,10 @@
                 <div class="tab-pane" id="tab_2">
                   <div class="row mt-10">
                     <div class="col-md-12">
-                      <form novalidate [formGroup]="attendanceForm" class="custom-form">
+                      <form novalidate [formGroup]="viewAttendanceForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="className">
+                            <select class="form-control" formControlName="viewClassName">
                               <option value="">Select Class</option>
                               <option *ngFor="let cls of classList" [value]="cls._id">
                                 {{cls.className}}
@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="subject">
+                            <select class="form-control" formControlName="viewSubject">
                               <option value="">Select Subject</option>
                               <option *ngFor="let subj of subjectsList" [value]="subj._id">
                                 {{subj.subjectName}}
@@ -107,11 +107,11 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="selectDate"></my-date-picker>
+                            <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="viewSelectDate"></my-date-picker>
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <button type="button" class="btn btn-success" (click)="viewAttendance(attendanceForm)">Submit</button>
+                          <button type="button" class="btn btn-success" (click)="viewAttendance(viewAttendanceForm)">Submit</button>
                         </div>
                       </form>
                     </div>
@@ -131,9 +131,9 @@
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td *ngFor="let roll of viewCurrentAttendance">
-                                      <span *ngIf="roll.selected">P</span>
-                                      <span *ngIf="!roll.selected">A</span>
+                                    <td *ngFor="let stu of viewCurrentAttendance">
+                                      <span *ngIf="stu.rollNumber">P</span>
+                                      <span *ngIf="!stu.rollNumber">A</span>
                                     </td>
                                   </tr>
                                 </tbody>

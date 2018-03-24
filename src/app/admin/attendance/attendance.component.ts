@@ -14,10 +14,16 @@ declare var AdminLTE: any;
 export class AttendanceComponent implements OnInit {
   public placeholder = 'mm/dd/yyyy';
   public attendanceForm: FormGroup;
+  public viewAttendanceForm: FormGroup;
   public showAttendanceList = false;
   public selectDate: FormControl;
   public className: FormControl;
   public subject: FormControl;
+
+  public viewSelectDate: FormControl;
+  public viewClassName: FormControl;
+  public viewSubject: FormControl;
+
   public studentList: any = [];
   public classList: any = [];
   public subjectsList: any = [];
@@ -36,6 +42,12 @@ export class AttendanceComponent implements OnInit {
     this.selectDate = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
+   
+    this.viewSelectDate = new FormControl('', []);
+    this.viewClassName = new FormControl('', []);
+    this.viewSubject = new FormControl('', []);
+
+    
     this.formFileds();
     this.getClassesList();
     this.getSubjectsList();
@@ -47,6 +59,12 @@ export class AttendanceComponent implements OnInit {
       className: this.className,
       subject: this.subject,
       selectDate: this.selectDate
+    });
+   
+    this.viewAttendanceForm = new FormGroup({
+      viewClassName: this.viewClassName,
+      viewSubject: this.viewSubject,
+      viewSelectDate: this.viewSelectDate
     });
   }
 
@@ -66,22 +84,6 @@ export class AttendanceComponent implements OnInit {
         else this.error = 'students list loading failed..!';
       });
   }
-
-  /*public getEntitiesList() {
-    // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-   this.dataService.getEntitiesList(instituteUserName)
-    .then((resp) => {
-      if (resp.json().success) {
-        this.classList = resp.json().Classes;
-        this.subjectsList = resp.json().Subjects;
-      }
-        else this.error = resp.json().message;
-    }).catch((err) => {
-      console.log('err',err)
-      this.error = err.json().message;
-    })
-  } */
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
@@ -126,23 +128,20 @@ export class AttendanceComponent implements OnInit {
         this.selectedStudent.push({ classCode: this.className.value, 
                                     subjectCode: this.subject.value, 
                                     rollNumber: this.studentList[i].rollNumber,
-                                    isAttended: true,
                                   });
-      } else {
-        this.selectedStudent.push({ classCode: this.className.value, 
-          subjectCode: this.subject.value, 
-          rollNumber: this.studentList[i].rollNumber,
-          isAttended: false,
-        });
+      } 
+      else {
+        this.selectedStudent = [];
       }
     }
   }
 
   public checkAllSelected(row) {
     if (row.selected === true) {
-      this.selectedStudent.push({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true });
+      this.selectedStudent.push({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber });
     } else {
-      this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true}), 1);
+      // this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true}), 1);
+      this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber}), 1);
     }
     console.log(this.selectedStudent);
   }
@@ -151,7 +150,13 @@ export class AttendanceComponent implements OnInit {
     return myArr.filter((obj, pos, arr) => {
         return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
     });
-}
+  }
+
+  public  resetAttendanceForm(){
+    this.selectDate = new FormControl('', []);
+    this.subject = new FormControl('', []);
+    this.className = new FormControl('', []);
+  }
 
   public saveAttendance(): void {
     // Get instituteUserName from localStorage
@@ -175,8 +180,13 @@ export class AttendanceComponent implements OnInit {
 
     this.dataService.addAttendance(saveAttendance)
     .then((resp) => {
-      if(resp.json().success) 
+      if(resp.json().success){ 
+        this.selectedStudent = [];
+        this.selectedAll = false;
+        this.studentList.map((item, i)=> this.studentList[i].selected = false);
+        this.resetAttendanceForm()
         this.error = resp.json().message;
+      }
       else this.error = resp.json().message;
     }).catch((err) => {
       console.log('err',err)
@@ -184,9 +194,26 @@ export class AttendanceComponent implements OnInit {
     })
   }
 
-  public viewAttendance(): void {
+  public viewAttendance(formInfo): void {
     this.showAttendance = true;
-    this.viewCurrentAttendance = [{
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let classCode = formInfo.value.viewClassName;
+    let subjectCode = formInfo.value.viewSubject;
+    let createdOn = formInfo.value.viewSelectDate.formatted;
+
+    console.log(this.viewAttendanceForm.value);
+
+    this.dataService.getAttendance({instituteUserName, schoolUserName, classCode, subjectCode, createdOn})
+    .then((resp) => {
+      if (resp.json().success) {
+        if(resp.json().attendanceInfo[0].presentiesList.length == 0)  this.error = 'No records found...';          
+        else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
+      }
+      else this.error = 'attendance loading failed..!';
+    });
+
+    /*this.viewCurrentAttendance = [{
       rollNumber: 2000,
       name: 'koppala',
       selected: true
@@ -210,6 +237,6 @@ export class AttendanceComponent implements OnInit {
       rollNumber: 2004,
       name: 'koppala1',
       selected: false
-    }];
+    }]; */
   }
 }

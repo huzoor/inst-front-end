@@ -64,8 +64,10 @@ export class StudentManagementComponent implements OnInit {
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
     this.formFileds();
+    this.getClassesList().then((canLoadStudent)=>{
+      if(canLoadStudent)  this.getStudentList();
+    })
 
-    this.getStudentList();
   }
   getStudentList() {
     // get this info from LocalStorage
@@ -99,6 +101,7 @@ export class StudentManagementComponent implements OnInit {
     });
   }
 
+  /*
   getEntitiesList(): Promise<any> {
       // Get instituteUserName from localStorage
       let instituteUserName = 'inst1-INST';
@@ -116,13 +119,33 @@ export class StudentManagementComponent implements OnInit {
           this.error = err.json().message;
           return false;
         })
+  } */
+
+  public getClassesList(): Promise<any> {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let entityType ='classes';
+
+    return this.dataService.getEntitiesList({instituteUserName, entityType })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.classList = res.Classes;
+          return true;
+        } else {
+          this.error = resp.json().message;
+          return false;
+        }
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+        return false;
+      });
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.getEntitiesList().then((canOpenModel)=>{
-      if(canOpenModel) 
-        this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-    })
+     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
   public changeCountry(ctry) {
@@ -131,6 +154,9 @@ export class StudentManagementComponent implements OnInit {
 
   public changeState(ste) {
     this.districtsList = districtsList.filter((item) => item.stateCode === ste);
+  }
+  public getClassName(clsId){
+     return this.classList.filter(i=> i._id == clsId)[0].className;
   }
 
   public onSubmit(studentForm) {

@@ -38,7 +38,7 @@
                   <tbody>
                     <tr *ngFor="let student of studentList">
                       <td>{{student.name}}</td>
-                      <td>{{student.classEnrolled}} </td>
+                      <td>{{getClassName(student.classEnrolled)}} </td>
                       <td>{{student.rollNumber}} </td>
                       <td>{{student.fatherName}}</td>
                       <td>{{student.mobile}}</td>
@@ -97,8 +97,8 @@
               </label>
               <select class="form-control" formControlName="classEnrolled">
                 <option value="">Select Class</option>
-                <option *ngFor="let cls of classList" [value]="cls">
-                  {{cls}}
+                <option *ngFor="let class of classList" [value]="class._id">
+                  {{class.className}}
                 </option>
               </select>
             </div>
