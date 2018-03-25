@@ -64,14 +64,14 @@ export class SchoolManagementComponent implements OnInit {
     this.getSchoolsList();
   }
   getSchoolsList() {
-    // this.dataService.getSchoolList(this.schoolForm.value)
-    //   .then((resp) => {
-    //     if (resp.json().success) {
-    //       this.SchoolsList = resp.json().schools;
-    //     } else {
-    //       this.error = 'schools loading failed..!';
-    //     }
-    //   });
+    this.dataService.getSchoolList(this.schoolForm.value)
+      .then((resp) => {
+        if (resp.json().success) {
+          this.SchoolsList = resp.json().schools;
+        } else {
+          this.error = 'schools loading failed..!';
+        }
+      });
   }
 
   formFileds() {
