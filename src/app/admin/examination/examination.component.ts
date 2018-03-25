@@ -24,6 +24,7 @@ export class ExaminationComponent implements OnInit {
   public totalMarks: FormControl;
   public examList: any = [];
   public examTypes: any[] = examTypes;
+  public externalExamTypes: any[];
   public classList: any = [];
   public subjectsList: any = [];
   public showStudentsList: boolean = false;
@@ -146,35 +147,43 @@ export class ExaminationComponent implements OnInit {
     });
   }
 
+  public getExamTypes(classCode, subjectCode): void {
+    let instituteUserName = 'inst1-INST',
+    schoolUserName = 'sch1-SCH';
+
+    this.dataService.getExamTypes({ instituteUserName, 
+                                    schoolUserName, 
+                                    classCode:(classCode.value), 
+                                    subjectCode:(subjectCode.value)
+                                  })
+    .then((resp) => {
+      if (resp.json().success) 
+        this.externalExamTypes = resp.json().examTypes
+       else this.error = resp.json().message;
+    }).catch((err) => {
+      console.log('err',err)
+      this.error = 'Error in retrieving exam types';
+    });
+  }
+
+  public getStudentList(marksForm) {
+    // get this info from LocalStorage
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let classEnrolled = marksForm.value.classCode;
+
+    this.dataService.getStudentsList({schoolUserName,instituteUserName,classEnrolled })
+      .then((resp) => {
+        if (resp.json().success) this.studentList = resp.json().studentsList;
+        else this.error = 'students list loading failed..!';
+      });
+  }
+
   public enterStudentMarks(marksForm): void {
-    console.log(marksForm.value);
+    // console.log(marksForm.value);
     this.examType = marksForm.value.examType;
+    this.getStudentList(marksForm);
     this.showStudentsList= true;
-    this.studentList = [{
-      rollNumber: 2000,
-      name: 'koppala',
-      marks: ''
-    },
-    {
-      rollNumber: 2001,
-      name: 'koppala1',
-      marks: ''
-    },
-    {
-      rollNumber: 2002,
-      name: 'koppala2',
-      marks: ''
-    },
-    {
-      rollNumber: 2002,
-      name: 'koppala1',
-      marks: ''
-    },
-    {
-      rollNumber: 2004,
-      name: 'koppala1',
-      marks: ''
-    }];
   }
 
   public saveStudentMarks(studentMarks): void {

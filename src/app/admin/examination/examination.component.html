@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="subjectCode">
+                            <select class="form-control" formControlName="subjectCode" (change)="getExamTypes(classCode, subjectCode)">
                               <option value="">Select Subject</option>
                               <option *ngFor="let subj of subjectsList" [value]="subj._id">
                                 {{subj.subjectName}}
@@ -79,8 +79,9 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="examType">
                               <option value="">Exam Type</option>
-                              <option value="UNIT TEST I"> UNIT TEST I </option>
-                              <option value="UNIT TEST II"> UNIT TEST II </option>
+                              <option *ngFor="let exam of externalExamTypes" [value]="exam.examType">
+                                {{getExamTypeDesc(exam.examType)}}
+                              </option>
                             </select>
                           </div>
                         </div>

@@ -152,6 +152,15 @@ export class DataService {
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
 
+  getAttendance(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getAttendance`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
   addExam(fromInfo):  Promise<any> {
     let url: string = `${this.BASE_URL}/addExam`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
@@ -160,6 +169,15 @@ export class DataService {
 
   getExamsList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getExamsList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+  getExamTypes(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getExamTypes`;
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
       ...requestDetails,
