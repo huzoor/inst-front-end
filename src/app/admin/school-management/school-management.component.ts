@@ -35,6 +35,7 @@ export class SchoolManagementComponent implements OnInit {
   public email: FormControl;
   public mobile: FormControl;
   public instituteUserName: FormControl;
+  public showEditForm: boolean = false;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -60,18 +61,18 @@ export class SchoolManagementComponent implements OnInit {
     this.mobile = new FormControl('', []);
     this.instituteUserName = new FormControl('inst1-INST', []);
     this.formFileds();
-
     this.getSchoolsList();
+    this.SchoolsList = require('./institute.json');
   }
   getSchoolsList() {
-    this.dataService.getSchoolList(this.schoolForm.value)
-      .then((resp) => {
-        if (resp.json().success) {
-          this.SchoolsList = resp.json().schools;
-        } else {
-          this.error = 'schools loading failed..!';
-        }
-      });
+    // this.dataService.getSchoolList(this.schoolForm.value)
+    //   .then((resp) => {
+    //     if (resp.json().success) {
+    //       this.SchoolsList = resp.json().schools;
+    //     } else {
+    //       this.error = 'schools loading failed..!';
+    //     }
+    //   });
   }
 
   formFileds() {
@@ -96,11 +97,22 @@ export class SchoolManagementComponent implements OnInit {
     });
   }
 
-  public openModal(template: TemplateRef<any>) {
+  public createEditForm(template: TemplateRef<any>, type: any, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    if (editData) {
+      console.log(editData);
+      this.showEditForm = true;
+      const splitDate = editData.registeredDate.split('/');
+      this.schoolForm.setValue(editData);
+      const date = { "date": { "year": splitDate[2], "month": splitDate[0], "day": splitDate[1] }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
+      this.schoolForm.get('registeredDate').setValue(date);
+    } else {
+      this.schoolForm.reset();
+      this.showEditForm = false;
+    }
   }
 
-  public onSubmit(schoolForm) {
+  public saveSchholForm(schoolForm) {
     if (this.schoolForm.valid) {
       this.error = '';
       this.dataService.addSchool(this.schoolForm.value)
@@ -117,5 +129,27 @@ export class SchoolManagementComponent implements OnInit {
           this.error = err.json().message;
         });
     }
+  }
+
+  public updateSchholForm(schoolForm) {
+    this.schoolForm.get('registeredDate').setValue(schoolForm.value.registeredDate.formatted);
+    console.log(schoolForm.value);
+
+    // if (this.schoolForm.valid) {
+    //   this.error = '';
+    //   this.dataService.addSchool(this.schoolForm.value)
+    //     .then((resp) => {
+    //       if (resp.json().success) {
+    //         this.schoolForm.reset();
+    //         this.modalRef.hide();
+    //         this.getSchoolsList();
+    //       } else {
+    //         this.error = resp.json().message;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.error = err.json().message;
+    //     });
+    // }
   }
 }

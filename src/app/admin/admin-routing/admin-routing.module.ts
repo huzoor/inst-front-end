@@ -85,12 +85,12 @@ import { ExaminationComponent } from '../examination/examination.component';
           {
             path: 'timetable',
             component: TimetableComponent,
-            canActivate: [EnsureAuthenticated]
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'exams',
             component: ExaminationComponent,
-            canActivate: [EnsureAuthenticated]
+            canActivate: [EnsureAuthenticated],
           }
         ]
       }

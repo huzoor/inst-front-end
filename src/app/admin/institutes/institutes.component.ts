@@ -15,6 +15,7 @@ const date = new Date();
 export class InstitutesComponent implements OnInit {
   public instituteList: any;
   public placeholder = 'mm/dd/yyyy';
+  public showEditForm: boolean = false;
   public modalRef: BsModalRef;
   public instituteform: FormGroup;
   public instituteName: FormControl;
@@ -53,9 +54,14 @@ export class InstitutesComponent implements OnInit {
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
     this.formFileds();
-
     this.getInstitutesList();
   }
+
+  public myDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'm/d/yyyy',
+  };
+
+
   getInstitutesList() {
     this.dataService.getInstitutes()
       .then((resp) => {
@@ -90,8 +96,20 @@ export class InstitutesComponent implements OnInit {
     });
   }
 
-  public openModal(template: TemplateRef<any>) {
+  public createEditForm(template: TemplateRef<any>, type: any, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    if (editData !== '' ) {
+      console.log(editData);
+      this.showEditForm = true;
+      const splitDate = editData.registeredDate.split('/');
+      this.instituteform.setValue(editData);
+      const date = {"date":{"year":splitDate[2],"month":splitDate[0],"day":splitDate[1]},"jsdate":"","formatted":editData.registeredDate,"epoc":""}
+      this.instituteform.get('registeredDate').setValue(date);
+    } else {
+      console.log("create");
+      this.instituteform.reset();
+      this.showEditForm = false;
+    }
   }
   // public uploadImage(selectedLogo: Ng4FilesSelected): void {
   //   console.log(selectedLogo);
@@ -102,7 +120,8 @@ export class InstitutesComponent implements OnInit {
   //   }
   //   this.selectedLogo = Array.from(selectedLogo.files).map(file => file.name);
   // }
-  public onSubmit(instituteform) {
+  public saveInstituteForm(instituteform) {
+    console.log(instituteform.value.registeredDate);
     if (this.instituteform.valid) {
       this.error = '';
       this.dataService.addInstitute(this.instituteform.value)
@@ -122,4 +141,28 @@ export class InstitutesComponent implements OnInit {
     }
 
   }
+  
+  public updateInstituteForm(instituteform) {
+    this.instituteform.get('registeredDate').setValue(instituteform.value.registeredDate.formatted);
+    console.log(instituteform.value);
+    // if (this.instituteform.valid) {
+    //   this.error = '';
+    //   this.dataService.addInstitute(this.instituteform.value)
+    //     .then((resp) => {
+    //       if (resp.json().success) {
+    //         this.instituteform.reset();
+    //         this.modalRef.hide();
+    //         this.getInstitutesList();
+    //       } else {
+    //         this.error = resp.json().message;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log('Add Inst Err', err);
+    //       this.error = err.json().message;
+    //     });
+    // }
+
+  }
+
 }

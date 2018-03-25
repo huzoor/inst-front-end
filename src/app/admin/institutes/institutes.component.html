@@ -6,7 +6,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Institutes List</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-info btn-sm" (click)="openModal(institute)">
+              <button type="button" class="btn btn-info btn-sm" (click)="createEditForm(instituteModal, 'create', '')">
                 <i class="fa fa-plus"></i> INTITUTES </button>
             </div>
           </div>
@@ -36,16 +36,16 @@
                       <td>{{institute.userName}}</td>
                       <td>{{institute.email}}</td>
                       <td>{{institute.mobile}}</td>
-                      <td>{{formatDate(institute.registeredDate)}}</td>
+                      <td>{{institute.registeredDate}}</td>
                       <td>
                         <div class="actions">
                           <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
                             <i class="fa fa-eye"></i>
                           </button> -->
-                          <button type="button" class="btn btn-sm btn-primary">
+                          <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(instituteModal, 'edit', institute)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteInstitute(institute)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -60,7 +60,7 @@
       </div>
     </div>
   </section>
-  <ng-template #institute>
+  <ng-template #instituteModal>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Add Institute</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group">
               <label class="control-label">Registration Date</label>
-              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate"></my-date-picker>
+              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate" required></my-date-picker>
             </div>
           </div>
         </div>
@@ -173,7 +173,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="instituteform.invalid" (click)="onSubmit(instituteform)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="!showEditForm"  [disabled]="instituteform.invalid" (click)="saveInstituteForm(instituteform)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="instituteform.invalid" (click)="updateInstituteForm(instituteform)">Update</button>
     </div>
   </ng-template>
 </div>
