@@ -62,7 +62,6 @@ export class SchoolManagementComponent implements OnInit {
     this.instituteUserName = new FormControl('inst1-INST', []);
     this.formFileds();
     this.getSchoolsList();
-    this.SchoolsList = require('./institute.json');
   }
   getSchoolsList() {
     // this.dataService.getSchoolList(this.schoolForm.value)
