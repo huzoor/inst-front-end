@@ -3,6 +3,13 @@ export const staffRoles = [
     { id: 2, type: 'non-teaching'}
 ];
 
+export const staffQualifications = [
+    { id: 1, type: 'M.Tech' },
+    { id: 2, type: 'M.Sc' },
+    { id: 3, type: 'M.Ed' },
+    { id: 4, type: 'B.Tech'}
+];
+
 export const countriesList = [
     {"name": "INDIA", "code": "IND"} 
 ];
@@ -48,6 +55,9 @@ export const examTypes =  [
     { type:'QY', desc:'QUART YEARLY'},
     { type:'HY', desc:'HALF YEARLY'},
     { type:'YY', desc:'Annual Exam'},
-  ]
+  ];
+
+let currYr:number = (new Date().getUTCFullYear());
+export const yearsList = Array.from({length: 60}, (v, k) => currYr-k); 
 
 

@@ -12,10 +12,10 @@ declare var AdminLTE: any;
   styleUrls: ['./attendance.component.css']
 })
 export class AttendanceComponent implements OnInit {
-  public placeholder = 'mm/dd/yyyy';
+  public placeholder: String = 'mm/dd/yyyy';
   public attendanceForm: FormGroup;
   public viewAttendanceForm: FormGroup;
-  public showAttendanceList = false;
+  public showAttendanceList: Boolean = false;
   public selectDate: FormControl;
   public className: FormControl;
   public subject: FormControl;
@@ -24,15 +24,15 @@ export class AttendanceComponent implements OnInit {
   public viewClassName: FormControl;
   public viewSubject: FormControl;
 
-  public studentList: any = [];
-  public classList: any = [];
-  public subjectsList: any = [];
+  public studentList: any = new Array;
+  public classList: any = new Array;
+  public subjectsList: any = new Array;
   public selectedAll: any;
-  public selectedStudent: any = [];
+  public selectedStudent: any = new Array;
   public addAttendance: any;
   public viewCurrentAttendance: any;
   public showAttendance = false;
-  public error: any;
+  public error: String='';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -196,6 +196,7 @@ export class AttendanceComponent implements OnInit {
 
   public viewAttendance(formInfo): void {
     this.showAttendance = true;
+    this.error = '';
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
     let classCode = formInfo.value.viewClassName;
@@ -207,36 +208,9 @@ export class AttendanceComponent implements OnInit {
     this.dataService.getAttendance({instituteUserName, schoolUserName, classCode, subjectCode, createdOn})
     .then((resp) => {
       if (resp.json().success) {
-        if(resp.json().attendanceInfo[0].presentiesList.length == 0)  this.error = 'No records found...';          
+        if(resp.json().attendanceInfo.length == 0)  this.error = 'No records found...';          
         else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
-      }
-      else this.error = 'attendance loading failed..!';
-    });
-
-    /*this.viewCurrentAttendance = [{
-      rollNumber: 2000,
-      name: 'koppala',
-      selected: true
-    },
-    {
-      rollNumber: 2001,
-      name: 'koppala1',
-      selected: false
-    },
-    {
-      rollNumber: 2002,
-      name: 'koppala2',
-      selected: true
-    },
-    {
-      rollNumber: 2002,
-      name: 'koppala1',
-      selected: true
-    },
-    {
-      rollNumber: 2004,
-      name: 'koppala1',
-      selected: false
-    }]; */
+      } else this.error = resp.json().message;
+    }).catch(err => this.error = err.json().message);
   }
 }

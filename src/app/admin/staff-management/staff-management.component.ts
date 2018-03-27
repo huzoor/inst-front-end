@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators, Form } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-import { staffRoles, countriesList, statesList, districtsList } from '../../shared/AppConstants';
+import { staffRoles, staffQualifications, countriesList, statesList, districtsList, yearsList } from '../../shared/AppConstants';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -19,7 +19,7 @@ export class StaffManagementComponent implements OnInit {
     teaching: [],
     nonTeching: []
   };
-  public placeholder = 'mm/dd/yyyy';
+  public placeholder: String = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
   public name: FormControl;
@@ -40,12 +40,15 @@ export class StaffManagementComponent implements OnInit {
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
-  public schoolUserName: any;
+  public schoolUserName: String;
 
-  public staffRoles: any[];
-  public countriesList: any[];
-  public statesList: any[];
-  public districtsList: any[];
+  public staffRoles: any = new Array;
+  public staffQualifications: any = new Array;
+  public subjectsList: any  = new Array;
+  public countriesList: any = new Array;
+  public statesList: any = new Array;
+  public districtsList: any = new Array;
+  public yearsList: any = new Array;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -53,6 +56,8 @@ export class StaffManagementComponent implements OnInit {
     private $http: Http) {
     this.staffRoles = staffRoles;
     this.countriesList = countriesList;
+    this.staffQualifications = staffQualifications;
+    this.yearsList = yearsList;
   }
 
   ngOnInit() {
@@ -75,9 +80,10 @@ export class StaffManagementComponent implements OnInit {
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
+    
     this.formFileds();
-
-    this.getStaffList();
+    this.getSubjectsList().then(canLoad => this.getStaffList())    
+    
   }
 
   formFileds() {
@@ -106,10 +112,11 @@ export class StaffManagementComponent implements OnInit {
     console.log(data[0]);
   }
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true }) 
+    
   }
 
-  getStaffList() {  
+  public getStaffList() {  
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';  
@@ -130,6 +137,18 @@ export class StaffManagementComponent implements OnInit {
           this.error = 'StaffInfo loading failed..!';
         }
       });
+  }
+
+  public changeCountry(ctry) {
+    this.statesList = statesList.filter((item) => item.countryCode === ctry);
+  }
+
+  public changeState(ste) {
+    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
+  }
+
+  public getSubjectName(subjId) {
+    return this.subjectsList.filter(i=> i._id == subjId)[0].subjectName;
   }
 
   public addStaff(staffForm) {
@@ -156,11 +175,26 @@ export class StaffManagementComponent implements OnInit {
 
   }
 
-  public changeCountry(ctry) {
-    this.statesList = statesList.filter((item) => item.countryCode === ctry);
-  }
+  public getSubjectsList(): Promise<Boolean> {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let entityType ='subjects';
 
-  public changeState(ste) {
-    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
+    return this.dataService.getEntitiesList({instituteUserName, entityType })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.subjectsList = res.Subjects;
+          return true;
+        } else {
+          this.error = resp.json().message;
+          return false;
+        }
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+        return false;
+      });
   }
+ 
 }

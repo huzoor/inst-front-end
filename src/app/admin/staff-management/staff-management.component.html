@@ -39,7 +39,7 @@
                         <tbody>
                           <tr *ngFor="let staff of staffList.teaching">
                             <td>{{staff.name}}</td>
-                            <td>{{staff.subject}}</td>
+                            <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
                             <td>{{staff.mobile}} </td>                            
                             <td>{{staff.address}}</td>
@@ -78,7 +78,7 @@
                         <tbody>
                           <tr *ngFor="let staff of staffList.nonTeching">
                             <td>{{staff.name}}</td>
-                            <td>{{staff.subject}}</td>
+                            <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
                             <td>{{staff.mobile}} </td>                            
                             <td>{{staff.address}}</td>
@@ -189,7 +189,12 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Subject</label>
-              <input type="text" class="form-control" formControlName="subject" required>
+              <select class="form-control" formControlName="subject">
+                  <option value="">Select Subject</option>
+                  <option *ngFor="let subj of subjectsList" [value]="subj._id">
+                    {{subj.subjectName}}
+                  </option>
+                </select>
             </div>
           </div>
           <div class="col-md-6">
@@ -203,13 +208,25 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Qualification</label>
-              <input type="text" class="form-control" formControlName="qualification" required>
+              <!-- <input type="text" class="form-control" formControlName="qualification" required> -->
+                <select class="form-control" formControlName="qualification" required>
+                    <option value="">Select Qualification</option>
+                    <option *ngFor="let qly of staffQualifications" [value]="qly.type">
+                        {{qly.type}}
+                      </option>      
+                  </select>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Year Of Passing</label>
-              <input type="number" class="form-control" formControlName="yearOfPassing" required>
+              <!-- <input type="number" class="form-control"  formControlName="yearOfPassing" required> -->
+              <select class="form-control" formControlName="yearOfPassing" required>
+                  <option value="">Select YearOfPassing</option>
+                  <option *ngFor="let yr of yearsList" [value]="yr">
+                      {{yr}}
+                  </option>      
+                </select>
             </div>
           </div>
         </div>
