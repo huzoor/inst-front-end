@@ -14,16 +14,24 @@ declare var AdminLTE: any;
 })
 export class TimetableComponent implements OnInit {
   public modalRef: BsModalRef;
+  public error: any;
+  public subjectsList: any;
   public classForm: FormGroup;
+  public timetableForm: FormGroup;
+  public subjectCode: FormControl;
   public selectedClass: FormControl;
   public timeTableList: any = '';
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
     AdminLTE.init();
     this.selectedClass = new FormControl('', []);
+    this.subjectCode = new FormControl('', []);
     this.classForm = new FormGroup({
       selectedClass: this.selectedClass
+    });
+    this.timetableForm = new FormGroup({
+      subjectCode: this.subjectCode
     });
   }
   
@@ -35,4 +43,21 @@ export class TimetableComponent implements OnInit {
       this.timeTableList = getClassTimings[0].timetable;
     }
   };
+
+  public getSubjectsList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+    this.dataService.getEntitiesList({ instituteUserName, schoolUserName })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.subjectsList = res.Subjects;
+        } else this.error = resp.json().message;
+
+      }).catch((err) => {
+        console.log('err', err)
+        this.error = err.json().message;
+      });
+  }
 }
