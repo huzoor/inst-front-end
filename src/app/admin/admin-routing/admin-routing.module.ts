@@ -18,6 +18,7 @@ import { LeaveManagementComponent } from '../leave-management/leave-management.c
 import { TimelineComponent } from '../timeline/timeline.component';
 import { TimetableComponent } from '../timetable/timetable.component';
 import { ExaminationComponent } from '../examination/examination.component';
+import { StudentAcademicSetupComponent } from '../student-academic-setup/student-academic-setup.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,11 @@ import { ExaminationComponent } from '../examination/examination.component';
           {
             path: 'academic-setup',
             component: AcademicSetupComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'student-academic-setup',
+            component: StudentAcademicSetupComponent,
             canActivate: [EnsureAuthenticated]
           },
           {
