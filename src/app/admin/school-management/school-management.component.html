@@ -102,30 +102,47 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">City</label>
-              <input type="text" class="form-control" formControlName="city" required>
+              <div class="form-group">
+                <label class="control-label">Country</label>
+                <select class="form-control" formControlName="country" 
+                (change)="changeCountry(country.value)" required>
+                  <option value=""> Select Country</option>
+                  <option *ngFor="let ctry of countriesList" [value]="ctry.code" >
+                    {{ctry.name}}
+                  </option>
+                </select>
+              </div>
             </div>
+            <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">State</label>
+              <select class="form-control" formControlName="state" 
+                      (change)="changeState(state.value)" required>
+                <option value=""> Select State</option>
+                <option *ngFor="let ste of statesList" [value]="ste.name">
+                  {{ste.name}}
+                </option>
+              </select>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label class="control-label">City</label>
+                  <input type="text" class="form-control" formControlName="city" required>
+                </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">District</label>
-              <input type="text" class="form-control" formControlName="district" required>
-            </div>
+              <select class="form-control" formControlName="district" required> 
+                <option value=""> Select District</option>
+                <option *ngFor="let dst of districtsList" [value]="dst.name">
+                  {{dst.name}}
+                </option>
+              </select>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">State</label>
-              <input type="text" class="form-control" formControlName="state" required>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Country</label>
-              <input type="text" class="form-control" formControlName="country" required>
-            </div>
           </div>
         </div>
         <div class="row">
@@ -188,8 +205,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="schoolForm.invalid" (click)="saveSchholForm(schoolForm)">Submit</button>
-      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="schoolForm.invalid" (click)="updateSchholForm(schoolForm)">Update</button>
+      <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="schoolForm.invalid" (click)="saveSchoolForm(schoolForm)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="schoolForm.invalid" (click)="updateSchoolForm(schoolForm)">Update</button>
     </div>
   </ng-template>
 </div>

@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
+import { countriesList, statesList, districtsList }  from '../../shared/AppConstants';
 
 declare var AdminLTE: any;
 @Component({
@@ -35,7 +36,12 @@ export class SchoolManagementComponent implements OnInit {
   public email: FormControl;
   public mobile: FormControl;
   public instituteUserName: FormControl;
+  public _id: FormControl;
   public showEditForm: boolean = false;
+
+  public countriesList: any = countriesList;
+  public statesList: any = statesList;
+  public districtsList: any = districtsList;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -60,11 +66,14 @@ export class SchoolManagementComponent implements OnInit {
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
     this.instituteUserName = new FormControl('inst1-INST', []);
+    this._id = new FormControl('', []);
     this.formFileds();
     this.getSchoolsList();
   }
   getSchoolsList() {
-    this.dataService.getSchoolList(this.schoolForm.value)
+
+    let instituteUserName = 'inst1-INST';
+    this.dataService.getSchoolList({instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
           this.SchoolsList = resp.json().schools;
@@ -92,8 +101,17 @@ export class SchoolManagementComponent implements OnInit {
       password: this.password,
       email: this.email,
       mobile: this.mobile,
+      _id: this._id,
       instituteUserName: this.instituteUserName,
     });
+  }
+
+  public changeCountry(ctry) {
+    this.statesList = statesList.filter((item) => item.countryCode === ctry);
+  }
+
+  public changeState(ste) {
+    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
 
   public createEditForm(template: TemplateRef<any>, type: any, editData) {
@@ -101,9 +119,9 @@ export class SchoolManagementComponent implements OnInit {
     if (editData) {
       console.log(editData);
       this.showEditForm = true;
-      const splitDate = editData.registeredDate.split('/');
+      const registeredDt = new Date(editData.registeredDate);
       this.schoolForm.setValue(editData);
-      const date = { "date": { "year": splitDate[2], "month": splitDate[0], "day": splitDate[1] }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
+      const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.schoolForm.get('registeredDate').setValue(date);
     } else {
       this.schoolForm.reset();
@@ -111,9 +129,11 @@ export class SchoolManagementComponent implements OnInit {
     }
   }
 
-  public saveSchholForm(schoolForm) {
+  public saveSchoolForm(schoolForm) {
     if (this.schoolForm.valid) {
       this.error = '';
+      this.schoolForm.value.registeredDate = this.schoolForm.value.registeredDate.formatted;
+      this.schoolForm.value.formMode = 'cerate';
       this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -130,25 +150,28 @@ export class SchoolManagementComponent implements OnInit {
     }
   }
 
-  public updateSchholForm(schoolForm) {
+  public updateSchoolForm(schoolForm) {
+    this.changeCountry(schoolForm.country);
+    this.changeState(schoolForm.state);
     this.schoolForm.get('registeredDate').setValue(schoolForm.value.registeredDate.formatted);
+    this.schoolForm.value.formMode = 'update';
     console.log(schoolForm.value);
 
-    // if (this.schoolForm.valid) {
-    //   this.error = '';
-    //   this.dataService.addSchool(this.schoolForm.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.schoolForm.reset();
-    //         this.modalRef.hide();
-    //         this.getSchoolsList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.error = err.json().message;
-    //     });
-    // }
+    if (this.schoolForm.valid) {
+      this.error = '';
+      this.dataService.addSchool(this.schoolForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.schoolForm.reset();
+            this.modalRef.hide();
+            this.getSchoolsList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
   }
 }
