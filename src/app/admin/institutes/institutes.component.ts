@@ -96,7 +96,7 @@ export class InstitutesComponent implements OnInit {
     });
   }
 
-  public createEditForm(template: TemplateRef<any>, type: any, editData) {
+  public createEditForm(template: TemplateRef<any>, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData !== '' ) {
       console.log(editData);

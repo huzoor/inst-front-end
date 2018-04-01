@@ -35,7 +35,7 @@ export class SchoolManagementComponent implements OnInit {
   public email: FormControl;
   public mobile: FormControl;
   public instituteUserName: FormControl;
-  public showEditForm: boolean = false;
+  public showUpdateButton: boolean = false;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -96,18 +96,18 @@ export class SchoolManagementComponent implements OnInit {
     });
   }
 
-  public createEditForm(template: TemplateRef<any>, type: any, editData) {
+  public createEditForm(template: TemplateRef<any>, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData) {
       console.log(editData);
-      this.showEditForm = true;
+      this.showUpdateButton = true;
       const splitDate = editData.registeredDate.split('/');
       this.schoolForm.setValue(editData);
       const date = { "date": { "year": splitDate[2], "month": splitDate[0], "day": splitDate[1] }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.schoolForm.get('registeredDate').setValue(date);
     } else {
       this.schoolForm.reset();
-      this.showEditForm = false;
+      this.showUpdateButton = false;
     }
   }
 

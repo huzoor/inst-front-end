@@ -25,7 +25,6 @@ export class StaffManagementComponent implements OnInit {
   public name: FormControl;
   public userName: FormControl;
   public password: FormControl;
-  public photoPath: FormControl;
   public subject: FormControl;
   public staffRole: FormControl;
   public experience: FormControl;
@@ -50,6 +49,8 @@ export class StaffManagementComponent implements OnInit {
   public districtsList: any = new Array;
   public yearsList: any = new Array;
   public error: any;
+  public showUpdateButton: boolean = false;
+
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
@@ -65,7 +66,6 @@ export class StaffManagementComponent implements OnInit {
     this.userName = new FormControl('', []);
     this.name = new FormControl('', []);
     this.password = new FormControl('', []);
-    this.photoPath = new FormControl('', []);
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
@@ -93,7 +93,6 @@ export class StaffManagementComponent implements OnInit {
       password: this.password,
       gender: this.gender,
       email: this.email,
-      photoPath: this.photoPath,
       staffRole: this.staffRole,
       mobile: this.mobile,
       subject: this.subject,
@@ -111,15 +110,22 @@ export class StaffManagementComponent implements OnInit {
   public uploadImage(data: any): void {
     console.log(data[0]);
   }
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true }) 
-    
+  public createEditStaff(template: TemplateRef<any>, editDetails: any) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    console.log(editDetails);
+    if (editDetails) {
+      this.showUpdateButton = true;
+      this.staffForm.setValue(editDetails);
+    } else {
+      this.showUpdateButton = false;
+      this.staffForm.reset();
+    }
   }
 
   public getStaffList() {  
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';  
+    let instituteUserName = 'inst1-INST'; 
     this.dataService.getStaffList({schoolUserName, instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
@@ -173,6 +179,10 @@ export class StaffManagementComponent implements OnInit {
         });
     }
 
+  }
+
+  public updateStaff(updateStaff): void {
+    console.log(updateStaff.value)
   }
 
   public getSubjectsList(): Promise<Boolean> {
