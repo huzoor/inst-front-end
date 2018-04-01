@@ -6,7 +6,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Staff Management</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(staff)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="createEditStaff(staffModal, '')">
                 <i class="fa fa-plus"></i> Add Staff </button>
             </div>
           </div>
@@ -24,32 +24,37 @@
                 <div class="tab-pane active" id="tab_1">
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-bordered table-striped" *ngIf="staffList.teaching.length > 0">
+                      <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>Name</th>
                             <th>Subject</th>
                             <th>Qualification</th>
-                            <th>Mobile</th>                            
+                            <th>Mobile</th>
                             <th>Address</th>
                             <th>yearOfPassing</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td colspan="7" *ngIf="staffList.teaching.length === 0">
+                              <div class="text-center">No Staff Added</div>
+                            </td>
+                          </tr>
                           <tr *ngFor="let staff of staffList.teaching">
                             <td>{{staff.name}}</td>
                             <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
-                            <td>{{staff.mobile}} </td>                            
+                            <td>{{staff.mobile}} </td>
                             <td>{{staff.address}}</td>
                             <td>{{staff.yearOfPassing}}</td>
                             <td>
                               <div class="actions">
-                                <button type="button" class="btn btn-sm btn-primary">
+                                <button type="button" class="btn btn-sm btn-primary" (click)="createEditStaff(staffModal, staff)">
                                   <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-danger">
+                                <button type="button" class="btn btn-sm btn-danger" (click)="deleteStaff(staff)">
                                   <i class="fa fa-close"></i>
                                 </button>
                               </div>
@@ -63,32 +68,37 @@
                 <div class="tab-pane" id="tab_2">
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-bordered table-striped" *ngIf="staffList.nonTeching.length > 0">
+                      <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>Name</th>
                             <th>Subject</th>
                             <th>Qualification</th>
-                            <th>Mobile</th>                            
+                            <th>Mobile</th>
                             <th>Address</th>
                             <th>yearOfPassing</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td colspan="7" *ngIf="staffList.nonTeching.length === 0">
+                              <div class="text-center">No Staff Added</div>
+                            </td>
+                          </tr>
                           <tr *ngFor="let staff of staffList.nonTeching">
                             <td>{{staff.name}}</td>
                             <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
-                            <td>{{staff.mobile}} </td>                            
+                            <td>{{staff.mobile}} </td>
                             <td>{{staff.address}}</td>
                             <td>{{staff.yearOfPassing}}</td>
                             <td>
                               <div class="actions">
-                                <button type="button" class="btn btn-sm btn-primary">
+                                <button type="button" class="btn btn-sm btn-primary" (click)="createEditStaff(staffModal, staff)">
                                   <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-danger">
+                                <button type="button" class="btn btn-sm btn-danger" (click)="deleteStaff(staff)">
                                   <i class="fa fa-close"></i>
                                 </button>
                               </div>
@@ -106,7 +116,7 @@
       </div>
     </div>
   </section>
-  <ng-template #staff>
+  <ng-template #staffModal>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Add Staff</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -136,10 +146,10 @@
               <label class="control-label"> Gender</label>
               <div>
                 <label class="radio-inline">
-                  <input type="radio" formControlName="gender" value="male" [(ngModel)]='gender'>Male
+                  <input type="radio" formControlName="gender" value="male">Male
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" formControlName="gender" value="female" [(ngModel)]='gender'>Female
+                  <input type="radio" formControlName="gender" value="female">Female
                 </label>
               </div>
             </div>
@@ -190,11 +200,11 @@
             <div class="form-group">
               <label class="control-label">Subject</label>
               <select class="form-control" formControlName="subject">
-                  <option value="">Select Subject</option>
-                  <option *ngFor="let subj of subjectsList" [value]="subj._id">
-                    {{subj.subjectName}}
-                  </option>
-                </select>
+                <option value="">Select Subject</option>
+                <option *ngFor="let subj of subjectsList" [value]="subj._id">
+                  {{subj.subjectName}}
+                </option>
+              </select>
             </div>
           </div>
           <div class="col-md-6">
@@ -209,12 +219,12 @@
             <div class="form-group">
               <label class="control-label">Qualification</label>
               <!-- <input type="text" class="form-control" formControlName="qualification" required> -->
-                <select class="form-control" formControlName="qualification" required>
-                    <option value="">Select Qualification</option>
-                    <option *ngFor="let qly of staffQualifications" [value]="qly.type">
-                        {{qly.type}}
-                      </option>      
-                  </select>
+              <select class="form-control" formControlName="qualification" required>
+                <option value="">Select Qualification</option>
+                <option *ngFor="let qly of staffQualifications" [value]="qly.type">
+                  {{qly.type}}
+                </option>
+              </select>
             </div>
           </div>
           <div class="col-md-6">
@@ -222,11 +232,11 @@
               <label class="control-label">Year Of Passing</label>
               <!-- <input type="number" class="form-control"  formControlName="yearOfPassing" required> -->
               <select class="form-control" formControlName="yearOfPassing" required>
-                  <option value="">Select YearOfPassing</option>
-                  <option *ngFor="let yr of yearsList" [value]="yr">
-                      {{yr}}
-                  </option>      
-                </select>
+                <option value="">Select YearOfPassing</option>
+                <option *ngFor="let yr of yearsList" [value]="yr">
+                  {{yr}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -241,10 +251,9 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Country</label>
-              <select class="form-control" formControlName="country" 
-                      (change)="changeCountry(country.value)" required>
+              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
                 <option value=""> Select Country</option>
-                <option *ngFor="let ctry of countriesList" [value]="ctry.code" >
+                <option *ngFor="let ctry of countriesList" [value]="ctry.code">
                   {{ctry.name}}
                 </option>
               </select>
@@ -253,8 +262,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">State</label>
-              <select class="form-control" formControlName="state" 
-                      (change)="changeState(state.value)" required>
+              <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
                 <option value=""> Select State</option>
                 <option *ngFor="let ste of statesList" [value]="ste.name">
                   {{ste.name}}
@@ -273,16 +281,16 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">District</label>
-              <select class="form-control" formControlName="district" required> 
-                  <option value=""> Select District</option>
-                  <option *ngFor="let dst of districtsList" [value]="dst.name">
-                    {{dst.name}}
-                  </option>
-                </select>
+              <select class="form-control" formControlName="district" required>
+                <option value=""> Select District</option>
+                <option *ngFor="let dst of districtsList" [value]="dst.name">
+                  {{dst.name}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
-       
+
       </form>
     </div>
     <!-- <div class="col-xs-12 alert alert-warning" *ngIf="error">
@@ -290,7 +298,8 @@
     </div> -->
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="staffForm.invalid" (click)="addStaff(staffForm)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="staffForm.invalid" (click)="addStaff(staffForm)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="showUpdateButton" (click)="updateStaff(staffForm)">Update</button>
     </div>
   </ng-template>
 </div>

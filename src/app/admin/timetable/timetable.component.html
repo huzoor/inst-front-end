@@ -32,12 +32,26 @@
                         <div>{{timings.day}}</div>
                       </td>
                       <td *ngFor="let period of timings.list; let i = index">
-                          <input id="lists[{{i}}]" type="checkbox" name="lists[{{i}}]" />
+                        <!-- <input id="lists[{{i}}]" type="checkbox" name="lists[{{i}}]" /> -->
                         <div class="periods-list" id="checkbox">
-                          <label id="label-checkbox" for="lists[{{i}}]"><div class="">{{period.time}} </div>
-                            <div class=""> {{period.subject}} </div>
-                            <div class="">{{period.teacher}}</div>
-                            <div class=""> {{period.break}}</div></label>
+                          <!-- <label id="label-checkbox" for="lists[{{i}}]"> -->
+                          <div class="">{{period.time}} </div>
+                          <!-- <div class=""> {{period.subject}} </div> -->
+                          <form class="form-horizontal" [formGroup]="timetableForm">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <select class="form-control" formControlName="subjectCode">
+                                  <option value="">Select Subject</option>
+                                  <option *ngFor="let subj of subjectsList" [value]="subj._id">
+                                    {{subj.subjectName}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </form>
+                          <!-- <div class="">{{period.teacher}}</div>
+                            <div class=""> {{period.break}}</div> -->
+                          <!-- </label> -->
                         </div>
                       </td>
                     </tr>

@@ -17,7 +17,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Schools List</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-info btn-sm" (click)="createEditForm(schoolmodal, 'create', '')">
+              <button type="button" class="btn btn-info btn-sm" (click)="createEditForm(schoolmodal, '')">
                 <i class="fa fa-plus"></i> ADD SCHOOL </button>
             </div>
           </div>
@@ -45,7 +45,7 @@
                           <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/School-profile/{{School.id}}">
                             <i class="fa fa-eye"></i>
                           </button> -->
-                          <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, 'create', School)">
+                          <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, School)">
                             <i class="fa fa-edit"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-danger" (click)="deleteSchool(School)">

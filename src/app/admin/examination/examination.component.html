@@ -16,42 +16,12 @@
                 <li class="active">
                   <a href="#tab_1" data-toggle="tab">Create Examination</a>
                 </li>
-                <li>
+                <!-- <li>
                   <a href="#tab_2" data-toggle="tab">Enter Marks</a>
-                </li>
+                </li> -->
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>Class</th>
-                            <th>Subject</th>
-                            <th>Exam Type</th>
-                            <th>Exam Date</th>
-                            <th>Total Marks</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngIf="examList.length === 0">
-                            <td colspan="5" class="text-center"> No Exams </td>
-                          </tr>
-                          <tr *ngFor="let exam of examList">
-                            <td>{{getClassName(exam.classCode)}}</td>
-                            <td>{{getSubjectName(exam.subjectCode)}}</td>
-                            <td>{{getExamTypeDesc(exam.examType)}}</td>
-                            <td>{{exam.examDate}}</td>
-                            <td>{{exam.totalMarks}}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="tab-pane" id="tab_2">
                   <div class="row mt-10">
                     <div class="col-md-12">
                       <form novalidate [formGroup]="examinationForm" class="custom-form">
@@ -125,7 +95,35 @@
                       </div>
                     </div>
                   </div>
+                  <!-- <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Exam Type</th>
+                            <th>Exam Date</th>
+                            <th>Total Marks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngIf="examList.length === 0">
+                            <td colspan="5" class="text-center"> No Exams </td>
+                          </tr>
+                          <tr *ngFor="let exam of examList">
+                            <td>{{getClassName(exam.classCode)}}</td>
+                            <td>{{getSubjectName(exam.subjectCode)}}</td>
+                            <td>{{getExamTypeDesc(exam.examType)}}</td>
+                            <td>{{exam.examDate}}</td>
+                            <td>{{exam.totalMarks}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div> -->
                 </div>
+
               </div>
             </div>
           </div>
@@ -135,14 +133,22 @@
 
     <ng-template #exams>
       <div class="modal-header modal-info ">
-        <h4 class="modal-title pull-left">Create Exams</h4>
+        <h4 class="modal-title pull-left">Create Test</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form novalidate [formGroup]="examinationForm" class="custom-form" autocomplete="off">
+        <form novalidate [formGroup]="testForm" class="custom-form" autocomplete="off">
           <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+              <div class="form-group">
+                <label class="control-label"> Test Name</label>
+                <input type="text" class="form-control" formControlName="testName">
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label"> Class</label>
@@ -193,12 +199,12 @@
                 <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="examDate"></my-date-picker>
               </div>
             </div>
-          </div>
+          </div> -->
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-        <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="createExams(examinationForm)">Create Exam</button>
+        <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="createExams(testForm)">Create Test</button>
       </div>
     </ng-template>
   </section>

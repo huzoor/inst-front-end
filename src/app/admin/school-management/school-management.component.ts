@@ -42,6 +42,7 @@ export class SchoolManagementComponent implements OnInit {
   public countriesList: any = countriesList;
   public statesList: any = statesList;
   public districtsList: any = districtsList;
+  public showUpdateButton: boolean = false;
   public error: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -118,14 +119,15 @@ export class SchoolManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData) {
       console.log(editData);
-      this.showEditForm = true;
+      this.showUpdateButton = true;
       const registeredDt = new Date(editData.registeredDate);
+      const splitDate = editData.registeredDate.split('/');
       this.schoolForm.setValue(editData);
       const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.schoolForm.get('registeredDate').setValue(date);
     } else {
       this.schoolForm.reset();
-      this.showEditForm = false;
+      this.showUpdateButton = false;
     }
   }
 

@@ -39,6 +39,7 @@ export class StudentManagementComponent implements OnInit {
   public studentList: any[];
   public classList: any[];
   public error: any;
+  public showUpdateButton: boolean = false;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -144,8 +145,18 @@ export class StudentManagementComponent implements OnInit {
       });
   }
 
-  public openModal(template: TemplateRef<any>) {
+  public createEditStudent(template: TemplateRef<any>, editStudent: any) {
      this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+     if (editStudent) {
+      this.showUpdateButton = true;
+      const splitDate = editStudent.dob.split('/');
+      const date = { "date": { "year": splitDate[2], "month": splitDate[0], "day": splitDate[1] }, "jsdate": "", "formatted": editStudent.dob, "epoc": "" }
+      this.studentForm.get('dob').setValue(date);
+      this.studentForm.setValue(editStudent);
+     } else {
+      this.showUpdateButton = false;
+      this.studentForm.reset();
+     }
   }
 
   public changeCountry(ctry) {
@@ -159,7 +170,7 @@ export class StudentManagementComponent implements OnInit {
      return this.classList.filter(i=> i._id == clsId)[0].className;
   }
 
-  public onSubmit(studentForm) {
+  public saveStudent(studentForm) {
     // Get this info From local storage
     this.studentForm.value.schoolUserName = 'sch1-SCH';
     this.studentForm.value.instituteUserName = 'inst1-INST';
@@ -176,5 +187,9 @@ export class StudentManagementComponent implements OnInit {
           } else this.error = resp.json().message;
         }).catch((err) => this.error = err.json().message);
     }
-  }
+  };
+
+  public updateStudent(studentForm) { 
+    console.log(studentForm.value);
+  };
 }
