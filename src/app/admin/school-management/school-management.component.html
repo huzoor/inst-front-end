@@ -205,8 +205,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="schoolForm.invalid" (click)="saveSchoolForm(schoolForm)">Submit</button>
-      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="schoolForm.invalid" (click)="updateSchoolForm(schoolForm)">Update</button>
+      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="schoolForm.invalid" (click)="saveSchoolForm(schoolForm)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="showUpdateButton" [disabled]="schoolForm.invalid" (click)="updateSchoolForm(schoolForm)">Update</button>
     </div>
   </ng-template>
 </div>

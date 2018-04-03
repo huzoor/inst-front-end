@@ -37,7 +37,6 @@ export class SchoolManagementComponent implements OnInit {
   public mobile: FormControl;
   public instituteUserName: FormControl;
   public _id: FormControl;
-  public showEditForm: boolean = false;
 
   public countriesList: any = countriesList;
   public statesList: any = statesList;
@@ -115,7 +114,7 @@ export class SchoolManagementComponent implements OnInit {
     this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
 
-  public createEditForm(template: TemplateRef<any>, type: any, editData) {
+  public createEditForm(template: TemplateRef<any>, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData) {
       console.log(editData);

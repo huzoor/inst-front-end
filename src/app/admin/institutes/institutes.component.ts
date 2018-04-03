@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { countriesList, statesList, districtsList }  from '../../shared/AppConstants';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -34,7 +35,13 @@ export class InstitutesComponent implements OnInit {
   public password: FormControl;
   public email: FormControl;
   public mobile: FormControl;
+  public _id: FormControl;
   public error: any;
+
+  public countriesList: any = countriesList;
+  public statesList: any = statesList;
+  public districtsList: any = districtsList;
+
   constructor(private modalService: BsModalService, private eleRef: ElementRef, private dataService: DataService) { }
 
   ngOnInit() {
@@ -53,6 +60,7 @@ export class InstitutesComponent implements OnInit {
     this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
+    this._id = new FormControl('', []);
     this.formFileds();
     this.getInstitutesList();
   }
@@ -61,6 +69,13 @@ export class InstitutesComponent implements OnInit {
     dateFormat: 'm/d/yyyy',
   };
 
+  public changeCountry(ctry) {
+    this.statesList = statesList.filter((item) => item.countryCode === ctry);
+  }
+
+  public changeState(ste) {
+    this.districtsList = districtsList.filter((item) => item.stateCode === ste);
+  }
 
   getInstitutesList() {
     this.dataService.getInstitutes()
@@ -92,7 +107,8 @@ export class InstitutesComponent implements OnInit {
       userName: this.userName,
       password: this.password,
       email: this.email,
-      mobile: this.mobile
+      mobile: this.mobile,
+      _id: this._id
     });
   }
 
