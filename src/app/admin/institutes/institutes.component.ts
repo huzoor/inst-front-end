@@ -140,6 +140,7 @@ export class InstitutesComponent implements OnInit {
     console.log(instituteform.value.registeredDate);
     if (this.instituteform.valid) {
       this.error = '';
+      this.instituteform.value.formMode = `cerate`;
       this.dataService.addInstitute(this.instituteform.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -161,6 +162,7 @@ export class InstitutesComponent implements OnInit {
   public updateInstituteForm(instituteform) {
     this.instituteform.get('registeredDate').setValue(instituteform.value.registeredDate.formatted);
     console.log(instituteform.value);
+    this.instituteform.value.formMode = 'update';
     // if (this.instituteform.valid) {
     //   this.error = '';
     //   this.dataService.addInstitute(this.instituteform.value)
