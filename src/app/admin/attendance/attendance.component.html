@@ -57,7 +57,7 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>Roll Number</th>                           
+                            <th>Roll Number</th>
                             <th>Student Name</th>
                             <th>
                               <input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAllStudents()"> Check All
@@ -66,7 +66,7 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let student of studentList">
-                            <td>{{student.rollNumber}}</td>                          
+                            <td>{{student.rollNumber}}</td>
                             <td>{{student.name}}</td>
                             <td>
                               <input type="checkbox" [(ngModel)]="student.selected" (change)="checkAllSelected(student)">
@@ -122,23 +122,34 @@
                         </div>
                         <div class="box-body">
                           <div class="row">
-                              <div class="alert alert-warning"  *ngIf="error" >
-                                  {{error}}
-                              </div>
+                            <div class="alert alert-warning" *ngIf="error">
+                              {{error}}
+                            </div>
                             <div class="col-sm-12">
                               <table class="table table-bordered table-striped">
                                 <thead>
                                   <tr>
-                                    <th *ngFor="let roll of viewCurrentAttendance">{{roll.rollNumber}}</th>
+                                    <th>Roll Number</th>
+                                    <th>Name</th>
+                                    <th>Attendance</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                  <tr *ngFor="let roll of viewCurrentAttendance">
+                                    <td>{{roll.rollNumber}}</td>
+                                    <td>{{roll.rollNumber}}</td>
+                                    <td>
+                                      <span *ngIf="roll.rollNumber">P</span>
+                                      <span *ngIf="!roll.rollNumber">A</span>
+                                    </td>
+                                  </tr>
+                                  <!-- <tr *ngFor="let roll of viewCurrentAttendance">
+                                      <td >{{roll.rollNumber}}</td>
                                     <td *ngFor="let stu of viewCurrentAttendance">
                                       <span *ngIf="stu.rollNumber">P</span>
                                       <span *ngIf="!stu.rollNumber">A</span>
                                     </td>
-                                  </tr>
+                                  </tr> -->
                                 </tbody>
                               </table>
                             </div>
