@@ -33,13 +33,15 @@ export class StaffManagementComponent implements OnInit {
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
-  public image: FormControl;
+  public photoPath: FormControl;
   public address: FormControl;
   public state: FormControl;
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
-  public schoolUserName: String;
+  public _id: FormControl;
+  public schoolUserName: FormControl;
+  public instituteUserName: FormControl;
 
   public staffRoles: any = new Array;
   public staffQualifications: any = new Array;
@@ -74,12 +76,15 @@ export class StaffManagementComponent implements OnInit {
     this.yearOfPassing = new FormControl('', []);
     this.qualification = new FormControl('', []);
     this.subject = new FormControl('', []);
-    this.image = new FormControl('', []);
+    this.photoPath = new FormControl('', []);
     this.address = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
+    this._id = new FormControl('', []);
+    this.schoolUserName = new FormControl('', []);
+    this.instituteUserName = new FormControl('', []);
     
     this.formFileds();
     this.getSubjectsList().then(canLoad => this.getStaffList())    
@@ -99,12 +104,15 @@ export class StaffManagementComponent implements OnInit {
       experience: this.experience,
       yearOfPassing: this.yearOfPassing,
       qualification: this.qualification,
-      image: this.image,
+      photoPath: this.photoPath,
       address: this.address,
       state: this.state,
       city: this.city,
       district: this.district,
-      country: this.country
+      country: this.country,
+      schoolUserName: this.schoolUserName,
+      instituteUserName: this.instituteUserName,
+      _id: this._id,
     });
   }
   public uploadImage(data: any): void {
@@ -163,6 +171,7 @@ export class StaffManagementComponent implements OnInit {
       // Get this info from localStorage
       this.staffForm.value.schoolUserName = 'sch1-SCH';
       this.staffForm.value.instituteUserName = 'inst1-INST';
+      this.staffForm.value.fromMode = `create`;
       this.dataService.addStaff(this.staffForm.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -182,7 +191,28 @@ export class StaffManagementComponent implements OnInit {
   }
 
   public updateStaff(updateStaff): void {
-    console.log(updateStaff.value)
+    console.log(updateStaff.value);
+    if (this.staffForm.valid) {
+      this.error = '';
+      // Get this info from localStorage
+      this.staffForm.value.schoolUserName = 'sch1-SCH';
+      this.staffForm.value.instituteUserName = 'inst1-INST';
+      this.staffForm.value.fromMode = `update`;
+      this.dataService.addStaff(this.staffForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.staffForm.reset();
+            this.modalRef.hide();
+            this.getStaffList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          console.log('Add Staff Err', err);
+          this.error = err.json().message;
+        });
+    }
   }
 
   public getSubjectsList(): Promise<Boolean> {
