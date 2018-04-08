@@ -21,6 +21,7 @@ export class AcademicSetupComponent implements OnInit {
   public error: any;
   public className: any = '';
   public subjectName: any = '';
+  public showUpdateButton: boolean = false;
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
@@ -45,28 +46,10 @@ export class AcademicSetupComponent implements OnInit {
     });
   }
 
-  public openModal(template: TemplateRef<any>) {
-    this.className = '';
-    this.subjectName = '';
-    this.schoolUserName = '';
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-  }
-
-  public editClass(classData, template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-    this.className = classData.className;
-  }
-
-  public editSubject(subjectData, template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-    this.subjectName = subjectData.subjectName;
-  }
-
   public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
     let entityType ='classes';
-
     this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
@@ -84,7 +67,6 @@ export class AcademicSetupComponent implements OnInit {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
     let entityType ='subjects';
-
     this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
@@ -96,6 +78,26 @@ export class AcademicSetupComponent implements OnInit {
         console.log('err',err)
         this.error = err.json().message;
       });
+  }
+
+  public openModal(template: TemplateRef<any>) {
+    this.className = '';
+    this.subjectName = '';
+    this.schoolUserName = '';
+    this.showUpdateButton = false;
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+  }
+
+  public editClass(classData, template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.className = classData.className;
+    this.showUpdateButton = true;
+  }
+
+  public editSubject(subjectData, template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.subjectName = subjectData.subjectName;
+    this.showUpdateButton = true;
   }
 
   public addClass(classForm) {
@@ -140,4 +142,13 @@ export class AcademicSetupComponent implements OnInit {
         });
     }
   }
+
+  updateClass(classForm): void {
+    console.log(classForm.value);
+  }
+
+  updateSubject(subjectForm): void {
+    console.log(subjectForm.value);
+  }
+
 }
