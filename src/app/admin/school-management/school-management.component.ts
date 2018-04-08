@@ -120,7 +120,7 @@ export class SchoolManagementComponent implements OnInit {
       console.log(editData);
       this.showUpdateButton = true;
       const registeredDt = new Date(editData.registeredDate);
-      const splitDate = editData.registeredDate.split('/');
+      // const splitDate = editData.registeredDate.split('/');
       this.schoolForm.setValue(editData);
       const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.schoolForm.get('registeredDate').setValue(date);
@@ -134,7 +134,7 @@ export class SchoolManagementComponent implements OnInit {
     if (this.schoolForm.valid) {
       this.error = '';
       this.schoolForm.value.registeredDate = this.schoolForm.value.registeredDate.formatted;
-      this.schoolForm.value.formMode = 'cerate';
+      this.schoolForm.value.formMode = 'create';
       this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
           if (resp.json().success) {

@@ -117,9 +117,11 @@ export class InstitutesComponent implements OnInit {
     if (editData !== '' ) {
       console.log(editData);
       this.showEditForm = true;
+      const registeredDt = new Date(editData.registeredDate);
       const splitDate = editData.registeredDate.split('/');
       this.instituteform.setValue(editData);
-      const date = {"date":{"year":splitDate[2],"month":splitDate[0],"day":splitDate[1]},"jsdate":"","formatted":editData.registeredDate,"epoc":""}
+      // const date = {"date":{"year":splitDate[2],"month":splitDate[0],"day":splitDate[1]},"jsdate":"","formatted":editData.registeredDate,"epoc":""}
+      const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.instituteform.get('registeredDate').setValue(date);
     } else {
       console.log("create");
@@ -162,24 +164,24 @@ export class InstitutesComponent implements OnInit {
   public updateInstituteForm(instituteform) {
     this.instituteform.get('registeredDate').setValue(instituteform.value.registeredDate.formatted);
     console.log(instituteform.value);
-    this.instituteform.value.formMode = 'update';
-    // if (this.instituteform.valid) {
-    //   this.error = '';
-    //   this.dataService.addInstitute(this.instituteform.value)
-    //     .then((resp) => {
-    //       if (resp.json().success) {
-    //         this.instituteform.reset();
-    //         this.modalRef.hide();
-    //         this.getInstitutesList();
-    //       } else {
-    //         this.error = resp.json().message;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log('Add Inst Err', err);
-    //       this.error = err.json().message;
-    //     });
-    // }
+    if (this.instituteform.valid) {
+      this.error = '';
+      this.instituteform.value.formMode = `update`;
+      this.dataService.addInstitute(this.instituteform.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.instituteform.reset();
+            this.modalRef.hide();
+            this.getInstitutesList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          console.log('Add Inst Err', err);
+          this.error = err.json().message;
+        });
+    }
 
   }
 

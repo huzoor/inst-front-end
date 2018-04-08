@@ -36,7 +36,7 @@
                       <td>{{institute.userName}}</td>
                       <td>{{institute.email}}</td>
                       <td>{{institute.mobile}}</td>
-                      <td>{{institute.registeredDate}}</td>
+                      <td>{{institute.registeredDate  | date:'dd-MM-yyyy'}}</td>
                       <td>
                         <div class="actions">
                           <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
@@ -83,7 +83,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Institute Logo</label>
-              <input type="file" class="form-control" formControlName="logo">
+              <!-- <input type="file" class="form-control" formControlName="logo"> -->
               <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
                 <span class="btn btn-primary">Browse Image</span>
               </ng4-files-click> -->
