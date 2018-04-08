@@ -31,6 +31,9 @@ export class StudentManagementComponent implements OnInit {
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
+  public photoPath: FormControl;
+  public _id: FormControl;
+
   public staffRoles: any[];
   public countriesList: any[];
   public statesList: any[];
@@ -64,6 +67,9 @@ export class StudentManagementComponent implements OnInit {
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
+    this.photoPath = new FormControl('', []);
+    this._id = new FormControl('', []);
+
     this.formFileds();
     this.getClassesList().then((canLoadStudent)=>{
       if(canLoadStudent)  this.getStudentList();
@@ -98,7 +104,9 @@ export class StudentManagementComponent implements OnInit {
       motherName: this.motherName,
       gender: this.gender,
       email: this.email,
-      mobile: this.mobile
+      mobile: this.mobile,
+      photoPath: this.photoPath,
+      _id: this._id,
     });
   }
 
@@ -149,10 +157,11 @@ export class StudentManagementComponent implements OnInit {
      this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
      if (editStudent) {
       this.showUpdateButton = true;
-      const splitDate = editStudent.dob.split('/');
-      const date = { "date": { "year": splitDate[2], "month": splitDate[0], "day": splitDate[1] }, "jsdate": "", "formatted": editStudent.dob, "epoc": "" }
-      this.studentForm.get('dob').setValue(date);
+      // const splitDate = editStudent.dob.split('/');
+      const dobDt = new Date(editStudent.dob);
+      const crrDate = { "date": { "year": dobDt.getFullYear(), "month": (dobDt.getMonth()+1), "day": dobDt.getDate() }, "jsdate": "", "formatted": editStudent.dob, "epoc": "" }
       this.studentForm.setValue(editStudent);
+      this.studentForm.get('dob').setValue(crrDate);      
      } else {
       this.showUpdateButton = false;
       this.studentForm.reset();
@@ -171,13 +180,17 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public saveStudent(studentForm) {
-    // Get this info From local storage
-    this.studentForm.value.schoolUserName = 'sch1-SCH';
-    this.studentForm.value.instituteUserName = 'inst1-INST';
-    this.studentForm.value.dob = this.studentForm.value.dob.formatted;
+    
     console.log(this.studentForm.value);
     if (this.studentForm.valid) {
-      this.error = '';
+      // Get this info From local storage
+    this.studentForm.value.schoolUserName = 'sch1-SCH';
+    this.studentForm.value.instituteUserName = 'inst1-INST';
+    this.studentForm.value.formMode = `create`;
+    this.studentForm.value.dob = this.studentForm.value.dob.formatted;
+    this.error = '';
+    
+
       this.dataService.addStudent(this.studentForm.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -191,5 +204,23 @@ export class StudentManagementComponent implements OnInit {
 
   public updateStudent(studentForm) { 
     console.log(studentForm.value);
+
+    if (this.studentForm.valid) {
+      // Get this info From local storage
+    this.studentForm.value.schoolUserName = 'sch1-SCH';
+    this.studentForm.value.instituteUserName = 'inst1-INST';
+    this.studentForm.value.formMode = `update`;
+    this.studentForm.value.dob = this.studentForm.value.dob.formatted;
+    this.error = '';
+
+    this.dataService.addStudent(this.studentForm.value)
+      .then((resp) => {
+        if (resp.json().success) {
+          this.studentForm.reset();
+          this.modalRef.hide();
+          this.getStudentList();
+        } else this.error = resp.json().message;
+      }).catch((err) => this.error = err.json().message);
+    }
   };
 }
