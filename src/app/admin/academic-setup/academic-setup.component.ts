@@ -99,7 +99,7 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public editSubject(subjectData, template: TemplateRef<any>): void {
-    console.log('classData', subjectData)
+    console.log('subjectData', subjectData)
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.subjectName = subjectData.subjectName;
     this.subject_ID = subjectData._id;
@@ -133,6 +133,7 @@ export class AcademicSetupComponent implements OnInit {
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = 'inst1-INST';
+      this.subjectForm.value.schoolUserName = 'sch1-SCH';
       this.subjectForm.value.fromMode = `create`;
      
       this.dataService.addSubject(this.subjectForm.value)
@@ -181,6 +182,7 @@ export class AcademicSetupComponent implements OnInit {
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = 'inst1-INST';
+      this.subjectForm.value.schoolUserName = 'sch1-SCH';
       this.subjectForm.value.fromMode = `update`;
       this.subjectForm.value.subject_ID = this.subject_ID;
 

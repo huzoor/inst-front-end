@@ -189,6 +189,10 @@ export class DataService {
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
+  setTimeTable(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/setTimeTable`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
+  }
 
   test(): string {
     return 'working';
