@@ -18,17 +18,13 @@ export class SchoolManagementComponent implements OnInit {
   public modalRef: BsModalRef;
   public schoolForm: FormGroup;
   public schoolName: FormControl;
-  public selectedLogo: any;
   public imageError: boolean;
-  public logo: FormControl;
   public registeredDate: FormControl;
   public schoolAdminName: FormControl;
   public address: FormControl;
   public code: FormControl;
   public state: FormControl;
   public city: FormControl;
-  public openingTime: FormControl;
-  public closingTime: FormControl;
   public district: FormControl;
   public country: FormControl;
   public userName: FormControl;
@@ -50,14 +46,13 @@ export class SchoolManagementComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.schoolName = new FormControl('', []);
-    this.logo = new FormControl('', []);
     this.registeredDate = new FormControl('', []);
     this.address = new FormControl('', []);
     this.code = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
-    this.openingTime = new FormControl('', []);
-    this.closingTime = new FormControl('', []);
+    // this.openingTime = new FormControl('', []);
+    // this.closingTime = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.schoolAdminName = new FormControl('', []);
@@ -86,7 +81,6 @@ export class SchoolManagementComponent implements OnInit {
   formFileds() {
     this.schoolForm = new FormGroup({
       schoolName: this.schoolName,
-      logo: this.logo,
       registeredDate: this.registeredDate,
       address: this.address,
       code: this.code,
@@ -94,8 +88,8 @@ export class SchoolManagementComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      openingTime: this.openingTime,
-      closingTime: this.closingTime,
+      // openingTime: this.openingTime,
+      // closingTime: this.closingTime,
       schoolAdminName: this.schoolAdminName,
       userName: this.userName,
       password: this.password,
