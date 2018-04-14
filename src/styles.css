@@ -167,3 +167,47 @@ td.day-heading {
   padding: 7px 10px;
   line-height: 2;
 }
+/* upload profile css start */
+.upload-profile input[type="file"] {
+  display: none !important;
+}
+.upload-profile {
+  position: relative;
+  display: inline-block; 
+  overflow: hidden; 
+}
+label#file-upload-text {
+  margin-bottom: 0;
+}
+.upload-profile img:hover {
+  opacity: 0.5
+}
+.upload-profile:hover .hover-text {
+  opacity: 1; 
+  top: 0; 
+  z-index: 500;
+}
+
+.upload-profile:hover .hover-text span {
+  top: 50%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.upload-profile .hover-text {
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+img.source-image {
+  height: 200px;
+  width: 190px;
+}
+/* upload profile css end */
+

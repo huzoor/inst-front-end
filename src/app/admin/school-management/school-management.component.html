@@ -73,26 +73,30 @@
     <div class="modal-body">
       <form novalidate [formGroup]="schoolForm" class="custom-form">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">School Name</label>
               <input type="text" class="form-control" formControlName="schoolName" required>
             </div>
-            <div class="form-group">
-              <label class="control-label">School Code</label>
-              <input type="text" class="form-control" formControlName="code" required>
-            </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">School Logo</label>
-              <!-- <input type="file" class="form-control" formControlName="logo"> -->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">School Code</label>
+                    <input type="text" class="form-control" formControlName="code" required>
+                  </div>
+              <!-- <div class="form-group">
+                <label class="control-label">School Logo</label>
+                <input type="file" class="form-control" formControlName="logo"> 
+              </div> -->
+              </div>
+              <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Registration Date</label>
+                <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate" required></my-date-picker>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="control-label">Registration Date</label>
-              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate" required></my-date-picker>
-            </div>
-          </div>
         </div>
         <div class="row">
           <div class="col-md-6">
