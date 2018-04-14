@@ -36,7 +36,7 @@
                       <td>{{institute.userName}}</td>
                       <td>{{institute.email}}</td>
                       <td>{{institute.mobile}}</td>
-                      <td>{{institute.registeredDate  | date:'dd-MM-yyyy'}}</td>
+                      <td>{{institute.registeredDate | date:'dd-MM-yyyy'}}</td>
                       <td>
                         <div class="actions">
                           <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
@@ -70,29 +70,32 @@
     <div class="modal-body">
       <form novalidate [formGroup]="instituteform" class="custom-form">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">Institute Name</label>
               <input type="text" class="form-control" formControlName="instituteName" required>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Institute Code</label>
               <input type="text" class="form-control" formControlName="code" required>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Institute Logo</label>
-              <!-- <input type="file" class="form-control" formControlName="logo"> -->
-              <!-- <ng4-files-click (filesSelect)="uploadImage($event)" [configId]="'institute-logo'">
-                <span class="btn btn-primary">Browse Image</span>
-              </ng4-files-click> -->
-            </div>
+            <!-- <div class="form-group">
+                      <label class="control-label">Institute Logo</label>
+                      <input type="file" class="form-control" formControlName="logo">
+                    </div> -->
             <div class="form-group">
               <label class="control-label">Registration Date</label>
-              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate" required></my-date-picker>
+              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate"
+                required></my-date-picker>
             </div>
           </div>
+
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -104,45 +107,43 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Country</label>
-              <select class="form-control" formControlName="country" 
-              (change)="changeCountry(country.value)" required>
+              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
                 <option value=""> Select Country</option>
-                <option *ngFor="let ctry of countriesList" [value]="ctry.code" >
+                <option *ngFor="let ctry of countriesList" [value]="ctry.code">
                   {{ctry.name}}
                 </option>
               </select>
             </div>
           </div>
           <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">State</label>
-            <select class="form-control" formControlName="state" 
-                    (change)="changeState(state.value)" required>
-              <option value=""> Select State</option>
-              <option *ngFor="let ste of statesList" [value]="ste.name">
-                {{ste.name}}
-              </option>
-            </select>
+            <div class="form-group">
+              <label class="control-label">State</label>
+              <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
+                <option value=""> Select State</option>
+                <option *ngFor="let ste of statesList" [value]="ste.name">
+                  {{ste.name}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-              <div class="form-group">
-                  <label class="control-label">City</label>
-                  <input type="text" class="form-control" formControlName="city" required>
-                </div>
+            <div class="form-group">
+              <label class="control-label">City</label>
+              <input type="text" class="form-control" formControlName="city" required>
+            </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">District</label>
-              <select class="form-control" formControlName="district" required> 
+              <select class="form-control" formControlName="district" required>
                 <option value=""> Select District</option>
                 <option *ngFor="let dst of districtsList" [value]="dst.name">
                   {{dst.name}}
                 </option>
               </select>
-          </div>
+            </div>
           </div>
         </div>
         <div class="main-body">
@@ -184,7 +185,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" *ngIf="!showEditForm"  [disabled]="instituteform.invalid" (click)="saveInstituteForm(instituteform)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="instituteform.invalid" (click)="saveInstituteForm(instituteform)">Submit</button>
       <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="instituteform.invalid" (click)="updateInstituteForm(instituteform)">Update</button>
     </div>
   </ng-template>

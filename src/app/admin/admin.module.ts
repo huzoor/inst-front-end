@@ -25,7 +25,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { StudentAcademicSetupComponent } from './student-academic-setup/student-academic-setup.component';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +36,8 @@ import { StudentAcademicSetupComponent } from './student-academic-setup/student-
     ReactiveFormsModule,
     MyDatePickerModule,
     TimepickerModule.forRoot(),
-    AdminRoutingModule
+    AdminRoutingModule,
+    ImageCropperModule
   ],
   declarations: [
     AdminComponent,

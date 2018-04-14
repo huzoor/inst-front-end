@@ -28,10 +28,8 @@ export class SchoolManagementComponent implements OnInit {
   public district: FormControl;
   public country: FormControl;
   public userName: FormControl;
-  public password: FormControl;
   public email: FormControl;
   public mobile: FormControl;
-  public instituteUserName: FormControl;
   public _id: FormControl;
 
   public countriesList: any = countriesList;
@@ -51,22 +49,17 @@ export class SchoolManagementComponent implements OnInit {
     this.code = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
-    // this.openingTime = new FormControl('', []);
-    // this.closingTime = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.schoolAdminName = new FormControl('', []);
     this.userName = new FormControl('', []);
-    this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
-    this.instituteUserName = new FormControl('inst1-INST', []);
     this._id = new FormControl('', []);
     this.formFileds();
     this.getSchoolsList();
   }
   getSchoolsList() {
-
     let instituteUserName = 'inst1-INST';
     this.dataService.getSchoolList({instituteUserName})
       .then((resp) => {
@@ -88,15 +81,11 @@ export class SchoolManagementComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      // openingTime: this.openingTime,
-      // closingTime: this.closingTime,
       schoolAdminName: this.schoolAdminName,
       userName: this.userName,
-      password: this.password,
       email: this.email,
       mobile: this.mobile,
       _id: this._id,
-      instituteUserName: this.instituteUserName,
     });
   }
 
@@ -114,7 +103,6 @@ export class SchoolManagementComponent implements OnInit {
       console.log(editData);
       this.showUpdateButton = true;
       const registeredDt = new Date(editData.registeredDate);
-      // const splitDate = editData.registeredDate.split('/');
       this.schoolForm.setValue(editData);
       const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
       this.schoolForm.get('registeredDate').setValue(date);
@@ -127,8 +115,10 @@ export class SchoolManagementComponent implements OnInit {
   public saveSchoolForm(schoolForm) {
     if (this.schoolForm.valid) {
       this.error = '';
+      let instituteUserName = 'inst1-INST';
       this.schoolForm.value.registeredDate = this.schoolForm.value.registeredDate.formatted;
       this.schoolForm.value.formMode = 'create';
+      this.schoolForm.value.instituteUserName = instituteUserName;
       this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -149,7 +139,9 @@ export class SchoolManagementComponent implements OnInit {
     this.changeCountry(schoolForm.country);
     this.changeState(schoolForm.state);
     this.schoolForm.get('registeredDate').setValue(schoolForm.value.registeredDate.formatted);
+    let instituteUserName = 'inst1-INST';
     this.schoolForm.value.formMode = 'update';
+    this.schoolForm.value.instituteUserName = instituteUserName;
     console.log(schoolForm.value);
 
     if (this.schoolForm.valid) {

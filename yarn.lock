@@ -4375,6 +4375,10 @@ ngx-bootstrap@^2.0.2:
   version "2.0.2"
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ngx-bootstrap/-/ngx-bootstrap-2.0.2.tgz#6862b2ee4764bb6cfd34c66528873d0d050c2faa"
 
+ngx-image-cropper@^0.2.3:
+  version "0.2.3"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ngx-image-cropper/-/ngx-image-cropper-0.2.3.tgz#c74daa990b80ddc83c5bf4b85601e0d69dd43a25"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
