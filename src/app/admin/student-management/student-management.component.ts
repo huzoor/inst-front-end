@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
-import { staffRoles, countriesList, statesList, districtsList } from '../../shared/AppConstants';
+import { countriesList, statesList, districtsList } from '../../shared/AppConstants';
 
 declare var AdminLTE: any;
 @Component({
@@ -34,10 +34,9 @@ export class StudentManagementComponent implements OnInit {
   public photoPath: FormControl;
   public _id: FormControl;
 
-  public staffRoles: any[];
-  public countriesList: any[];
-  public statesList: any[];
-  public districtsList: any[];
+  public countriesList: any[] = countriesList;
+  public statesList: any[] = statesList;
+  public districtsList: any[] = districtsList;
   public placeholder = 'mm/dd/yyyy';
   public studentList: any[];
   public classList: any[];
@@ -49,7 +48,6 @@ export class StudentManagementComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
-    this.staffRoles = staffRoles;
     this.countriesList = countriesList;
     this.name = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
@@ -133,9 +131,10 @@ export class StudentManagementComponent implements OnInit {
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
+    let schoolUserName = `sch1-SCH`;
     let entityType ='classes';
 
-    return this.dataService.getEntitiesList({instituteUserName, entityType })
+    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -154,6 +153,7 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public createEditStudent(template: TemplateRef<any>, editStudent: any) {
+    console.log('editStudent', editStudent)
      this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
      if (editStudent) {
       this.showUpdateButton = true;

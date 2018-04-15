@@ -46,9 +46,10 @@ export class StaffManagementComponent implements OnInit {
   public staffRoles: any = new Array;
   public staffQualifications: any = new Array;
   public subjectsList: any  = new Array;
-  public countriesList: any = new Array;
-  public statesList: any = new Array;
-  public districtsList: any = new Array;
+  
+  public countriesList: any = countriesList;
+  public statesList: any = statesList;
+  public districtsList: any = districtsList;
   public yearsList: any = new Array;
   public error: any;
   public showUpdateButton: boolean = false;
@@ -218,9 +219,10 @@ export class StaffManagementComponent implements OnInit {
   public getSubjectsList(): Promise<Boolean> {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
+    let schoolUserName = `sch1-SCH`;
     let entityType ='subjects';
 
-    return this.dataService.getEntitiesList({instituteUserName, entityType })
+    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
