@@ -21,47 +21,16 @@ export class StudentAcademicSetupComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
-    this.getClassesList();
     this.getSubjectsList();
-   /* this.subjectList = 
-    [{
-      class: "First",
-      subjects: [{
-        subjectName: "Telugu",
-        selected: true
-      },
-      {
-        subjectName: "Englist",
-        selected: false
-      },
-      {
-        subjectName: "Maths",
-        selected: true
-      }]
-    },
-    {
-      class: "Second",
-      subjects: [{
-        subjectName: "Telugu",
-        selected: false
-      },
-      {
-        subjectName: "Englist",
-        selected: false
-      },
-      {
-        subjectName: "Maths",
-        selected: true
-      }]
-    }] */ 
   }
 
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
+    let schoolUserName = `sch1-SCH`;
     let entityType ='classes';
 
-    return this.dataService.getEntitiesList({instituteUserName, entityType })
+    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -82,22 +51,23 @@ export class StudentAcademicSetupComponent implements OnInit {
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
+    let schoolUserName = `sch1-SCH`;
     let entityType ='subjects';
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
           this.subjsList = res.Subjects;
-
-          this.subjectList = this.classList.map(item=>{
-            return {
-              class: item.className,
-              subjects: this.subjsList.map(i=> { 
-                return {classId: item._id, subjectID: i._id ,subjectName: i.subjectName,  selected: false }
-              })
-            }
+          this.getClassesList().then((calLoad)=>{
+            this.subjectList = this.classList.map(item=>{
+              return {
+                class: item.className,
+                subjects: this.subjsList.map(i=> { 
+                  return { classID: item._id, subjectID: i._id, subjectName: i.subjectName, selected: i.associatedWith.includes(item._id) }
+                })
+              }
+            })
           })
-          
         } else this.error = resp.json().message;
         
       }).catch((err) => {
@@ -114,12 +84,12 @@ export class StudentAcademicSetupComponent implements OnInit {
     let instituteUserName = `inst1-INST`;
     let schoolUserName = `sch1-SCH`;
 
-    let finalList: any[] = new Array();
+    let mappedList: any[] = new Array();
     let filteresList = subjectsInfo.map(i => i.subjects.filter(s=> s.selected)).filter(x => x.length > 0);
-    filteresList.map(i => i.map(s=> { if(!finalList[s]) finalList.push(s)}));
+    filteresList.map(i => i.map(s=> { if(!mappedList[s]) mappedList.push(s)}));
 
-    console.log(finalList);
-    this.dataService.setTimeTable({ ...finalList, instituteUserName, schoolUserName}).then((resp)=>{
+    console.log(mappedList);
+    this.dataService.setTimeTable({ mappedList, instituteUserName, schoolUserName}).then((resp)=>{
         if (resp.json().success) {
           this.loadTimeTable();
           this.error = resp.json().message;
@@ -128,7 +98,6 @@ export class StudentAcademicSetupComponent implements OnInit {
         console.log('err',err)
         this.error = err.json().message;
       });
-    debugger;
 
   }
 }
