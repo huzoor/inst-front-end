@@ -27,10 +27,10 @@ export class StudentAcademicSetupComponent implements OnInit {
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
-    let schoolUserName = `sch1-SCH`;
+    // let schoolUserName = `sch1-SCH`;
     let entityType ='classes';
 
-    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
+    return this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -51,19 +51,28 @@ export class StudentAcademicSetupComponent implements OnInit {
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = 'inst1-INST';
-    let schoolUserName = `sch1-SCH`;
+     let schoolUserName = `sch1-SCH`;
     let entityType ='subjects';
-    this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
+    this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
           this.subjsList = res.Subjects;
           this.getClassesList().then((calLoad)=>{
             this.subjectList = this.classList.map(item=>{
+              
               return {
                 class: item.className,
                 subjects: this.subjsList.map(i=> { 
-                  return { classID: item._id, subjectID: i._id, subjectName: i.subjectName, selected: i.associatedWith.includes(item._id) }
+                  let isSelected =  i.associatedWith.filter(i => i.classId === item._id )
+                  return { 
+                    classID: item._id, 
+                    subjectID: i._id, 
+                    subjectName: i.subjectName, 
+                    // selected: i.associatedWith.includes(item._id),
+                    selected: (isSelected.length > 0),
+                    schoolUserName
+                  }
                 })
               }
             })

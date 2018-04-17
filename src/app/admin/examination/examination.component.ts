@@ -19,14 +19,11 @@ export class ExaminationComponent implements OnInit {
   public modalRef: BsModalRef;
   public examinationForm: FormGroup;
   public testForm: FormGroup;
-  public classCode: FormControl;
-  public subjectCode: FormControl;
   public examType: FormControl;
-  // public examDate: FormControl;
-  // public totalMarks: FormControl;
-  public examList: any = [];
-  public examTypes: any[] = examTypes;
+
+  
   public externalExamTypes: any[];
+  public examsList: any[];
   public classList: any = [];
   public subjectsList: any = [];
   public showStudentsList: boolean = false;
@@ -39,8 +36,6 @@ export class ExaminationComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.testName = new FormControl('', []);
-    this.subjectCode = new FormControl('', []);
-    this.classCode = new FormControl('', []);
     this.examType = new FormControl('', []);
 
     // this.examDate = new FormControl(new Date(), []);
@@ -58,27 +53,18 @@ export class ExaminationComponent implements OnInit {
   formFileds() {
     this.testForm = new FormGroup({
       testName: this.testName
-      // classCode: this.classCode,
-      // subjectCode: this.subjectCode,
-      // examType: this.examType,
-      // totalMarks: this.totalMarks,
-      // examDate: this.examDate
     });
 
     this.examinationForm = new FormGroup({
-      classCode: this.classCode,
-      subjectCode: this.subjectCode,
-      examType: this.examType,
-      // totalMarks: this.totalMarks,
-      // examDate: this.examDate
+            examType: this.examType,
     });
   }
 
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let entityType = 'classes';
+    let instituteUserName = `inst1-INST`;
+    let entityType = `classes`;
 
     this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
@@ -95,9 +81,8 @@ export class ExaminationComponent implements OnInit {
 
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
-
+    let instituteUserName = `inst1-INST`;
+    let schoolUserName = `sch1-SCH`;
 
     this.dataService.getEntitiesList({ instituteUserName, schoolUserName })
       .then((resp) => {
@@ -121,13 +106,9 @@ export class ExaminationComponent implements OnInit {
     return this.subjectsList.filter(i => i._id == code)[0].subjectName
   }
 
-  getExamTypeDesc(type) {
-    return this.examTypes.filter(i => i.type == type)[0].desc;
-  }
-
-  public createExams(examForm): void {
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
+  public createExam(examForm): void {
+    let instituteUserName = `inst1-INST`;
+    let schoolUserName = `sch1-SCH`;
     if (examForm.valid) {
       examForm.value.instituteUserName = instituteUserName;
       examForm.value.schoolUserName = schoolUserName;
@@ -152,31 +133,11 @@ export class ExaminationComponent implements OnInit {
     this.dataService.getExamsList({ instituteUserName, schoolUserName })
       .then((resp) => {
         if (resp.json().success) {
-          this.examList = resp.json().examsList
+          this.examsList = resp.json().examsList
         } else this.error = resp.json().message;
       }).catch((err) => {
         console.log('err', err)
         this.error = 'Error in adding Exam';
-      });
-  }
-
-  public getExamTypes(classCode, subjectCode): void {
-    let instituteUserName = 'inst1-INST',
-      schoolUserName = 'sch1-SCH';
-
-    this.dataService.getExamTypes({
-      instituteUserName,
-      schoolUserName,
-      classCode: (classCode.value),
-      subjectCode: (subjectCode.value)
-    })
-      .then((resp) => {
-        if (resp.json().success)
-          this.externalExamTypes = resp.json().examTypes
-        else this.error = resp.json().message;
-      }).catch((err) => {
-        console.log('err', err)
-        this.error = 'Error in retrieving exam types';
       });
   }
 
