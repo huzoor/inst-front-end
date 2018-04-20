@@ -15,9 +15,9 @@
                   <div class="col-sm-2">
                     <select class="form-control" formControlName="selectedClass" (change)="getClassWiseTimeTable(selectedClass.value)">
                       <option value="">Select Class</option>
-                      <option value="First">First</option>
-                      <option value="Second">Second</option>
-                      <option value="Third">Third</option>
+                      <option *ngFor="let class of classList" [value]="class._id">
+                        {{class.className}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -27,16 +27,13 @@
               <div class="col-sm-12">
                 <table class="table table-bordered" style="background: #efefef;" *ngIf="timeTableList.length !== 0">
                   <tbody>
-                    <tr *ngFor="let timings of timeTableList">
+                    <!-- <tr *ngFor="let timings of timeTableList">
                       <td class="day-heading">
                         <div>{{timings.day}}</div>
                       </td>
                       <td *ngFor="let period of timings.list; let i = index">
-                        <!-- <input id="lists[{{i}}]" type="checkbox" name="lists[{{i}}]" /> -->
                         <div class="periods-list" id="checkbox">
-                          <!-- <label id="label-checkbox" for="lists[{{i}}]"> -->
                           <div class="">{{period.time}} </div>
-                          <!-- <div class=""> {{period.subject}} </div> -->
                           <form class="form-horizontal" [formGroup]="timetableForm">
                             <div class="col-md-12">
                               <div class="form-group">
@@ -49,11 +46,33 @@
                               </div>
                             </div>
                           </form>
-                          <!-- <div class="">{{period.teacher}}</div>
-                            <div class=""> {{period.break}}</div> -->
-                          <!-- </label> -->
                         </div>
                       </td>
+                    </tr> -->
+                    <tr *ngFor="let ttl of timeTableList">
+                      <td class="day-heading">
+                        <div>{{ttl.dayName}}</div>
+                      </td>
+                      <td *ngFor="let period of ttl.periodTimings; let i = index">
+                        <div class="periods-list" id="checkbox">
+                        <div>{{period.periodTime}}</div>
+                        <form class="form-horizontal" [formGroup]="timetableForm">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <select class="form-control" (change)="onSubjectChange($event.target.value, ttl.dayName, period.periodName)">
+                                <option value="">Select Subject</option>
+                                <option *ngFor="let subj of period.subjectsList"  [value]="subj._id">
+                                  {{subj.subjName}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      </td> 
+                    </tr>
+                    <tr>
+                      <td><button (click)="saveInfo(timeTableList)">Save</button></td>
                     </tr>
                   </tbody>
                 </table>

@@ -60,4 +60,21 @@ export const examTypes =  [
 let currYr:number = (new Date().getUTCFullYear());
 export const yearsList = Array.from({length: 60}, (v, k) => currYr-k); 
 
+export const daysList = ['MON','TUE','WED','THU','FRI','SAT'];
+export const periodTimings = [
+                                { 
+                                    periodTime: '10AM - 11AM',
+                                    periodName: 'first'
+                                },
+                                { 
+                                    periodTime: '11AM - 12PM',
+                                    periodName: 'second'
+                                },
+                                { 
+                                    periodTime: '12PM - 01PM',
+                                    periodName: 'third'
+                                },
+                               
+                             ];
+
 

@@ -19,6 +19,8 @@ export class ExaminationComponent implements OnInit {
   public modalRef: BsModalRef;
   public examinationForm: FormGroup;
   public testForm: FormGroup;
+  public subjectCode: FormControl;
+  public classCode: FormControl;
   public examType: FormControl;
 
   
@@ -36,14 +38,13 @@ export class ExaminationComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.testName = new FormControl('', []);
+    this.classCode = new FormControl('', []);
+    this.subjectCode = new FormControl('', []);
     this.examType = new FormControl('', []);
 
-    // this.examDate = new FormControl(new Date(), []);
-    // this.totalMarks = new FormControl(0, []);
     this.formFileds();
     this.getClassesList();
-    this.getSubjectsList();
-
+    this.getExamsList();
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -52,11 +53,13 @@ export class ExaminationComponent implements OnInit {
 
   formFileds() {
     this.testForm = new FormGroup({
-      testName: this.testName
+      testName: this.testName,
     });
 
     this.examinationForm = new FormGroup({
-            examType: this.examType,
+          examType: this.examType,
+          classCode: this.classCode,
+          subjectCode: this.subjectCode,
     });
   }
 
@@ -78,18 +81,20 @@ export class ExaminationComponent implements OnInit {
         this.error = err.json().message;
       });
   }
+  public onClassChange(classId){
+    this.getSubjectsList(classId);
+  }
 
-  public getSubjectsList(): void {
+  public getSubjectsList(classId): void {
     // Get instituteUserName from localStorage
     let instituteUserName = `inst1-INST`;
     let schoolUserName = `sch1-SCH`;
 
-    this.dataService.getEntitiesList({ instituteUserName, schoolUserName })
+    this.dataService.getEntitiesList({ instituteUserName, schoolUserName, classId })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
-          this.getExamsList();
         } else this.error = resp.json().message;
 
       }).catch((err) => {

@@ -16,9 +16,6 @@
                 <li class="active">
                   <a href="#tab_1" data-toggle="tab">Create Examination</a>
                 </li>
-                <!-- <li>
-                  <a href="#tab_2" data-toggle="tab">Enter Marks</a>
-                </li> -->
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
@@ -27,7 +24,7 @@
                       <form novalidate [formGroup]="examinationForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="classCode">
+                            <select class="form-control" formControlName="classCode" (change)="onClassChange($event.target.value)">
                               <option value="">Select Class</option>
                               <option *ngFor="let class of classList" [value]="class._id">
                                 {{class.className}}
@@ -63,7 +60,7 @@
                     <div class="col-md-12" *ngIf="showStudentsList" style="padding: 20px 30px;">
                       <div class="box">
                         <div class="box-header with-border bg-info">
-                          <h3 class="box-title">Enter Marks -- {{examType }}</h3>
+                          <h3 class="box-title">Enter Marks -- {{examType}}</h3>
                         </div>
                         <div class="box-body">
                           <div class="row">
