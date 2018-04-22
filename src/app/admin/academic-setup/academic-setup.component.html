@@ -101,10 +101,10 @@
       <div class="col-md-6">
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title">Periods</h3>
+            <h3 class="box-title">Hours</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(periodModal)">
-                <i class="fa fa-plus"></i> Add Period</button>
+              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(hourModal)">
+                <i class="fa fa-plus"></i> Add Hour</button>
             </div>
           </div>
           <div class="box-body">
@@ -114,29 +114,29 @@
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>Period Name</th>
+                      <th>Hour Name</th>
                       <th>Start Time</th>
                       <th>End Time</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngIf="periodList.length === 0 ">
+                    <tr *ngIf="hourList.length === 0 ">
                       <td colspan="3">
-                        <div class="text-center">No Periods Added</div>
+                        <div class="text-center">No Hours Added</div>
                       </td>
                     </tr>
-                    <tr *ngFor="let period of periodList; let i = index">
+                    <tr *ngFor="let hour of hourList; let i = index">
                       <td>{{i+1}}</td>
-                      <td>{{period.periodName}}</td>
-                      <td>{{period.startTime | date: 'hh:mm a'}}</td>
-                      <td>{{period.endTime | date: 'hh:mm a'}}</td>
+                      <td>{{hour.hourName}}</td>
+                      <td>{{hour.startTime | date: 'hh:mm a'}}</td>
+                      <td>{{hour.endTime | date: 'hh:mm a'}}</td>
                       <td>
                         <div class="actions">
-                          <button type="button" class="btn btn-sm btn-primary" (click)="editPeriod(period, periodModal)">
+                          <button type="button" class="btn btn-sm btn-primary" (click)="editHour(hour, hourModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deletePeriod(period)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteHour(hour)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -203,20 +203,20 @@
     </div>
   </ng-template>
 <!-- Period Modal start -->
-  <ng-template #periodModal>
+  <ng-template #hourModal>
     <div class="modal-header modal-info ">
-      <h4 class="modal-title pull-left">Add Periods</h4>
+      <h4 class="modal-title pull-left">Add Hours</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <form novalidate [formGroup]="periodForm" class="custom-form">
+      <form novalidate [formGroup]="hourForm" class="custom-form">
         <div class="row">
           <div class="form-group">
             <div class="col-md-6">
-              <label class="control-label m5">Period Name</label>
-              <input type="text" class="form-control" formControlName="periodName" required>
+              <label class="control-label m5">Hour Name</label>
+              <input type="text" class="form-control" formControlName="hourName"  [(ngModel)]="hourName"  required>
             </div>
           </div>
         </div>
@@ -224,13 +224,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Start Time</label>
-              <timepicker  formControlName="startTime" required></timepicker>
+              <timepicker  formControlName="startTime"  [(ngModel)]="startTime" required></timepicker>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">End Time</label>
-              <timepicker  formControlName="endTime" required></timepicker>
+              <timepicker  formControlName="endTime"  [(ngModel)]="endTime" required></timepicker>
             </div>
           </div>
         </div>
@@ -238,8 +238,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="periodForm.invalid" *ngIf="!showUpdateButton" (click)="addPeriod(periodForm)">Add Period</button>
-      <button type="button" class="btn btn-success" [disabled]="periodForm.invalid" *ngIf="showUpdateButton" (click)="updatePeriod(periodForm)">Update Period</button>
+      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="!showUpdateButton" (click)="addHour(hourForm)">Add Hour</button>
+      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="showUpdateButton" (click)="updateHour(hourForm)">Update Hour</button>
     </div>
   </ng-template>
 

@@ -80,6 +80,11 @@ export class DataService {
     let url: string = `${this.BASE_URL}/addSubject`;
     return this.http.post(url, subjects, { headers: this.headers }).toPromise();
   }
+ 
+  addNewHour(subjects): Promise<any> {
+    let url: string = `${this.BASE_URL}/addNewHour`;
+    return this.http.post(url, subjects, { headers: this.headers }).toPromise();
+  }
 
   getEntitiesList(requestDeatils): Promise<any> {
     let url: string;
@@ -173,6 +178,15 @@ export class DataService {
 
   getExamsList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getExamsList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+  getHoursList(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getHoursList`;
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
       ...requestDetails,

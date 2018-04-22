@@ -24,11 +24,12 @@ export class AcademicSetupComponent implements OnInit {
   public class_ID: any = '';
   public subjectName: any = '';
   public subject_ID: any = '';
+  public hour_ID: any = '';
   public showUpdateButton: boolean = false;
 
-  public periodList: any = '';
-  public periodForm: FormGroup;
-  public periodName: FormControl;
+  public hourList: any[] = new Array();
+  public hourForm: FormGroup;
+  public hourName: FormControl;
   public startTime: any;
   public endTime: any;
 
@@ -42,17 +43,19 @@ export class AcademicSetupComponent implements OnInit {
     this.instituteUserName = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
 
-    this.periodList =[{
-      periodName: "First",
-      startTime: "Sun Apr 22 2018 14:00:00 GMT+0530 (IST)",
-      endTime: "Sun Apr 22 2018 17:00:00 GMT+0530 (IST)"
-    }]
-    this.periodName = new FormControl('', []);
+    // this.hourList =[{
+    //   hourName: "First",
+    //   startTime: "Sun Apr 22 2018 14:00:00 GMT+0530",
+    //   endTime: "Sun Apr 22 2018 17:00:00 GMT+0530"
+    // }];
+
+    this.hourName = new FormControl('', []);
     this.startTime = new FormControl('', []);
     this.endTime = new FormControl('', []);
     this.formFileds();
     this.getClassesList();
     this.getSubjectsList();
+    this.getHoursList();
   }
 
   formFileds() {
@@ -64,8 +67,8 @@ export class AcademicSetupComponent implements OnInit {
       subjectName: this.subjectName
     });
 
-    this.periodForm = new FormGroup({
-      periodName: this.periodName,
+    this.hourForm = new FormGroup({
+      hourName: this.hourName,
       startTime: this.startTime,
       endTime: this.endTime
     });
@@ -105,13 +108,29 @@ export class AcademicSetupComponent implements OnInit {
       });
   }
 
+  public getHoursList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    this.dataService.getHoursList({instituteUserName })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.hourList = res.hoursList;
+        } else this.error = resp.json().message;
+        
+      }).catch((err) => {
+        console.log('err',err)
+        this.error = err.json().message;
+      });
+  }
+
   public openModal(template: TemplateRef<any>) {
     this.className = '';
     this.subjectName = '';
     this.schoolUserName = '';
     this.showUpdateButton = false;
     
-    this.periodForm.reset();
+    this.hourForm.reset();
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
@@ -131,10 +150,13 @@ export class AcademicSetupComponent implements OnInit {
     this.showUpdateButton = true;
   }
 
-  public editPeriod(periodData, template: TemplateRef<any>): void {
-    console.log(periodData)
+  public editHour(hourData, template: TemplateRef<any>): void {
+    console.log(hourData)
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-    this.periodForm.setValue(periodData);
+    // this.hourForm.setValue(hourData);
+    this.hour_ID = hourData._id;
+    this.startTime = hourData.startTime;
+    this.endTime = hourData.endTime;
     this.showUpdateButton = true;
   }
 
@@ -234,12 +256,59 @@ export class AcademicSetupComponent implements OnInit {
     }
   }
 
-  public addPeriod(periodForm) {
-    console.log(periodForm.value);
+  public addHour(hourForm) {
+    console.log(hourForm.value);
+    if (this.hourForm.valid) {
+      this.error = '';
+      this.hourForm.value.instituteUserName = 'inst1-INST';
+      this.hourForm.value.schoolUserName = 'sch1-SCH';
+      this.hourForm.value.fromMode = `create`;
+     
+      this.dataService.addNewHour(this.hourForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.hourName = new FormControl('',[])
+            this.startTime = new FormControl('',[])
+            this.endTime = new FormControl('',[])
+            this.modalRef.hide();
+            this.getHoursList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+        });
+    }
   }
 
-  public updatePeriod(periodForm) {
-    console.log(periodForm.value);
-  }
+  updateHour(hourForm): void {
+    console.log(hourForm.value);
+    if (this.hourForm.valid) {
+      this.error = '';
+      this.hourForm.value.instituteUserName = 'inst1-INST';
+      this.hourForm.value.schoolUserName = 'sch1-SCH';
+      this.hourForm.value.fromMode = `update`;
 
+      this.hour_ID = hourForm._id;
+      this.startTime = hourForm.startTime;
+      this.endTime = hourForm.endTime;
+  
+
+      this.dataService.addNewHour(this.hourForm.value)
+        .then((resp) => {
+          if (resp.json().success) {
+            this.subjectName = new FormControl('',[])
+            this.modalRef.hide();
+            this.getHoursList();
+          } else {
+            this.error = resp.json().message;
+          }
+        })
+        .catch((err) => {
+          console.log('err',err)
+          this.error = err.message;
+        });
+    }
+  }
 }
