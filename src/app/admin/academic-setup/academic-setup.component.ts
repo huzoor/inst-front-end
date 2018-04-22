@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -24,6 +25,13 @@ export class AcademicSetupComponent implements OnInit {
   public subjectName: any = '';
   public subject_ID: any = '';
   public showUpdateButton: boolean = false;
+
+  public periodList: any = '';
+  public periodForm: FormGroup;
+  public periodName: FormControl;
+  public startTime: any;
+  public endTime: any;
+
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
@@ -33,6 +41,15 @@ export class AcademicSetupComponent implements OnInit {
     this.subjectName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
+
+    this.periodList =[{
+      periodName: "First",
+      startTime: "Sun Apr 22 2018 14:00:00 GMT+0530 (IST)",
+      endTime: "Sun Apr 22 2018 17:00:00 GMT+0530 (IST)"
+    }]
+    this.periodName = new FormControl('', []);
+    this.startTime = new FormControl('', []);
+    this.endTime = new FormControl('', []);
     this.formFileds();
     this.getClassesList();
     this.getSubjectsList();
@@ -45,6 +62,12 @@ export class AcademicSetupComponent implements OnInit {
 
     this.subjectForm = new FormGroup({
       subjectName: this.subjectName
+    });
+
+    this.periodForm = new FormGroup({
+      periodName: this.periodName,
+      startTime: this.startTime,
+      endTime: this.endTime
     });
   }
 
@@ -87,6 +110,8 @@ export class AcademicSetupComponent implements OnInit {
     this.subjectName = '';
     this.schoolUserName = '';
     this.showUpdateButton = false;
+    
+    this.periodForm.reset();
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
 
@@ -103,6 +128,13 @@ export class AcademicSetupComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.subjectName = subjectData.subjectName;
     this.subject_ID = subjectData._id;
+    this.showUpdateButton = true;
+  }
+
+  public editPeriod(periodData, template: TemplateRef<any>): void {
+    console.log(periodData)
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.periodForm.setValue(periodData);
     this.showUpdateButton = true;
   }
 
@@ -200,6 +232,14 @@ export class AcademicSetupComponent implements OnInit {
           this.error = err.json().message;
         });
     }
+  }
+
+  public addPeriod(periodForm) {
+    console.log(periodForm.value);
+  }
+
+  public updatePeriod(periodForm) {
+    console.log(periodForm.value);
   }
 
 }

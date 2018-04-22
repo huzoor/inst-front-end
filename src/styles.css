@@ -167,6 +167,9 @@ td.day-heading {
   padding: 7px 10px;
   line-height: 2;
 }
+.modal-body label {
+  font-weight: bold;
+}
 /* upload profile css start */
 .upload-profile input[type="file"] {
   display: none !important;
