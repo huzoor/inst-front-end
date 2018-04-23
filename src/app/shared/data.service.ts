@@ -98,12 +98,11 @@ export class DataService {
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
-
   getSubjectData(): Promise<any> {
     let url: string = `${this.BASE_URL}/addSubjects`;
     return this.http.post(url, { headers: this.headers }).toPromise();
   }
-
+ 
   getSchoolList(instituteUserName): Promise<any> {
     let url: string = `${this.BASE_URL}/getSchools`;
     let localHeaders: Headers = new Headers({ 

@@ -3,7 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-import { daysList, periodTimings } from '../../shared/AppConstants';
+import { daysList } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
 
 declare var AdminLTE: any;
@@ -18,7 +18,7 @@ export class TimetableComponent implements OnInit {
   public subjectsList: any;
   public classList: any[];
   public daysList: any[] = daysList;
-  public periodTimings: any[] = periodTimings;
+  public hoursList: any[];
   public classForm: FormGroup;
   public timetableForm: FormGroup;
   public subjectCode: FormControl;
@@ -26,7 +26,7 @@ export class TimetableComponent implements OnInit {
   public timeTableList: any = '';
   constructor(private dataService: DataService) {
     this.getClassesList();
-    
+    this.getHoursList();
    }
 
   ngOnInit() {
@@ -39,6 +39,24 @@ export class TimetableComponent implements OnInit {
     this.timetableForm = new FormGroup({
       subjectCode: this.subjectCode
     });
+  }
+
+  public getHoursList(): void {
+    // Get instituteUserName from localStorage
+    let instituteUserName = `inst1-INST`;
+    // let entityType = `classes`;
+
+    this.dataService.getHoursList({ instituteUserName })
+      .then((resp) => {
+        let res = resp.json()
+        if (res.success) {
+          this.hoursList = res.hoursList;
+        } else this.error = resp.json().message;
+
+      }).catch((err) => {
+        console.log('err', err)
+        this.error = err.json().message;
+      });
   }
 
   public getClassesList(): void {
@@ -65,10 +83,11 @@ export class TimetableComponent implements OnInit {
         this.timeTableList = daysList.map( (item, index)=>{
               return {
                 dayName: item,
-                periodTimings: this.periodTimings.map(p=>{
+                hoursList: this.hoursList.map(h=>{
                   return {
-                    periodTime: p.periodTime,
-                    periodName: p.periodName,
+                    startTime: h.startTime,
+                    endTime: h.endTime,
+                    hourName: h.hourName,
                     subjectsList: this.subjectsList.map(s=> {
                       return {
                         _id: s._id,
@@ -112,13 +131,13 @@ export class TimetableComponent implements OnInit {
       });
   }
 
-  public onSubjectChange(subj, day, periodName){
-    console.log(subj, day, periodName);
+  public onSubjectChange(subj, day, hourName){
+    console.log(subj, day, hourName);
 
     this.timeTableList.filter(i => {
         if(i.dayName === day) {
-          i.periodTimings.filter(p => {
-            if(p.periodName === periodName){
+          i.hoursList.filter(p => {
+            if(p.hourName === hourName){
               p.subjectsList.filter( s=> {
                     if(s._id === subj)
                       s.isSelected = true;

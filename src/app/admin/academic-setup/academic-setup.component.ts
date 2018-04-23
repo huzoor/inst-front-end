@@ -19,7 +19,7 @@ export class AcademicSetupComponent implements OnInit {
   public schoolUserName: any = '';
   public classList: any[] = new Array();
   public subjectList: any[] = new Array();
-  public error: any;
+  public error: String = new String('');
   public className: any = '';
   public class_ID: any = '';
   public subjectName: any = '';
@@ -29,7 +29,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public hourList: any[] = new Array();
   public hourForm: FormGroup;
-  public hourName: FormControl;
+  public hourName: any;
   public startTime: any;
   public endTime: any;
 
@@ -42,12 +42,6 @@ export class AcademicSetupComponent implements OnInit {
     this.subjectName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
-
-    // this.hourList =[{
-    //   hourName: "First",
-    //   startTime: "Sun Apr 22 2018 14:00:00 GMT+0530",
-    //   endTime: "Sun Apr 22 2018 17:00:00 GMT+0530"
-    // }];
 
     this.hourName = new FormControl('', []);
     this.startTime = new FormControl('', []);
@@ -128,6 +122,10 @@ export class AcademicSetupComponent implements OnInit {
     this.className = '';
     this.subjectName = '';
     this.schoolUserName = '';
+    this.hourName = '';
+    this.startTime = '';
+    this.endTime = '';
+    this.error = '';
     this.showUpdateButton = false;
     
     this.hourForm.reset();
@@ -151,10 +149,12 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public editHour(hourData, template: TemplateRef<any>): void {
+    this.error = '';
     console.log(hourData)
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     // this.hourForm.setValue(hourData);
     this.hour_ID = hourData._id;
+    this.hourName = hourData.hourName;
     this.startTime = hourData.startTime;
     this.endTime = hourData.endTime;
     this.showUpdateButton = true;
@@ -290,11 +290,10 @@ export class AcademicSetupComponent implements OnInit {
       this.hourForm.value.schoolUserName = 'sch1-SCH';
       this.hourForm.value.fromMode = `update`;
 
-      this.hour_ID = hourForm._id;
       this.startTime = hourForm.startTime;
       this.endTime = hourForm.endTime;
   
-
+      this.hourForm.value.hour_ID = this.hour_ID;
       this.dataService.addNewHour(this.hourForm.value)
         .then((resp) => {
           if (resp.json().success) {
@@ -306,8 +305,11 @@ export class AcademicSetupComponent implements OnInit {
           }
         })
         .catch((err) => {
-          console.log('err',err)
-          this.error = err.message;
+          console.log('err',err);
+          let parsedErr = err.json();
+          this.error = parsedErr.message;
+          this.startTime = parsedErr.hour.startTime;
+          this.endTime = parsedErr.hour.endTime;
         });
     }
   }

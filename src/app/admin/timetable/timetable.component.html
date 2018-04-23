@@ -53,15 +53,15 @@
                       <td class="day-heading">
                         <div>{{ttl.dayName}}</div>
                       </td>
-                      <td *ngFor="let period of ttl.periodTimings; let i = index">
+                      <td *ngFor="let hour of ttl.hoursList; let i = index">
                         <div class="periods-list" id="checkbox">
-                        <div>{{period.periodTime}}</div>
+                        <div>{{hour.startTime | date:'hh:mm a'  }} - {{hour.endTime | date:'hh:mm a' }}</div>
                         <form class="form-horizontal" [formGroup]="timetableForm">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <select class="form-control" (change)="onSubjectChange($event.target.value, ttl.dayName, period.periodName)">
+                              <select class="form-control" (change)="onSubjectChange($event.target.value, ttl.dayName, hour.hourName)">
                                 <option value="">Select Subject</option>
-                                <option *ngFor="let subj of period.subjectsList"  [value]="subj._id">
+                                <option *ngFor="let subj of hour.subjectsList"  [value]="subj._id">
                                   {{subj.subjName}}
                                 </option>
                               </select>

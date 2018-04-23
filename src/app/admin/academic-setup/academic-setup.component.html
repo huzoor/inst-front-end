@@ -211,6 +211,7 @@
       </button>
     </div>
     <div class="modal-body">
+      <div class="alert alert-warning" *ngIf="error.length > 0"> {{error}}</div>
       <form novalidate [formGroup]="hourForm" class="custom-form">
         <div class="row">
           <div class="form-group">
