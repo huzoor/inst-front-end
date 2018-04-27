@@ -24,6 +24,7 @@ export class TimetableComponent implements OnInit {
   public subjectCode: FormControl;
   public selectedClass: FormControl;
   public timeTableList: any = '';
+  public timetableInfo: any = [];
   constructor(private dataService: DataService) {
     this.getClassesList();
     this.getHoursList();
@@ -78,6 +79,8 @@ export class TimetableComponent implements OnInit {
   }
   
   public getClassWiseTimeTable(selectedClass): void {
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
     this.getSubjectsList(selectedClass).then(canLoad=> {
       if(canLoad){
         this.timeTableList = daysList.map( (item, index)=>{
@@ -89,10 +92,21 @@ export class TimetableComponent implements OnInit {
                     endTime: h.endTime,
                     hourName: h.hourName,
                     subjectsList: this.subjectsList.map(s=> {
+                      let isSelected = false;
+                      h.associatedWith.filter(ass => {
+                        if(ass.subjectId == s._id && item == ass.dayName)
+                          isSelected = true
+                      })
                       return {
                         _id: s._id,
+                        hourId: h._id,                        
+                        subjectId: s._id,
                         subjName:s.subjectName,
-                        isSelected: false,
+                        isSelected,
+                        dayName: item,
+                        instituteUserName,
+                        schoolUserName,
+                        classId: selectedClass,
                       }
                     })
                   }
@@ -103,10 +117,6 @@ export class TimetableComponent implements OnInit {
       }
     });
    
-    // const getClassTimings = tableList.filter((item) => item.class === selectedClass);
-    // if (getClassTimings && getClassTimings.length !== 0) {
-    //   this.timeTableList = getClassTimings[0].timetable;
-    // }
   };
 
   public getSubjectsList(classId): Promise<any>  {
@@ -133,7 +143,6 @@ export class TimetableComponent implements OnInit {
 
   public onSubjectChange(subj, day, hourName){
     console.log(subj, day, hourName);
-
     this.timeTableList.filter(i => {
         if(i.dayName === day) {
           i.hoursList.filter(p => {
@@ -147,10 +156,60 @@ export class TimetableComponent implements OnInit {
           })
         }
       });
-      console.log(this.timeTableList);
+      console.log(this.timeTableList)
   }
 
-  public saveInfo(info){
-    console.log(info);
+  public saveTimeTableInfo(){
+
+    // Get instituteUserName from localStorage
+    let instituteUserName = 'inst1-INST';
+    let schoolUserName = 'sch1-SCH';
+    let cnt =  this.timeTableList.length;
+
+    let timetableInfo: any[] = new Array();
+
+    this.timeTableList.map((i,index) =>{
+      i.hoursList.map(h =>{
+       
+        h.subjectsList.map(s =>{
+            if(s.isSelected){
+              timetableInfo.push(s); 
+            }
+        })	
+      })
+      // console.log(cnt , index)
+      if(cnt == index) {
+        console.log(timetableInfo);
+        setTimeout(()=>{
+      
+
+        }, 1000)
+      
+
+
+      }
+      cnt--;
+    });
+  
+  
+    let processedInfo = {
+      instituteUserName, schoolUserName, 
+      selectedClass: this.selectedClass.value, 
+      timetableInfo
+    }
+    console.log(processedInfo);
+
+    this.dataService.saveTimeTableInfo(processedInfo)
+    .then((resp) => {
+    console.log(resp);
+    if (resp.json().success) {
+
+    } else this.error = resp.json().message;
+
+    }).catch((err) =>  {
+    console.log(err);
+    this.error = err;
+    });
+  
   }
 }

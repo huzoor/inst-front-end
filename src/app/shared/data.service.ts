@@ -130,6 +130,12 @@ export class DataService {
     let url: string = `${this.BASE_URL}/addTimelineEvent`;
     return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
   }
+  
+  saveTimeTableInfo(timetableInfo): Promise<any> {
+    let url: string = `${this.BASE_URL}/saveTimeTableInfo`;
+    console.log('timetableInfo in service', timetableInfo)
+    return this.http.post(url, timetableInfo, { headers: this.headers }).toPromise();
+  }
 
   getTimelineEvents(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getTimelineEvents`;
@@ -204,6 +210,11 @@ export class DataService {
 
   setTimeTable(fromInfo):  Promise<any> {
     let url: string = `${this.BASE_URL}/setTimeTable`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
+  }
+ 
+  addAcadamicSetup(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/addAcadamicSetup`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
 

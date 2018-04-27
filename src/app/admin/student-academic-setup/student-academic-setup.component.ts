@@ -98,7 +98,7 @@ export class StudentAcademicSetupComponent implements OnInit {
     filteresList.map(i => i.map(s=> { if(!mappedList[s]) mappedList.push(s)}));
 
     console.log(mappedList);
-    this.dataService.setTimeTable({ mappedList, instituteUserName, schoolUserName}).then((resp)=>{
+    this.dataService.addAcadamicSetup({ mappedList, instituteUserName, schoolUserName}).then((resp)=>{
         if (resp.json().success) {
           this.loadTimeTable();
           this.error = resp.json().message;
