@@ -29,8 +29,9 @@ export class ExaminationComponent implements OnInit {
   public classList: any = [];
   public subjectsList: any = [];
   public showStudentsList: boolean = false;
+  public fetchedMarksList: any = [];
   public studentList: any = [];
-  public error: any;
+  public error: any = '';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -82,6 +83,7 @@ export class ExaminationComponent implements OnInit {
       });
   }
   public onClassChange(classId){
+    this.error = '';
     this.getSubjectsList(classId);
   }
 
@@ -112,6 +114,7 @@ export class ExaminationComponent implements OnInit {
   }
 
   public createExam(examForm): void {
+    this.error = '';
     let instituteUserName = `inst1-INST`;
     let schoolUserName = `sch1-SCH`;
     if (examForm.valid) {
@@ -151,28 +154,85 @@ export class ExaminationComponent implements OnInit {
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
     let classEnrolled = marksForm.value.classCode;
+    let subjectId = marksForm.value.subjectCode;
 
     this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
       .then((resp) => {
-        if (resp.json().success) this.studentList = resp.json().studentsList;
-        else this.error = 'students list loading failed..!';
+        if (resp.json().success) {
+          this.studentList =  resp.json().studentsList.map(stu=>{
+            return {
+              name: stu.name,
+              rollNumber: stu.rollNumber,
+              classEnrolled,
+              studentId: stu._id,
+              subjectId,
+              marks: this.getMarks(stu._id)
+            }
+          })
+          // console.log(this.studentList)
+        } else this.error = 'students list loading failed..!';
+      });
+  }
+  getMarks(stuId) {
+   if(this.fetchedMarksList.length === 0) return 0;
+
+   let studentInfo =  this.fetchedMarksList[0].marksObtained.filter(stu=> stu.studentId === stuId )
+   if(studentInfo.length > 0) return studentInfo[0].marks;
+   else return 0;
+  }
+
+  getMarksList(marksForm): Promise<any>{
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let classId = marksForm.value.classCode;
+    let subjectId = marksForm.value.subjectCode;
+    let examType = marksForm.value.examType;
+
+    return this.dataService.getMarksList({ instituteUserName, schoolUserName, classId, subjectId, examType })
+      .then((resp) => {
+        if (resp.json().success) {
+          this.fetchedMarksList =  resp.json().MarksList;
+          return true;
+        } else {
+          this.error = 'students list loading failed..!';
+          return false;
+        }
       });
   }
 
   public enterStudentMarks(marksForm): void {
     // console.log(marksForm.value);
     this.examType = marksForm.value.examType;
-    this.getStudentList(marksForm);
-    this.showStudentsList = true;
+    this.getMarksList(marksForm).then( canLoadStudents =>{
+      if(canLoadStudents){
+        this.getStudentList(marksForm);
+        this.showStudentsList = true;
+      } else {  this.error = 'students list loading failed..!'; }
+    })
+    
   }
 
-  public saveStudentMarks(studentMarks): void {
-    console.log(studentMarks);
-    // this.dataService.savStudentMarks(examForm)
-    // .then((resp) => {
-    // }).catch((err) => {
-    //   console.log('err',err)
-    //   this.error = err.json().message;
-    // });
+  public addStudentMarks(studentMarks): void {
+    // console.log(studentMarks);
+    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = 'inst1-INST';
+    let classId = this.classCode.value;
+    let subjectId = this.subjectCode.value;
+    let examType = this.examType;
+
+    this.dataService.addStudentMarks({instituteUserName,schoolUserName, classId, subjectId, examType, marksObtained: studentMarks})
+    .then((resp) => {
+
+      if(resp.json().success){
+        this.error = resp.json().message;
+        this.showStudentsList = false;
+        this.fetchedMarksList = [];
+        this.studentList= [];
+        this.examinationForm.reset();
+      }
+    }).catch((err) => {
+      console.log('err',err)
+      this.error = err.json().message;
+    });
   }
 }

@@ -217,6 +217,20 @@ export class DataService {
     let url: string = `${this.BASE_URL}/addAcadamicSetup`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
+  
+  addStudentMarks(marksList):  Promise<any> {
+    let url: string = `${this.BASE_URL}/addStudentMarks`;
+    return this.http.post(url, marksList, { headers: this.headers }).toPromise();
+  }
+
+  getMarksList(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getMarksList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
 
   test(): string {
     return 'working';

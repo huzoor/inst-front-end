@@ -14,7 +14,7 @@ declare var AdminLTE: any;
 })
 export class TimetableComponent implements OnInit {
   public modalRef: BsModalRef;
-  public error: any;
+  public error: any = '';
   public subjectsList: any;
   public classList: any[];
   public daysList: any[] = daysList;
@@ -79,6 +79,7 @@ export class TimetableComponent implements OnInit {
   }
   
   public getClassWiseTimeTable(selectedClass): void {
+    this.error = '';
     let instituteUserName = 'inst1-INST';
     let schoolUserName = 'sch1-SCH';
     this.getSubjectsList(selectedClass).then(canLoad=> {
@@ -170,40 +171,28 @@ export class TimetableComponent implements OnInit {
 
     this.timeTableList.map((i,index) =>{
       i.hoursList.map(h =>{
-       
         h.subjectsList.map(s =>{
             if(s.isSelected){
               timetableInfo.push(s); 
             }
         })	
       })
-      // console.log(cnt , index)
-      if(cnt == index) {
-        console.log(timetableInfo);
-        setTimeout(()=>{
-      
-
-        }, 1000)
-      
-
-
-      }
-      cnt--;
     });
-  
   
     let processedInfo = {
       instituteUserName, schoolUserName, 
       selectedClass: this.selectedClass.value, 
       timetableInfo
-    }
-    console.log(processedInfo);
+    };
 
     this.dataService.saveTimeTableInfo(processedInfo)
     .then((resp) => {
     console.log(resp);
     if (resp.json().success) {
-
+      this.error = resp.json().message;
+      this.classForm.reset();
+      this.timetableForm.reset();
+      this.timeTableList = [];
     } else this.error = resp.json().message;
 
     }).catch((err) =>  {

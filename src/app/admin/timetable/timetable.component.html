@@ -23,32 +23,17 @@
                 </div>
               </form>
             </div>
+            
+            <div class="row" *ngIf="error.length > 0" style="padding: 35px 45px;">
+              <div class="alert alert-warning">
+               {{error}}
+              </div>
+            </div>
+            
             <div class="row">
               <div class="col-sm-12">
                 <table class="table table-bordered" style="background: #efefef;" *ngIf="timeTableList.length !== 0">
                   <tbody>
-                    <!-- <tr *ngFor="let timings of timeTableList">
-                      <td class="day-heading">
-                        <div>{{timings.day}}</div>
-                      </td>
-                      <td *ngFor="let period of timings.list; let i = index">
-                        <div class="periods-list" id="checkbox">
-                          <div class="">{{period.time}} </div>
-                          <form class="form-horizontal" [formGroup]="timetableForm">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <select class="form-control" formControlName="subjectCode">
-                                  <option value="">Select Subject</option>
-                                  <option *ngFor="let subj of subjectsList" [value]="subj._id">
-                                    {{subj.subjectName}}
-                                  </option>
-                                </select>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </td>
-                    </tr> -->
                     <tr *ngFor="let ttl of timeTableList">
                       <td class="day-heading">
                         <div>{{ttl.dayName}}</div>

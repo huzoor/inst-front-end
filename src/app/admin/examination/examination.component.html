@@ -46,7 +46,7 @@
                           <div class="form-group">
                             <select class="form-control" formControlName="examType">
                               <option value="">Exam Type</option>
-                              <option *ngFor="let exam of examsList" [value]="exam.testName">
+                              <option *ngFor="let exam of examsList" [value]="exam._id">
                                 {{exam.testName}}
                               </option>
                             </select>
@@ -57,10 +57,16 @@
                         </div>
                       </form>
                     </div>
+                    
+                    <div class="row mt-10" *ngIf="error.length > 0" style="padding: 35px 45px;">
+                      <div class="alert alert-warning">
+                       {{error}}
+                      </div>
+                    </div>
                     <div class="col-md-12" *ngIf="showStudentsList" style="padding: 20px 30px;">
                       <div class="box">
                         <div class="box-header with-border bg-info">
-                          <h3 class="box-title">Enter Marks -- {{examType}}</h3>
+                          <h3 class="box-title">Enter Marks For {{examType}}</h3>
                         </div>
                         <div class="box-body">
                           <div class="row">
@@ -85,7 +91,7 @@
                               </table>
                             </div>
                             <div class="col-md-12">
-                              <button type="button" class="btn btn-success pull-right" (click)="saveStudentMarks(studentList)">Save Marks</button>
+                              <button type="button" class="btn btn-success pull-right" (click)="addStudentMarks(studentList)">Save Marks</button>
                             </div>
                           </div>
                         </div>
