@@ -35,7 +35,8 @@ import { StudentAcademicSetupComponent } from '../student-academic-setup/student
           },
           {
             path: 'dashboard',
-            component: DashboardComponent
+            component: DashboardComponent,
+            canActivate: [EnsureAuthenticated],
           },
           {
             path: 'institutes',
