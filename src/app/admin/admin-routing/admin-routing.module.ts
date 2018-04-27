@@ -35,8 +35,7 @@ import { StudentAcademicSetupComponent } from '../student-academic-setup/student
           },
           {
             path: 'dashboard',
-            component: DashboardComponent,
-            canActivate: [EnsureAuthenticated],
+            component: DashboardComponent
           },
           {
             path: 'institutes',
@@ -90,8 +89,7 @@ import { StudentAcademicSetupComponent } from '../student-academic-setup/student
           },
           {
             path: 'timetable',
-            component: TimetableComponent,
-            canActivate: [EnsureAuthenticated],
+            component: TimetableComponent
           },
           {
             path: 'exams',

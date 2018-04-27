@@ -1,0 +1,73 @@
+[
+    {
+    "routerLink": "dashboard",
+    "icon": "fa fa-dashboard",
+    "displayName": "Dashboard",
+    "roles": [100, 101, 102, 103, 104]
+  },
+  {
+    "routerLink": "institutes",
+    "icon": "fa fa-institution",
+    "displayName": "Institute Management",
+    "roles": [100, 101]
+  },
+  {
+    "routerLink": "school-management",
+    "icon": "fa fa-building",
+    "displayName": "School Management",
+    "roles": [101]
+  },
+  {
+    "routerLink": "academic-setup",
+    "icon": "fa fa-mortar-board",
+    "displayName": "Academic Setup",
+    "roles": [101, 102]
+  },
+  {
+    "routerLink": "student-academic-setup",
+    "icon": "fa fa-graduation-cap",
+    "displayName": "Student Academic Setup",
+    "roles": [102, 104]
+  },
+  {
+    "routerLink": "staff-management",
+    "icon": "fa fa-user-circle-o",
+    "displayName": "Staff Managemnt",
+    "roles": [102]
+  },
+  {
+    "routerLink": "attendance",
+    "icon": "fa fa-list-alt",
+    "displayName": "Attendance",
+    "roles": [102, 103]
+  },
+  {
+    "routerLink": "student-management",
+    "icon": "fa fa-user",
+    "displayName": "Student Management",
+    "roles": [102]
+  },
+  {
+    "routerLink": "leave-management",
+    "icon": "fa fa-list-alt",
+    "displayName": "Leave Management",
+    "roles": [102, 103, 104]
+  },
+  {
+    "routerLink": "timeline",
+    "icon": "fa fa-building",
+    "displayName": "Timeline",
+    "roles": [102, 103, 104]
+  },
+  {
+    "routerLink": "timetable",
+    "icon": "fa fa-building",
+    "displayName": "Timetable",
+    "roles": [102, 103]
+  },
+  {
+    "routerLink": "exam",
+    "icon": "fa fa-building",
+    "displayName": "Exam",
+    "roles": [102, 103]
+  }]
