@@ -69,7 +69,6 @@ export class StudentAcademicSetupComponent implements OnInit {
                     classID: item._id, 
                     subjectID: i._id, 
                     subjectName: i.subjectName, 
-                    // selected: i.associatedWith.includes(item._id),
                     selected: (isSelected.length > 0),
                     schoolUserName
                   }

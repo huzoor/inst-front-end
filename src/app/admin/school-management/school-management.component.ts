@@ -20,7 +20,6 @@ export class SchoolManagementComponent implements OnInit {
   public schoolName: FormControl;
   public imageError: boolean;
   public registeredDate: FormControl;
-  public schoolAdminName: FormControl;
   public address: FormControl;
   public code: FormControl;
   public state: FormControl;
@@ -51,7 +50,6 @@ export class SchoolManagementComponent implements OnInit {
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
-    this.schoolAdminName = new FormControl('', []);
     this.userName = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
@@ -81,7 +79,6 @@ export class SchoolManagementComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      schoolAdminName: this.schoolAdminName,
       userName: this.userName,
       email: this.email,
       mobile: this.mobile,

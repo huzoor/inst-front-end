@@ -85,10 +85,6 @@
             </div>
           </div>
           <div class="col-md-6">
-            <!-- <div class="form-group">
-                      <label class="control-label">Institute Logo</label>
-                      <input type="file" class="form-control" formControlName="logo">
-                    </div> -->
             <div class="form-group">
               <label class="control-label">Registration Date</label>
               <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate"
@@ -107,7 +103,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Country</label>
-              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
+              <select class="form-control" formControlName="country" (chaninstituteAdminNamege)="changeCountry(country.value)" required>
                 <option value=""> Select Country</option>
                 <option *ngFor="let ctry of countriesList" [value]="ctry.code">
                   {{ctry.name}}
@@ -151,18 +147,13 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">User Name</label>
               <input type="text" class="form-control" formControlName="userName" required>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label">Password</label>
-              <input type="text" class="form-control" formControlName="password" required>
-            </div>
-          </div>
+         
         </div>
         <div class="row">
           <div class="col-md-6">

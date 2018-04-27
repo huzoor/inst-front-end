@@ -22,9 +22,7 @@ export class StaffManagementComponent implements OnInit {
   public placeholder: String = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
-  public name: FormControl;
   public userName: FormControl;
-  public password: FormControl;
   public subject: FormControl;
   public staffRole: FormControl;
   public experience: FormControl;
@@ -33,7 +31,6 @@ export class StaffManagementComponent implements OnInit {
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
-  public photoPath: FormControl;
   public address: FormControl;
   public state: FormControl;
   public city: FormControl;
@@ -67,8 +64,6 @@ export class StaffManagementComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.userName = new FormControl('', []);
-    this.name = new FormControl('', []);
-    this.password = new FormControl('', []);
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
@@ -77,7 +72,6 @@ export class StaffManagementComponent implements OnInit {
     this.yearOfPassing = new FormControl('', []);
     this.qualification = new FormControl('', []);
     this.subject = new FormControl('', []);
-    this.photoPath = new FormControl('', []);
     this.address = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
@@ -94,9 +88,7 @@ export class StaffManagementComponent implements OnInit {
 
   formFileds() {
     this.staffForm = new FormGroup({
-      name: this.name,
       userName: this.userName,
-      password: this.password,
       gender: this.gender,
       email: this.email,
       staffRole: this.staffRole,
@@ -105,7 +97,6 @@ export class StaffManagementComponent implements OnInit {
       experience: this.experience,
       yearOfPassing: this.yearOfPassing,
       qualification: this.qualification,
-      photoPath: this.photoPath,
       address: this.address,
       state: this.state,
       city: this.city,

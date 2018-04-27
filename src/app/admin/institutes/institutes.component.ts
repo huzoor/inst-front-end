@@ -20,9 +20,7 @@ export class InstitutesComponent implements OnInit {
   public modalRef: BsModalRef;
   public instituteform: FormGroup;
   public instituteName: FormControl;
-  public selectedLogo: any;
   public imageError: boolean;
-  public logo: FormControl;
   public address: FormControl;
   public code: FormControl;
   public registeredDate: FormControl;
@@ -30,9 +28,7 @@ export class InstitutesComponent implements OnInit {
   public city: FormControl;
   public district: FormControl;
   public country: FormControl;
-  public instituteAdminName: FormControl;
   public userName: FormControl;
-  public password: FormControl;
   public email: FormControl;
   public mobile: FormControl;
   public _id: FormControl;
@@ -47,7 +43,6 @@ export class InstitutesComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     this.instituteName = new FormControl('', []);
-    this.logo = new FormControl('', []);
     this.address = new FormControl('', []);
     this.code = new FormControl('', []);
     this.registeredDate = new FormControl('', []);
@@ -55,9 +50,7 @@ export class InstitutesComponent implements OnInit {
     this.city = new FormControl('', []);
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
-    this.instituteAdminName = new FormControl('', []);
     this.userName = new FormControl('', []);
-    this.password = new FormControl('', []);
     this.email = new FormControl('', []);
     this.mobile = new FormControl('', []);
     this._id = new FormControl('', []);
@@ -95,7 +88,6 @@ export class InstitutesComponent implements OnInit {
   formFileds() {
     this.instituteform = new FormGroup({
       instituteName: this.instituteName,
-      logo: this.logo,
       address: this.address,
       code: this.code,
       registeredDate: this.registeredDate,
@@ -103,9 +95,7 @@ export class InstitutesComponent implements OnInit {
       city: this.city,
       district: this.district,
       country: this.country,
-      instituteAdminName: this.instituteAdminName,
       userName: this.userName,
-      password: this.password,
       email: this.email,
       mobile: this.mobile,
       _id: this._id
@@ -129,20 +119,11 @@ export class InstitutesComponent implements OnInit {
       this.showEditForm = false;
     }
   }
-  // public uploadImage(selectedLogo: Ng4FilesSelected): void {
-  //   console.log(selectedLogo);
-  //   if (selectedLogo.status !== Ng4FilesStatus.STATUS_SUCCESS) {
-  //     this.selectedLogo = selectedLogo.status;
-  //     this.imageError = true;
-  //     return;
-  //   }
-  //   this.selectedLogo = Array.from(selectedLogo.files).map(file => file.name);
-  // }
   public saveInstituteForm(instituteform) {
     console.log(instituteform.value.registeredDate);
     if (this.instituteform.valid) {
       this.error = '';
-      this.instituteform.value.formMode = `cerate`;
+      this.instituteform.value.formMode = `create`;
       this.dataService.addInstitute(this.instituteform.value)
         .then((resp) => {
           if (resp.json().success) {
