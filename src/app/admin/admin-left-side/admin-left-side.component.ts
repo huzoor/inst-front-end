@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLeftSideComponent implements OnInit {
 public menuList: any;
-public userRole: number = 103;
+public userRole: number;
   constructor() { }
 
   ngOnInit() {
@@ -18,7 +18,8 @@ public userRole: number = 103;
     Staff: 103,
     Student: 104
     */
-    this.menuList = require('./left-menu.json');
+   this.userRole = parseInt(localStorage.getItem('role'));
+   this.menuList = require('./left-menu.json');
   }
 
 }

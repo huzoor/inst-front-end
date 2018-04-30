@@ -32,12 +32,14 @@ export class AcademicSetupComponent implements OnInit {
   public hourName: any;
   public startTime: any;
   public endTime: any;
+  public userRole: number;
 
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.userRole = parseInt(localStorage.getItem('role'));
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);

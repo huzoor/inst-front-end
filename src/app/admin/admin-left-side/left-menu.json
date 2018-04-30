@@ -9,7 +9,7 @@
     "routerLink": "institutes",
     "icon": "fa fa-institution",
     "displayName": "Institute Management",
-    "roles": [100, 101]
+    "roles": [100]
   },
   {
     "routerLink": "school-management",
@@ -66,7 +66,7 @@
     "roles": [102, 103]
   },
   {
-    "routerLink": "exam",
+    "routerLink": "exams",
     "icon": "fa fa-building",
     "displayName": "Exam",
     "roles": [102, 103]

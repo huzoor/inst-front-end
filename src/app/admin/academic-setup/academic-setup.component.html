@@ -1,6 +1,6 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row">
+    <div class="row"  *ngIf="userRole==101">
       <div class="col-md-6">
         <div class="box">
           <div class="box-header with-border">
@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="box-body">
-            <div class="row">
+            <div class="row" >
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped">
                   <thead>
@@ -97,7 +97,7 @@
       </div>
     </div>
     <!-- Period List start -->
-    <div class="row">
+    <div class="row" *ngIf="userRole==102">
       <div class="col-md-6">
         <div class="box">
           <div class="box-header with-border">

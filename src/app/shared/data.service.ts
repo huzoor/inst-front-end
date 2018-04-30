@@ -17,13 +17,14 @@ export class DataService {
 
   login(credentials): Promise<any> {
     this.isLoggedin = false;
-    const creds = 'name=' + credentials.username + '&password=' + credentials.password;
+    const creds = 'name=' + credentials.username + '&password=' + credentials.password+'&role=admin';
     let url: string = `${this.BASE_URL}/authenticate`;
     return this.http.post(url, credentials, { headers: this.headers }).toPromise();
   }
 
   logout() {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('role');
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
   }
