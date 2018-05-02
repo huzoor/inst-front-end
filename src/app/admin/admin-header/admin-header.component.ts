@@ -10,6 +10,11 @@ import { DataService } from '../../shared/data.service';
 })
 export class AdminHeaderComponent implements OnInit {
   public modalRef: BsModalRef;
+  public userRole: number ;
+  public roleType: String ;
+  public userName: String ;
+  public name: String ;
+
   constructor(private auth: DataService,
     private modalService: BsModalService, ) { }
 
@@ -17,6 +22,10 @@ export class AdminHeaderComponent implements OnInit {
   public croppedImage: any = 'assets/img/user2-160x160.jpg';
 
   ngOnInit() {
+    this.userRole = parseInt(localStorage.getItem('role'));
+    this.userName = localStorage.getItem('userName');
+    this.name = localStorage.getItem('name');
+    this.roleType = localStorage.getItem('roleType');
   }
   onLogout() {
     this.auth.logout();

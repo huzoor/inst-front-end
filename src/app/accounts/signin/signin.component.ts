@@ -60,13 +60,16 @@ export class SigninComponent implements OnInit {
             };
 
             this.auth.login(loginInfo)
-            .then((user) => {
-              if (user.json().success) {
-                localStorage.setItem('token', user.json().auth_token);
-                localStorage.setItem('role', user.json().role);
+            .then((userInfo) => {
+              if (userInfo.json().success) {
+                localStorage.setItem('token', userInfo.json().auth_token);
+                localStorage.setItem('role', userInfo.json().role);
+                localStorage.setItem('roleType', userInfo.json().user.role);
+                localStorage.setItem('userName', userInfo.json().user.userName);
+                localStorage.setItem('name', userInfo.json().user.name);
                 this.router.navigate(['/dashboard']);
               } else {
-                this.error = user.json().message;
+                this.error = userInfo.json().message;
               }
             })
             .catch((err) => {

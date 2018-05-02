@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AdminLeftSideComponent implements OnInit {
 public menuList: any;
 public userRole: number;
+public roleType: String;
+public name: String;
+
   constructor() { }
 
   ngOnInit() {
@@ -19,6 +22,8 @@ public userRole: number;
     Student: 104
     */
    this.userRole = parseInt(localStorage.getItem('role'));
+   this.name = localStorage.getItem('name');
+   this.roleType = localStorage.getItem('roleType');
    this.menuList = require('./left-menu.json');
   }
 

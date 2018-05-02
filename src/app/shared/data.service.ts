@@ -25,6 +25,9 @@ export class DataService {
   logout() {
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('role');
+    window.localStorage.removeItem('roleType');
+    window.localStorage.removeItem('name');
+    window.localStorage.removeItem('userName');
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
   }

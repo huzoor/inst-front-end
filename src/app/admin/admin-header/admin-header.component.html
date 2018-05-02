@@ -11,7 +11,7 @@
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img [src]="croppedImage" class="user-image" alt="User Image">
-            <span class="hidden-xs">Koppala</span>
+            <span class="hidden-xs">{{name}}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="user-header">
@@ -25,8 +25,8 @@
                 </label>
               </div>
               <p>
-                Koppala - Web Developer
-                <small>Member since Nov. 2012</small>
+                {{name}} 
+                <small>{{roleType}}</small>
               </p>
 
             </li>
