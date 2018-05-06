@@ -15,6 +15,11 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.loginForm();
   }
+  
+  public myDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'm/d/yyyy',
+  };
+
   loginForm() {
     this.myform = new FormGroup({
       userName: new FormControl(),

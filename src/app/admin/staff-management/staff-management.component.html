@@ -36,7 +36,7 @@
                             <th>Actions</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="staffList">
                           <tr>
                             <td colspan="7" *ngIf="staffList.teaching.length === 0">
                               <div class="text-center">No Staff Added</div>
@@ -80,7 +80,7 @@
                             <th>Actions</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="staffList">
                           <tr>
                             <td colspan="7" *ngIf="staffList.nonTeching.length === 0">
                               <div class="text-center">No Staff Added</div>

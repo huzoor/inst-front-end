@@ -68,6 +68,10 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
+  public myDatePickerOptions: IMyDpOptions = {
+    dateFormat: 'm/d/yyyy',
+  };
+
   public getStudentsList(formInfo) {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';

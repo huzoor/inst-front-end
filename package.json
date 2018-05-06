@@ -42,7 +42,7 @@
     "ng4-file-upload": "^5.0.7",
     "ngx-bootstrap": "^2.0.2",
     "ngx-image-cropper": "^0.2.3",
-    "npm": "^5.3.0",
+    "npm": "^5.8.0",
     "raphael": "^2.2.7",
     "rxjs": "^5.5.5",
     "zone.js": "^0.8.17"

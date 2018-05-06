@@ -169,6 +169,7 @@ td.day-heading {
 }
 .modal-body label {
   font-weight: bold;
+  color: #000000;
 }
 /* upload profile css start */
 .upload-profile input[type="file"] {
