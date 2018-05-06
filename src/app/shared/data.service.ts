@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
+import { serviceUrl } from './AppConstants';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class DataService {
   result: any;
   isLoggedin: boolean;
-  BASE_URL: String = 'http://localhost:26666/api';
+  BASE_URL: String = serviceUrl;
   private headers: Headers = new Headers({ 'Content-Type': 'application/json' });
   constructor(private http: Http, private _router: Router) { }
   getUsers() {

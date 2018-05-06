@@ -1,3 +1,6 @@
+// export const serviceUrl = `http://18.216.194.208:26666/api`;
+export const serviceUrl = `http://localhost:26666/api`;
+
 export const staffRoles = [
     { id: 1, type: 'teaching' },
     { id: 2, type: 'non-teaching'}
