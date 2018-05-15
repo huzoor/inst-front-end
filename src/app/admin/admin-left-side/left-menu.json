@@ -27,7 +27,7 @@
     "routerLink": "student-academic-setup",
     "icon": "fa fa-graduation-cap",
     "displayName": "Student Academic Setup",
-    "roles": [102, 104]
+    "roles": [102]
   },
   {
     "routerLink": "staff-management",

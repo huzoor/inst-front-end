@@ -64,7 +64,7 @@ export class SigninComponent implements OnInit {
               if (userInfo.json().success) {
                 localStorage.setItem('token', userInfo.json().auth_token);
                 localStorage.setItem('role', userInfo.json().role);
-                localStorage.setItem('roleType', userInfo.json().user.role);
+                localStorage.setItem('roleType', userInfo.json().user.roleType);
                 localStorage.setItem('userName', userInfo.json().user.userName);
                 localStorage.setItem('name', userInfo.json().user.name);
                 this.router.navigate(['/dashboard']);
