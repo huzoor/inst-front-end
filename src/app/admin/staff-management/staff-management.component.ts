@@ -23,6 +23,7 @@ export class StaffManagementComponent implements OnInit {
   public modalRef: BsModalRef;
   public staffForm: FormGroup;
   public userName: FormControl;
+  public staffName: FormControl;
   public subject: FormControl;
   public staffRole: FormControl;
   public experience: FormControl;
@@ -63,6 +64,7 @@ export class StaffManagementComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
+    this.staffName = new FormControl('', []);
     this.userName = new FormControl('', []);
     this.gender = new FormControl('', []);
     this.email = new FormControl('', []);
@@ -88,6 +90,7 @@ export class StaffManagementComponent implements OnInit {
 
   formFileds() {
     this.staffForm = new FormGroup({
+      staffName: this.staffName,
       userName: this.userName,
       gender: this.gender,
       email: this.email,

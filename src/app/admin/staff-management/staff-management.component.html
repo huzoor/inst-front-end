@@ -43,7 +43,7 @@
                             </td>
                           </tr>
                           <tr *ngFor="let staff of staffList.teaching">
-                            <td>{{staff.userName}}</td>
+                            <td>{{staff.staffName}}</td>
                             <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
                             <td>{{staff.mobile}} </td>
@@ -87,7 +87,7 @@
                             </td>
                           </tr>
                           <tr *ngFor="let staff of staffList.nonTeching">
-                            <td>{{staff.userName}}</td>
+                            <td>{{staff.staffName}}</td>
                             <td>{{getSubjectName(staff.subject)}}</td>
                             <td>{{staff.qualification}} </td>
                             <td>{{staff.mobile}} </td>
@@ -126,7 +126,13 @@
     <div class="modal-body">
       <form novalidate [formGroup]="staffForm" class="custom-form" autocomplete="off">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Staff Name</label>
+              <input type="text" class="form-control" formControlName="staffName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">User Name</label>
               <input type="text" class="form-control" formControlName="userName" required>
