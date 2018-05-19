@@ -42,16 +42,26 @@ li.active > a {
 .box {
   border-top: 0;
 }
-.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .skin-blue .main-header .navbar {
-  background: #002c77;
+.skin-blue .wrapper, .skin-blue .main-sidebar, 
+.skin-blue .left-side, 
+.skin-blue .main-header .navbar, 
+.btn-info, .btn-primary, 
+.modal-info, .bg-info,
+.btn-info:hover {
+  background: #002c77 !important;
+}
+.close, .close:hover, .close:focus {
+  color: #fff;
+  text-shadow: none;
+  opacity: 1;
 }
 .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
   background: #063c92;
 }
-.btn-info, .btn-primary {
+/* .btn-info, .btn-primary {
   background-color: #002d76;
   border-color: #002d76;
-}
+} */
 .table-responsive {
   border: none;
 }
