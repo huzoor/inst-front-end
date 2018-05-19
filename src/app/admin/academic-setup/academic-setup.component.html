@@ -35,7 +35,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editClass(class, classModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteClass(class)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(class, 'Class')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -82,7 +82,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editSubject(subject, subjectModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteSubject(subject)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(subject, 'Subject')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -136,7 +136,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editHour(hour, hourModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteHour(hour)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(hour,'Hour')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>

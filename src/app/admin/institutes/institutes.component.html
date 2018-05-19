@@ -39,13 +39,11 @@
                       <td>{{institute.registeredDate | date:'dd-MM-yyyy'}}</td>
                       <td>
                         <div class="actions">
-                          <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
-                            <i class="fa fa-eye"></i>
-                          </button> -->
+                      
                           <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(instituteModal, institute)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteInstitute(institute)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeInstitute(institute)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>

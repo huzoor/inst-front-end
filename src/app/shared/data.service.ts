@@ -52,6 +52,11 @@ export class DataService {
     return this.http.post(url, institute, { headers: this.headers }).toPromise();
   }
 
+  removeInstance(instanceId, instanceUrl): Promise<any> {
+    let url: string = `${this.BASE_URL}/${instanceUrl}`;
+    return this.http.put(url, instanceId, { headers: this.headers }).toPromise();
+  }
+
   getInstitutes(): Promise<any> {
     let url: string = `${this.BASE_URL}/getInstitutes`;
     return this.http.get(url, { headers: this.headers }).toPromise();

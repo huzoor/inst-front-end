@@ -42,13 +42,10 @@
                       <td>{{School.registeredDate  | date:'dd-MM-yyyy'}}</td>
                       <td>
                         <div class="actions">
-                          <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/School-profile/{{School.id}}">
-                            <i class="fa fa-eye"></i>
-                          </button> -->
                           <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, School)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteSchool(School)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeSchool(School)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>

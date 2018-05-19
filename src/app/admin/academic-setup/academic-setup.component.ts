@@ -315,4 +315,23 @@ export class AcademicSetupComponent implements OnInit {
         });
     }
   }
+
+  removeEntity(EntityInfo, entityType){
+    const endPoint = `remove${entityType}`;
+    this.dataService.removeInstance({_id: EntityInfo._id}, endPoint)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.getClassesList();
+        this.getSubjectsList();
+        this.getHoursList();
+      } else {
+        this.error = resp.json().message;
+      }
+    })
+    .catch((err) => {
+      console.log('Remove Inst Err', err);
+      this.error = err.json().message;
+    });
+  }
+
 }

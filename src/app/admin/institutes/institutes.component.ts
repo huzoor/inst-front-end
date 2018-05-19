@@ -119,6 +119,7 @@ export class InstitutesComponent implements OnInit {
       this.showEditForm = false;
     }
   }
+
   public saveInstituteForm(instituteform) {
     console.log(instituteform.value.registeredDate);
     if (this.instituteform.valid) {
@@ -163,7 +164,22 @@ export class InstitutesComponent implements OnInit {
           this.error = err.json().message;
         });
     }
+  }
 
+  removeInstitute(institute){
+    const endPoint = `removeInstance`;
+    this.dataService.removeInstance({_id: institute._id}, endPoint)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.getInstitutesList();
+      } else {
+        this.error = resp.json().message;
+      }
+    })
+    .catch((err) => {
+      console.log('Remove Inst Err', err);
+      this.error = err.json().message;
+    });
   }
 
 }
