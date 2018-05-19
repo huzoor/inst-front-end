@@ -21,12 +21,20 @@ body {
 }
 .login-box-body {
   border-radius: 5px;
+  background: hsla(0,0%,100%,.8);
 }
+
 .login-page {
   background-image: url(assets/images/login-register.jpg) !important;
 }
 .login-logo {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  letter-spacing: .16rem;
+  text-transform: uppercase;
+}
+.login-btn {
+  padding: 10px;
 }
 .recover-link {
   margin-top: 7px;
@@ -58,10 +66,7 @@ li.active > a {
 .skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
   background: #063c92;
 }
-/* .btn-info, .btn-primary {
-  background-color: #002d76;
-  border-color: #002d76;
-} */
+
 .table-responsive {
   border: none;
 }
