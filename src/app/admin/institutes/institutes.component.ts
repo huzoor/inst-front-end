@@ -167,7 +167,7 @@ export class InstitutesComponent implements OnInit {
   }
 
   removeInstitute(institute){
-    const endPoint = `removeInstance`;
+    const endPoint = `removeInstitute`;
     this.dataService.removeInstance({_id: institute._id}, endPoint)
     .then((resp) => {
       if (resp.json().success) {
