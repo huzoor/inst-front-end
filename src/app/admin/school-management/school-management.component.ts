@@ -58,7 +58,7 @@ export class SchoolManagementComponent implements OnInit {
     this.getSchoolsList();
   }
   getSchoolsList() {
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     this.dataService.getSchoolList({instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
@@ -112,7 +112,7 @@ export class SchoolManagementComponent implements OnInit {
   public saveSchoolForm(schoolForm) {
     if (this.schoolForm.valid) {
       this.error = '';
-      let instituteUserName = 'inst1-INST';
+      let instituteUserName = localStorage.getItem('instituteUserName');
       this.schoolForm.value.registeredDate = this.schoolForm.value.registeredDate.formatted;
       this.schoolForm.value.formMode = 'create';
       this.schoolForm.value.instituteUserName = instituteUserName;
@@ -136,7 +136,7 @@ export class SchoolManagementComponent implements OnInit {
     this.changeCountry(schoolForm.country);
     this.changeState(schoolForm.state);
     this.schoolForm.get('registeredDate').setValue(schoolForm.value.registeredDate.formatted);
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     this.schoolForm.value.formMode = 'update';
     this.schoolForm.value.instituteUserName = instituteUserName;
     console.log(schoolForm.value);

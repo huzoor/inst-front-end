@@ -68,6 +68,10 @@ export class SigninComponent implements OnInit {
                 localStorage.setItem('userName', userInfo.json().user.userName);
                 localStorage.setItem('name', userInfo.json().user.name);
                 this.router.navigate(['/dashboard']);
+
+                if(role == 'INST'){
+                  localStorage.setItem('instituteUserName', userInfo.json().user.userName);
+                }
               } else {
                 this.error = userInfo.json().message;
               }

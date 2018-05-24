@@ -24,11 +24,17 @@ export class DataService {
   }
 
   logout() {
+    let role = parseInt(localStorage.getItem('role'),10);
+    
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('role');
     window.localStorage.removeItem('roleType');
     window.localStorage.removeItem('name');
     window.localStorage.removeItem('userName');
+    
+    if(role == 101)
+      window.localStorage.removeItem('instituteUserName');
+
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
   }
