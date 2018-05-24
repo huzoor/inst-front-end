@@ -9,16 +9,18 @@ var AdminLTE = (function() {
         $.AdminLTE.layout.fix();
         $.AdminLTE.layout.fixSidebar();
       });
-      $(function () {
-        $('#data-table').DataTable({
-          'paging'      : true,
-          'lengthChange': true,
-          'searching'   : true,
-          'ordering'    : true,
-          'info'        : true,
-          'autoWidth'   : true
-        })
-      });
+      setTimeout(() => {
+        $(function () {
+          $('#data-table').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+          })
+        });
+      }, 3000);
     }
   }
 })(AdminLTE||{});

@@ -13,12 +13,14 @@ import { LoginRedirect } from './shared/login-redirect.service';
 import { AppComponent } from './app.component';
 import { SigninComponent } from './accounts/signin/signin.component';
 import { RegistrationComponent } from './accounts/registration/registration.component';
+import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

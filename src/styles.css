@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 body { 
-  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-family: 'proxima_nova_rgregular','Helvetica','Arial,sans-serif';
   font-size: 14px;
 }
 .m5 {
@@ -21,12 +21,20 @@ body {
 }
 .login-box-body {
   border-radius: 5px;
+  background: hsla(0,0%,100%,.8);
 }
+
 .login-page {
   background-image: url(assets/images/login-register.jpg) !important;
 }
 .login-logo {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  letter-spacing: .16rem;
+  text-transform: uppercase;
+}
+.login-btn {
+  padding: 10px;
 }
 .recover-link {
   margin-top: 7px;
@@ -41,6 +49,32 @@ li.active > a {
 
 .box {
   border-top: 0;
+}
+.skin-blue .wrapper, .skin-blue .main-sidebar, 
+.skin-blue .left-side, 
+.skin-blue .main-header .navbar, 
+.btn-info, .btn-primary, 
+.modal-info, .bg-info,
+.btn-info:hover {
+  background: #002c77 !important;
+}
+.close, .close:hover, .close:focus {
+  color: #fff;
+  text-shadow: none;
+  opacity: 1;
+}
+.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
+  background: #063c92;
+}
+
+.table-responsive {
+  border: none;
+}
+.content-wrapper, .right-side {
+  background-color: #006d9e;
+}
+.skin-blue .content-header, .content-header > .breadcrumb > li > a, .breadcrumb > .active {
+  color: #fff;
 }
 /******************* Checkbox *******************/
 .checkbox {
@@ -125,7 +159,7 @@ li.active > a {
 }
 .content-header {
   position: relative;
-  padding: 0 15px 0 15px;
+  padding: 15px 15px 0 15px;
   margin-bottom: 15px;
 }
 .custom-form .form-group {

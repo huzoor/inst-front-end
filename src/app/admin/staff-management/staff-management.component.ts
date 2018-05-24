@@ -232,5 +232,21 @@ export class StaffManagementComponent implements OnInit {
         return false;
       });
   }
- 
+
+  removeStaff(staffInfo){
+    const endPoint = `removeStaff`;
+    this.dataService.removeInstance({_id: staffInfo._id}, endPoint)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.getStaffList();
+      } else {
+        this.error = resp.json().message;
+      }
+    })
+    .catch((err) => {
+      console.log('Remove Inst Err', err);
+      this.error = err.json().message;
+    });
+  }
 }
+

@@ -158,4 +158,20 @@ export class SchoolManagementComponent implements OnInit {
         });
     }
   }
+
+  removeSchool(school){
+    const endPoint = `removeSchool`;
+    this.dataService.removeInstance({_id: school._id}, endPoint)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.getSchoolsList();
+      } else {
+        this.error = resp.json().message;
+      }
+    })
+    .catch((err) => {
+      console.log('Add Inst Err', err);
+      this.error = err.json().message;
+    });
+  }
 }
