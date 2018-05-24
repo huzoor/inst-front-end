@@ -152,7 +152,13 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">User Name</label>
-              <input type="text" class="form-control" formControlName="userName" required>
+              <input type="text" class="form-control" 
+                     formControlName="userName" 
+                     (change) = "instititeAvailStaus($event)"
+                     required>
+            </div>
+            <div class="col-xs-6 alert alert-warning"  *ngIf="instAvailStaus.length > 0">
+              {{instAvailStaus}}
             </div>
           </div>
 

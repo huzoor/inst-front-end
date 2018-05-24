@@ -33,6 +33,7 @@ export class InstitutesComponent implements OnInit {
   public mobile: FormControl;
   public _id: FormControl;
   public error: any;
+  public instAvailStaus: String = '';
 
   public countriesList: any = countriesList;
   public statesList: any = statesList;
@@ -178,6 +179,24 @@ export class InstitutesComponent implements OnInit {
     })
     .catch((err) => {
       console.log('Remove Inst Err', err);
+      this.error = err.json().message;
+    });
+  }
+
+  instititeAvailStaus(event){
+   const instituteName = event.target.value;
+   if( instituteName !=='undefined'  && instituteName.length > 3)
+    this.dataService.instititeAvailStaus(instituteName)
+    .then((resp) => {
+      
+      if (resp.json().success) {
+        this.instAvailStaus = '';
+      } else {
+        this.instAvailStaus = resp.json().message;
+      }
+    })
+    .catch((err) => {
+      console.log('Avail Inst Err', err);
       this.error = err.json().message;
     });
   }
