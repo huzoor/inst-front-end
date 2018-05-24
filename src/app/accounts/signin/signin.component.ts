@@ -71,6 +71,17 @@ export class SigninComponent implements OnInit {
 
                 if(role == 'INST'){
                   localStorage.setItem('instituteUserName', userInfo.json().user.userName);
+                } else if(role == 'SCH'){
+                  localStorage.setItem('instituteUserName', userInfo.json().user.instituteUserName);
+                  localStorage.setItem('schoolUserName', userInfo.json().user.userName);
+                } else if(role == 'STF'){
+                  localStorage.setItem('instituteUserName', userInfo.json().user.instituteUserName);
+                  localStorage.setItem('schoolUserName', userInfo.json().user.schoolUserName);
+                  localStorage.setItem('staffUserName', userInfo.json().user.userName);
+                } else if(role == 'STU'){
+                  localStorage.setItem('instituteUserName', userInfo.json().user.instituteUserName);
+                  localStorage.setItem('schoolUserName', userInfo.json().user.schoolUserName);
+                  localStorage.setItem('studentUserName', userInfo.json().user.userName);
                 }
               } else {
                 this.error = userInfo.json().message;

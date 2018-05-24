@@ -32,8 +32,10 @@ export class DataService {
     window.localStorage.removeItem('name');
     window.localStorage.removeItem('userName');
     
-    if(role == 101)
-      window.localStorage.removeItem('instituteUserName');
+    window.localStorage.removeItem('instituteUserName');
+    window.localStorage.removeItem('schoolUserName');
+    window.localStorage.removeItem('staffUserName');
+    window.localStorage.removeItem('studentUserName');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
