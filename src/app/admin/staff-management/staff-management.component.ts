@@ -127,8 +127,8 @@ export class StaffManagementComponent implements OnInit {
 
   public getStaffList() {  
     // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST'; 
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     this.dataService.getStaffList({schoolUserName, instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
@@ -157,15 +157,16 @@ export class StaffManagementComponent implements OnInit {
   }
 
   public getSubjectName(subjId) {
-    return this.subjectsList.filter(i=> i._id == subjId)[0].subjectName;
+    let subjList = this.subjectsList.filter(i=> i._id == subjId);
+    return subjList.length > 0 ? subjList[0].subjectName : '';
   }
 
   public addStaff(staffForm) {
     if (this.staffForm.valid) {
       this.error = '';
       // Get this info from localStorage
-      this.staffForm.value.schoolUserName = 'sch1-SCH';
-      this.staffForm.value.instituteUserName = 'inst1-INST';
+      this.staffForm.value.schoolUserName = localStorage.getItem('schoolUserName');
+      this.staffForm.value.instituteUserName = localStorage.getItem('instituteUserName');
       this.staffForm.value.fromMode = `create`;
       this.dataService.addStaff(this.staffForm.value)
         .then((resp) => {
@@ -190,8 +191,8 @@ export class StaffManagementComponent implements OnInit {
     if (this.staffForm.valid) {
       this.error = '';
       // Get this info from localStorage
-      this.staffForm.value.schoolUserName = 'sch1-SCH';
-      this.staffForm.value.instituteUserName = 'inst1-INST';
+      this.staffForm.value.schoolUserName =  localStorage.getItem('schoolUserName');
+      this.staffForm.value.instituteUserName =  localStorage.getItem('instituteUserName');
       this.staffForm.value.fromMode = `update`;
       this.dataService.addStaff(this.staffForm.value)
         .then((resp) => {
@@ -212,8 +213,8 @@ export class StaffManagementComponent implements OnInit {
 
   public getSubjectsList(): Promise<Boolean> {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = `sch1-SCH`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
 
     return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })

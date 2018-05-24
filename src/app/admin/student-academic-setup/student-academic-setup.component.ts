@@ -26,7 +26,7 @@ export class StudentAcademicSetupComponent implements OnInit {
 
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     // let schoolUserName = `sch1-SCH`;
     let entityType ='classes';
 
@@ -50,8 +50,8 @@ export class StudentAcademicSetupComponent implements OnInit {
 
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-     let schoolUserName = `sch1-SCH`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
+     let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
     this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
@@ -89,8 +89,8 @@ export class StudentAcademicSetupComponent implements OnInit {
   }
   public saveSubjects(subjectsInfo): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = `inst1-INST`;
-    let schoolUserName = `sch1-SCH`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
 
     let mappedList: any[] = new Array();
     let filteresList = subjectsInfo.map(i => i.subjects.filter(s=> s.selected)).filter(x => x.length > 0);

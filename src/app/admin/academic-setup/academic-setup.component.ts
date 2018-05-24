@@ -72,7 +72,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='classes';
     this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
@@ -89,7 +89,7 @@ export class AcademicSetupComponent implements OnInit {
  
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='subjects';
     this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
@@ -106,7 +106,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public getHoursList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     this.dataService.getHoursList({instituteUserName })
       .then((resp) => {
         let res = resp.json()
@@ -165,8 +165,8 @@ export class AcademicSetupComponent implements OnInit {
   public addClass(classForm) {
     if (this.classForm.valid) {
       this.error = '';
-      this.classForm.value.instituteUserName = 'inst1-INST';
-      this.classForm.value.schoolUserName = 'sch1-SCH';
+      this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.classForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.classForm.value.fromMode = `create`;
       
       this.dataService.addClass(this.classForm.value)
@@ -188,8 +188,8 @@ export class AcademicSetupComponent implements OnInit {
   public addSubject(subjectForm) {
     if (this.subjectForm.valid) {
       this.error = '';
-      this.subjectForm.value.instituteUserName = 'inst1-INST';
-      this.subjectForm.value.schoolUserName = 'sch1-SCH';
+      this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.subjectForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.subjectForm.value.fromMode = `create`;
      
       this.dataService.addSubject(this.subjectForm.value)
@@ -212,8 +212,8 @@ export class AcademicSetupComponent implements OnInit {
     console.log(classForm.value);
     if (this.classForm.valid) {
       this.error = '';
-      this.classForm.value.instituteUserName = 'inst1-INST';
-      this.classForm.value.schoolUserName = 'sch1-SCH';
+      this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.classForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.classForm.value.fromMode = `update`;
       this.classForm.value.class_ID = this.class_ID;
     
@@ -237,8 +237,8 @@ export class AcademicSetupComponent implements OnInit {
     console.log(subjectForm.value);
     if (this.subjectForm.valid) {
       this.error = '';
-      this.subjectForm.value.instituteUserName = 'inst1-INST';
-      this.subjectForm.value.schoolUserName = 'sch1-SCH';
+      this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.subjectForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.subjectForm.value.fromMode = `update`;
       this.subjectForm.value.subject_ID = this.subject_ID;
 
@@ -262,8 +262,8 @@ export class AcademicSetupComponent implements OnInit {
     console.log(hourForm.value);
     if (this.hourForm.valid) {
       this.error = '';
-      this.hourForm.value.instituteUserName = 'inst1-INST';
-      this.hourForm.value.schoolUserName = 'sch1-SCH';
+      this.hourForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.hourForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.hourForm.value.fromMode = `create`;
      
       this.dataService.addNewHour(this.hourForm.value)
@@ -288,8 +288,8 @@ export class AcademicSetupComponent implements OnInit {
     console.log(hourForm.value);
     if (this.hourForm.valid) {
       this.error = '';
-      this.hourForm.value.instituteUserName = 'inst1-INST';
-      this.hourForm.value.schoolUserName = 'sch1-SCH';
+      this.hourForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.hourForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.hourForm.value.fromMode = `update`;
 
       this.startTime = hourForm.startTime;
