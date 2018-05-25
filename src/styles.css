@@ -50,6 +50,9 @@ li.active > a {
 .box {
   border-top: 0;
 }
+.alert {
+  padding: 8px 15px;
+}
 .skin-blue .wrapper, .skin-blue .main-sidebar, 
 .skin-blue .left-side, 
 .skin-blue .main-header .navbar, 

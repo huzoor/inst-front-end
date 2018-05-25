@@ -50,4 +50,12 @@ export class AdminHeaderComponent implements OnInit {
     console.log(this.croppedImage);
     this.modalRef.hide();
   };
+
+
+  changePassword(template: TemplateRef<any>): void {
+
+      this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+
+  }
+
 }

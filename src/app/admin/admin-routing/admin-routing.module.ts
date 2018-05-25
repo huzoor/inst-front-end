@@ -19,6 +19,7 @@ import { TimelineComponent } from '../timeline/timeline.component';
 import { TimetableComponent } from '../timetable/timetable.component';
 import { ExaminationComponent } from '../examination/examination.component';
 import { StudentAcademicSetupComponent } from '../student-academic-setup/student-academic-setup.component';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -95,6 +96,11 @@ import { StudentAcademicSetupComponent } from '../student-academic-setup/student
           {
             path: 'exams',
             component: ExaminationComponent,
+            canActivate: [EnsureAuthenticated],
+          },
+          {
+            path: 'reset-password',
+            component: ResetPasswordComponent,
             canActivate: [EnsureAuthenticated],
           }
         ]

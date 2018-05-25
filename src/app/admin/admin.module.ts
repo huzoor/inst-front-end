@@ -26,6 +26,8 @@ import { TimetableComponent } from './timetable/timetable.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { StudentAcademicSetupComponent } from './student-academic-setup/student-academic-setup.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     TimelineComponent,
     TimetableComponent,
     ExaminationComponent,
-    StudentAcademicSetupComponent
+    StudentAcademicSetupComponent,
+    ResetPasswordComponent
   ],
   exports: [AdminComponent]
 })
