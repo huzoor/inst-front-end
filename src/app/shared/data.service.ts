@@ -70,11 +70,11 @@ export class DataService {
     return this.http.get(url, { headers: this.headers }).toPromise();
   }
   
-  instititeAvailStaus(instituteUserName): Promise<any> {
-    let url: string = `${this.BASE_URL}/instAvailStaus`;
+  instnceAvailStaus(instanceName, endPoint): Promise<any> {
+    let url: string = `${this.BASE_URL}/${endPoint}`;
     let insHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json',
-      instituteUserName
+      instanceName
     });
     return this.http.get(url, { headers: insHeaders }).toPromise();
   }

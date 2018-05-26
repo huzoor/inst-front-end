@@ -206,7 +206,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Mobile <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="mobile" required>
+              <input type="text" class="form-control" 
+                     formControlName="mobile" 
+                     (change) = "studentAvailStaus($event)"
+                     required>
+            </div>
+            <div class="col-xs-6 alert alert-warning"  *ngIf="stuAvailStaus.length > 0">
+              {{stuAvailStaus}}
             </div>
           </div>
         </div>

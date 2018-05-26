@@ -135,7 +135,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">User Name</label>
-              <input type="text" class="form-control" formControlName="userName" required>
+              <input type="text" class="form-control" 
+                                 formControlName="userName" 
+                                 (change) = "staffAvailStaus($event)"
+                                 required>
+            </div>
+            <div class="col-xs-6 alert alert-warning"  *ngIf="stfAvailStaus.length > 0">
+              {{stfAvailStaus}}
             </div>
           </div>
         </div>

@@ -50,6 +50,7 @@ export class StaffManagementComponent implements OnInit {
   public districtsList: any = districtsList;
   public yearsList: any = new Array;
   public error: any;
+  public stfAvailStaus: String = '';
   public showUpdateButton: boolean = false;
 
   constructor(private modalService: BsModalService,
@@ -249,5 +250,24 @@ export class StaffManagementComponent implements OnInit {
       this.error = err.json().message;
     });
   }
+
+  staffAvailStaus(event){
+    const staffName = event.target.value;
+    if( staffName !=='undefined'  && staffName.length > 3)
+     this.dataService.instnceAvailStaus(staffName, 'stfAvailStaus')
+     .then((resp) => {
+       
+       if (resp.json().success) {
+         this.stfAvailStaus = '';
+       } else {
+         this.stfAvailStaus = resp.json().message;
+       }
+     })
+     .catch((err) => {
+       console.log('Avail Stf Err', err);
+       this.error = err.json().message;
+     });
+   }
+
 }
 

@@ -41,6 +41,7 @@ export class StudentManagementComponent implements OnInit {
   public studentList: any[];
   public classList: any[];
   public error: any;
+  public stuAvailStaus: String = '';
   public showUpdateButton: boolean = false;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -176,7 +177,10 @@ export class StudentManagementComponent implements OnInit {
     this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
   public getClassName(clsId){
-     return this.classList.filter(i=> i._id == clsId)[0].className;
+
+    let clsList = this.classList.filter(i=> i._id == clsId);
+    return clsList.length > 0 ? clsList[0].className : '';
+    //  return this.classList.filter(i=> i._id == clsId)[0].className;
   }
 
   public saveStudent(studentForm) {
@@ -222,5 +226,23 @@ export class StudentManagementComponent implements OnInit {
         } else this.error = resp.json().message;
       }).catch((err) => this.error = err.json().message);
     }
-  };
+  }
+
+  studentAvailStaus(event){
+    const studentName = event.target.value;
+    if( studentName !=='undefined'  && studentName.length > 3)
+     this.dataService.instnceAvailStaus(studentName, 'stuAvailStaus')
+     .then((resp) => {
+       
+       if (resp.json().success) {
+         this.stuAvailStaus = '';
+       } else {
+         this.stuAvailStaus = resp.json().message;
+       }
+     })
+     .catch((err) => {
+       console.log('Avail Stf Err', err);
+       this.error = err.json().message;
+     });
+   }
 }

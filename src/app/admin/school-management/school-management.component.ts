@@ -36,6 +36,7 @@ export class SchoolManagementComponent implements OnInit {
   public districtsList: any = districtsList;
   public showUpdateButton: boolean = false;
   public error: any;
+  public schAvailStaus: String = '';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -174,4 +175,22 @@ export class SchoolManagementComponent implements OnInit {
       this.error = err.json().message;
     });
   }
+
+  schoolAvailStaus(event){
+    const schoolName = event.target.value;
+    if( schoolName !=='undefined'  && schoolName.length > 3)
+     this.dataService.instnceAvailStaus(schoolName,'schAvailStaus')
+     .then((resp) => {
+       
+       if (resp.json().success) {
+         this.schAvailStaus = '';
+       } else {
+         this.schAvailStaus = resp.json().message;
+       }
+     })
+     .catch((err) => {
+       console.log('Avail Sch Err', err);
+       this.error = err.json().message;
+     });
+   }
 }
