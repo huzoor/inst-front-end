@@ -136,7 +136,8 @@
             <div class="form-group">
               <label class="control-label">User Name</label>
               <input type="text" class="form-control" 
-                                 formControlName="userName" 
+                                 formControlName="userName"
+                               
                                  (change) = "staffAvailStaus($event)"
                                  required>
             </div>
@@ -288,7 +289,7 @@
       <strong>info!</strong> {{error}}
     </div> -->
     <div class="modal-footer">
-      <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+      <button type="button" id="closeInstForm" class="btn btn-default" (click)="closeMyStaffForm(modalRef)">Close</button>
       <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="staffForm.invalid" (click)="addStaff(staffForm)">Submit</button>
       <button type="button" class="btn btn-success" *ngIf="showUpdateButton" (click)="updateStaff(staffForm)">Update</button>
     </div>

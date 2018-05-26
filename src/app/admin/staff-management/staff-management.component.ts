@@ -50,6 +50,7 @@ export class StaffManagementComponent implements OnInit {
   public districtsList: any = districtsList;
   public yearsList: any = new Array;
   public error: any;
+  public disableUserName: boolean = false;
   public stfAvailStaus: String = '';
   public showUpdateButton: boolean = false;
 
@@ -114,7 +115,12 @@ export class StaffManagementComponent implements OnInit {
   public uploadImage(data: any): void {
     console.log(data[0]);
   }
+  public closeMyStaffForm(modalInfo){
+    modalInfo.hide();
+    this.disableUserName = false;
+  }
   public createEditStaff(template: TemplateRef<any>, editDetails: any) {
+    this.disableUserName = true;
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     console.log(editDetails);
     if (editDetails) {
