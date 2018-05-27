@@ -70,4 +70,10 @@
     "icon": "fa fa-building",
     "displayName": "Exam",
     "roles": [102, 103]
+  },
+  {
+    "routerLink": "gallery",
+    "icon": "fa fa-building",
+    "displayName": "Gallery",
+    "roles": [100, 101, 102, 103, 104]
   }]

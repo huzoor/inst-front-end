@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { SigninComponent } from './accounts/signin/signin.component';
 import { RegistrationComponent } from './accounts/registration/registration.component';
 import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-password.component';
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-passw
     ReactiveFormsModule,
     AppRoutingModule,
     MyDatePickerModule,
-    AdminModule
+    AdminModule,
+    FileUploadModule
   ],
   providers: [
     DataService,

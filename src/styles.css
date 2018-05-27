@@ -183,6 +183,10 @@ button.btnpicker.btnpickerenabled {
   background: #bbb;
   color: #fff;
 }
+.bg-color {
+  background: #002c77;
+  color: #ffffff;
+}
 .modal-info, .bg-info {
   background: #3c8dbc;
   color: #fff;

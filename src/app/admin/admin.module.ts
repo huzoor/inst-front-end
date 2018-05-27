@@ -27,6 +27,9 @@ import { ExaminationComponent } from './examination/examination.component';
 import { StudentAcademicSetupComponent } from './student-academic-setup/student-academic-setup.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import {FileUploadModule} from 'ng2-file-upload';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -39,7 +42,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MyDatePickerModule,
     TimepickerModule.forRoot(),
     AdminRoutingModule,
-    ImageCropperModule
+    ImageCropperModule,
+    FileUploadModule,
+    ChartsModule
   ],
   declarations: [
     AdminComponent,
@@ -59,7 +64,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     TimetableComponent,
     ExaminationComponent,
     StudentAcademicSetupComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    GalleryComponent
   ],
   exports: [AdminComponent]
 })
