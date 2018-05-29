@@ -47,4 +47,7 @@ export class DashboardComponent implements OnInit {
     this.marksData = [80, 15, 5];
   }
 
+  chartHovered($eve){}
+  chartClicked($eve){}
+
 }

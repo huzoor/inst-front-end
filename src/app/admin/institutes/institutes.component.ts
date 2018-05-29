@@ -188,7 +188,6 @@ export class InstitutesComponent implements OnInit {
    if( instituteName !=='undefined'  && instituteName.length > 3)
     this.dataService.instnceAvailStaus(instituteName, 'instAvailStaus')
     .then((resp) => {
-      
       if (resp.json().success) {
         this.instAvailStaus = '';
       } else {

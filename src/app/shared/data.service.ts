@@ -65,6 +65,11 @@ export class DataService {
     return this.http.put(url, instanceId, { headers: this.headers }).toPromise();
   }
 
+  resetPassword(passwordInfo): Promise<any> {
+    let url: string = `${this.BASE_URL}/${passwordInfo.instanceUrl}`;
+    return this.http.put(url, {...passwordInfo}, { headers: this.headers }).toPromise();
+  }
+
   getInstitutes(): Promise<any> {
     let url: string = `${this.BASE_URL}/getInstitutes`;
     return this.http.get(url, { headers: this.headers }).toPromise();
