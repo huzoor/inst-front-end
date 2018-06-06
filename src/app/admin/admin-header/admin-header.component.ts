@@ -14,6 +14,7 @@ export class AdminHeaderComponent implements OnInit {
   public roleType: String ;
   public userName: String ;
   public name: String ;
+  public resetUrl: String ;
 
   constructor(private auth: DataService,
     private modalService: BsModalService, ) { }
@@ -26,6 +27,7 @@ export class AdminHeaderComponent implements OnInit {
     this.userName = localStorage.getItem('userName');
     this.name = localStorage.getItem('name');
     this.roleType = localStorage.getItem('roleType');
+    this.resetUrl = '/reset-password?userName=this.userName&type=this.roleType'
   }
   onLogout() {
     this.auth.logout();
