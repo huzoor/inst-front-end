@@ -3,7 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-import { countriesList, statesList, districtsList }  from '../../shared/AppConstants';
+import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -34,6 +34,7 @@ export class InstitutesComponent implements OnInit {
   public _id: FormControl;
   public error: any;
   public instAvailStaus: String = '';
+  public deleteRecord: any;
 
   public countriesList: any = countriesList;
   public statesList: any = statesList;
@@ -52,8 +53,8 @@ export class InstitutesComponent implements OnInit {
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.userName = new FormControl('', []);
-    this.email = new FormControl('', []);
-    this.mobile = new FormControl('', []);
+    this.email = new FormControl('', Validators.pattern(validation.email));
+    this.mobile = new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]);
     this._id = new FormControl('', []);
     this.formFileds();
     this.getInstitutesList();
@@ -106,14 +107,27 @@ export class InstitutesComponent implements OnInit {
   public createEditForm(template: TemplateRef<any>, editData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData !== '' ) {
-      console.log(editData);
       this.showEditForm = true;
       const registeredDt = new Date(editData.registeredDate);
       const splitDate = editData.registeredDate.split('/');
-      this.instituteform.setValue(editData);
-      // const date = {"date":{"year":splitDate[2],"month":splitDate[0],"day":splitDate[1]},"jsdate":"","formatted":editData.registeredDate,"epoc":""}
       const date = { "date": { "year": registeredDt.getFullYear(), "month": (registeredDt.getMonth()+1), "day": registeredDt.getDate() }, "jsdate": "", "formatted": editData.registeredDate, "epoc": "" }
-      this.instituteform.get('registeredDate').setValue(date);
+      this.instituteform.setValue({
+        instituteName: editData.instituteName,
+        address: editData.address,
+        code: editData.code,
+        registeredDate: date,
+        state: editData.state,
+        city: editData.city,
+        district: editData.district,
+        country: editData.country,
+        userName: editData.userName,
+        email: editData.email,
+        mobile: editData.mobile,
+        _id: editData._id
+      });
+
+      // const date = {"date":{"year":splitDate[2],"month":splitDate[0],"day":splitDate[1]},"jsdate":"","formatted":editData.registeredDate,"epoc":""}
+  //    this.instituteform.get('registeredDate').setValue(date);
     } else {
       console.log("create");
       this.instituteform.reset();
@@ -166,9 +180,14 @@ export class InstitutesComponent implements OnInit {
         });
     }
   }
-
+  public deleteInstitute(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteRecord = deleteData;
+  };
+  
   removeInstitute(institute){
     const endPoint = `removeInstitute`;
+    this.modalRef.hide();
     this.dataService.removeInstance({_id: institute._id}, endPoint)
     .then((resp) => {
       if (resp.json().success) {

@@ -7,6 +7,7 @@ import { LoginRedirect } from './shared/login-redirect.service';
 import { SigninComponent } from './accounts/signin/signin.component';
 import { RegistrationComponent } from './accounts/registration/registration.component';
 import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './accounts/reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-passw
       { path: 'signin', component: SigninComponent, canActivate: [LoginRedirect]},
       { path: 'registration', component: RegistrationComponent, canActivate: [LoginRedirect] },
       { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoginRedirect]},
+      { path: 'reset-password', component: ResetPasswordComponent, canActivate: [LoginRedirect]}
     ])
   ],
   declarations: [],

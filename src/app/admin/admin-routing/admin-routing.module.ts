@@ -19,8 +19,8 @@ import { TimelineComponent } from '../timeline/timeline.component';
 import { TimetableComponent } from '../timetable/timetable.component';
 import { ExaminationComponent } from '../examination/examination.component';
 import { StudentAcademicSetupComponent } from '../student-academic-setup/student-academic-setup.component';
-import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { GalleryComponent } from '../gallery/gallery.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -100,8 +100,8 @@ import { GalleryComponent } from '../gallery/gallery.component';
             canActivate: [EnsureAuthenticated],
           },
           {
-            path: 'reset-password',
-            component: ResetPasswordComponent,
+            path: 'change-password',
+            component: ChangePasswordComponent,
             canActivate: [EnsureAuthenticated],
           },
           {

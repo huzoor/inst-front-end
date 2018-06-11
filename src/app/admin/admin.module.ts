@@ -26,10 +26,10 @@ import { TimetableComponent } from './timetable/timetable.component';
 import { ExaminationComponent } from './examination/examination.component';
 import { StudentAcademicSetupComponent } from './student-academic-setup/student-academic-setup.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ChartsModule } from 'ng2-charts';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -64,8 +64,8 @@ import { ChartsModule } from 'ng2-charts';
     TimetableComponent,
     ExaminationComponent,
     StudentAcademicSetupComponent,
-    ResetPasswordComponent,
-    GalleryComponent
+    GalleryComponent,
+    ChangePasswordComponent
   ],
   exports: [AdminComponent]
 })

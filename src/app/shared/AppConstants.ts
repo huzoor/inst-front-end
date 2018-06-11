@@ -1,6 +1,10 @@
 // export const serviceUrl = `http://ec2-18-216-194-208.us-east-2.compute.amazonaws.com:26666/api`;
 export const serviceUrl = `http://localhost:26666/api`;
 
+export const validation = {
+    email: /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/
+}
+
 export const staffRoles = [
     { id: 1, type: 'teaching' },
     { id: 2, type: 'non-teaching'}
