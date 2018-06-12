@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
-import { countriesList, statesList, districtsList }  from '../../shared/AppConstants';
+import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
 
 declare var AdminLTE: any;
 @Component({
@@ -31,6 +31,8 @@ export class SchoolManagementComponent implements OnInit {
   public mobile: FormControl;
   public _id: FormControl;
 
+  public deleteSchool: any;
+
   public countriesList: any = countriesList;
   public statesList: any = statesList;
   public districtsList: any = districtsList;
@@ -52,8 +54,8 @@ export class SchoolManagementComponent implements OnInit {
     this.district = new FormControl('', []);
     this.country = new FormControl('', []);
     this.userName = new FormControl('', []);
-    this.email = new FormControl('', []);
-    this.mobile = new FormControl('', []);
+    this.email = new FormControl('', Validators.pattern(validation.email));
+    this.mobile = new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]);
     this._id = new FormControl('', []);
     this.formFileds();
     this.getSchoolsList();
@@ -160,8 +162,14 @@ export class SchoolManagementComponent implements OnInit {
     }
   }
 
+  public deleteSchoolInfo(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteSchool = deleteData;
+  };
+
   removeSchool(school){
     const endPoint = `removeSchool`;
+    this.modalRef.hide();
     this.dataService.removeInstance({_id: school._id}, endPoint)
     .then((resp) => {
       if (resp.json().success) {

@@ -33,6 +33,8 @@ export class AcademicSetupComponent implements OnInit {
   public startTime: any;
   public endTime: any;
   public userRole: number;
+  public deleteRecord: any;
+  public entityType: any;
 
   constructor(private modalService: BsModalService,
     private dataService: DataService) { }
@@ -315,9 +317,17 @@ export class AcademicSetupComponent implements OnInit {
         });
     }
   }
+  
+  public removeEntity(template: TemplateRef<any>, deleteData, type) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteRecord = deleteData;
+    this.entityType = type;
+  };
+  
 
-  removeEntity(EntityInfo, entityType){
+  deleteEntity(EntityInfo, entityType){
     const endPoint = `remove${entityType}`;
+    this.modalRef.hide();
     this.dataService.removeInstance({_id: EntityInfo._id}, endPoint)
     .then((resp) => {
       if (resp.json().success) {

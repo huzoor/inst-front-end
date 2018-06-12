@@ -35,7 +35,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editClass(class, classModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(class, 'Class')">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(deleteModal, class, 'Class')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -82,7 +82,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editSubject(subject, subjectModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(subject, 'Subject')">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(deleteModal, subject, 'Subject')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -136,7 +136,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="editHour(hour, hourModal)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(hour,'Hour')">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="removeEntity(deleteModal,hour,'Hour')">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -152,6 +152,19 @@
     </div>
     <!-- Period List end -->
   </section>
+  <ng-template #deleteModal>
+    <div class="modal-body">
+      <div class="row">
+        <h4 class="modal-title text-center mt-20">Are you sure, you want to delete {{entityType}} ?</h4>
+      </div>
+    </div>
+    <div class="modal-footer mt-20">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deleteEntity(deleteRecord, entityType)">Delete</button>
+      </div>
+    </div>
+  </ng-template>
   <ng-template #classModal>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Add Classes</h4>

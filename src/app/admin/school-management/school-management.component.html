@@ -45,7 +45,7 @@
                           <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, School)">
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="removeSchool(School)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteSchoolInfo(deleteModal, School)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -60,6 +60,19 @@
       </div>
     </div>
   </section>
+  <ng-template #deleteModal>
+    <div class="modal-body">
+      <div class="row">
+        <h4 class="modal-title text-center mt-20">Are you sure, you want to delete?</h4>
+      </div>
+    </div>
+    <div class="modal-footer mt-20">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="removeSchool(deleteSchool)">Delete</button>
+      </div>
+    </div>
+  </ng-template>
   <ng-template #schoolmodal>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Add School</h4>
@@ -156,7 +169,7 @@
               <input type="text" class="form-control" 
                                  formControlName="userName" 
                                  (change) = "schoolAvailStaus($event)"
-                                 required>
+                                 required [readonly]="showUpdateButton">
             </div>
             <div class="col-xs-6 alert alert-warning"  *ngIf="schAvailStaus.length > 0">
               {{schAvailStaus}}
@@ -166,13 +179,19 @@
        
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{
+              'has-error': schoolForm.controls['email'].invalid && schoolForm.controls['email'].dirty, 
+              'has-success': schoolForm.controls['email'].valid && schoolForm.controls['email'].dirty 
+            }">
               <label class="control-label">Email</label>
               <input type="text" class="form-control" formControlName="email" required>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{
+              'has-error': schoolForm.controls['mobile'].invalid && schoolForm.controls['mobile'].dirty, 
+              'has-success': schoolForm.controls['mobile'].valid && schoolForm.controls['mobile'].dirty 
+            }">
               <label class="control-label">Mobile</label>
               <input type="text" class="form-control" formControlName="mobile" required>
             </div>
