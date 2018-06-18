@@ -264,6 +264,15 @@ export class DataService {
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
+  getGalleryList(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getGalleryList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
   test(): string {
     return 'working';
   }
