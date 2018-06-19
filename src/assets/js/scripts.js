@@ -17,7 +17,8 @@ var AdminLTE = (function() {
             'searching'   : true,
             'ordering'    : true,
             'info'        : true,
-            'autoWidth'   : true
+            'autoWidth'   : true,
+            'destroy'     : true
           })
         });
       }, 3000);
