@@ -43,6 +43,7 @@ export class StudentManagementComponent implements OnInit {
   public error: any;
   public stuAvailStaus: String = '';
   public showUpdateButton: boolean = false;
+  public deleteStudent: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService) { }
@@ -245,4 +246,13 @@ export class StudentManagementComponent implements OnInit {
        this.error = err.json().message;
      });
    }
+
+  public deleteStudentInfo(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteStudent = deleteData;
+  };
+
+  removeStudent(student) {
+    //Delete logic goes here
+  }
 }

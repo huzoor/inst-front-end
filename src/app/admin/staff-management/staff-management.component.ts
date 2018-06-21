@@ -53,6 +53,7 @@ export class StaffManagementComponent implements OnInit {
   public disableUserName: boolean = false;
   public stfAvailStaus: String = '';
   public showUpdateButton: boolean = false;
+  public deleteStaff: any;
 
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -240,6 +241,12 @@ export class StaffManagementComponent implements OnInit {
         return false;
       });
   }
+
+  public deleteStaffRecord(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteStaff = deleteData;
+    console.log(deleteData);
+  };
 
   removeStaff(staffInfo){
     const endPoint = `removeStaff`;
