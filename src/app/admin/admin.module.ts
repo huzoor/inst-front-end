@@ -30,6 +30,8 @@ import { GalleryComponent } from './gallery/gallery.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ChartsModule } from 'ng2-charts';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -44,7 +46,11 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     AdminRoutingModule,
     ImageCropperModule,
     FileUploadModule,
-    ChartsModule
+    ChartsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({timeOut: 10000,
+      positionClass: 'toast-top-full-width',
+      preventDuplicates: true,}),
   ],
   declarations: [
     AdminComponent,

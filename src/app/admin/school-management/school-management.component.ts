@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
+import { ToastrService } from 'ngx-toastr';
 
 declare var AdminLTE: any;
 @Component({
@@ -32,7 +33,7 @@ export class SchoolManagementComponent implements OnInit {
   public _id: FormControl;
 
   public deleteSchool: any;
-
+  public disableButton: boolean = false;
   public countriesList: any = countriesList;
   public statesList: any = statesList;
   public districtsList: any = districtsList;
@@ -41,7 +42,8 @@ export class SchoolManagementComponent implements OnInit {
   public schAvailStaus: String = '';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -98,9 +100,9 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public createEditForm(template: TemplateRef<any>, editData) {
+    this.disableButton = false;
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (editData) {
-      console.log(editData);
       this.showUpdateButton = true;
       const registeredDt = new Date(editData.registeredDate);
       this.schoolForm.setValue(editData);
@@ -113,6 +115,7 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public saveSchoolForm(schoolForm) {
+    this.disableButton = true;
     if (this.schoolForm.valid) {
       this.error = '';
       let instituteUserName = localStorage.getItem('instituteUserName');
@@ -125,11 +128,14 @@ export class SchoolManagementComponent implements OnInit {
             this.schoolForm.reset();
             this.modalRef.hide();
             this.getSchoolsList();
+            this.toastr.success('School added successfully');
           } else {
+            this.toastr.error('Unable to add school');
             this.error = resp.json().message;
           }
         })
         .catch((err) => {
+          this.toastr.error('Unable to add school');
           this.error = err.json().message;
         });
     }
@@ -142,8 +148,6 @@ export class SchoolManagementComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
     this.schoolForm.value.formMode = 'update';
     this.schoolForm.value.instituteUserName = instituteUserName;
-    console.log(schoolForm.value);
-
     if (this.schoolForm.valid) {
       this.error = '';
       this.dataService.addSchool(this.schoolForm.value)
@@ -152,11 +156,14 @@ export class SchoolManagementComponent implements OnInit {
             this.schoolForm.reset();
             this.modalRef.hide();
             this.getSchoolsList();
+            this.toastr.success('School updated successfully');
           } else {
+            this.toastr.error('Unable to update school');
             this.error = resp.json().message;
           }
         })
         .catch((err) => {
+          this.toastr.error('Unable to update school');
           this.error = err.json().message;
         });
     }
@@ -174,12 +181,14 @@ export class SchoolManagementComponent implements OnInit {
     .then((resp) => {
       if (resp.json().success) {
         this.getSchoolsList();
+        this.toastr.success('School deleted successfully');
       } else {
+        this.toastr.error('Unable to delete school');
         this.error = resp.json().message;
       }
     })
     .catch((err) => {
-      console.log('Add Inst Err', err);
+      this.toastr.error('Unable to delete school');
       this.error = err.json().message;
     });
   }

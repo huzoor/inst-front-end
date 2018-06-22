@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-    <!-- Period List start -->
+    <!-- Hours List start -->
     <div class="row" *ngIf="userRole==102">
       <div class="col-md-6">
         <div class="box">
@@ -122,7 +122,7 @@
                   </thead>
                   <tbody>
                     <tr *ngIf="hourList.length === 0 ">
-                      <td colspan="4">
+                      <td colspan="5">
                         <div class="text-center">No Hours Added</div>
                       </td>
                     </tr>
@@ -150,7 +150,7 @@
         </div>
       </div>
     </div>
-    <!-- Period List end -->
+    <!-- Hours List end -->
   </section>
   <ng-template #deleteModal>
     <div class="modal-body">
@@ -186,7 +186,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="classForm.invalid" *ngIf="!showUpdateButton" (click)="addClass(classForm)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="classForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addClass(classForm)">Submit</button>
       <button type="button" class="btn btn-success" [disabled]="classForm.invalid" *ngIf="showUpdateButton" (click)="updateClass(classForm)">Update</button>
     </div>
   </ng-template>
@@ -211,7 +211,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" *ngIf="!showUpdateButton" (click)="addSubject(subjectForm)">Submit</button>
+      <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addSubject(subjectForm)">Submit</button>
       <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" *ngIf="showUpdateButton" (click)="updateSubject(subjectForm)">Update</button>
     </div>
   </ng-template>
@@ -252,7 +252,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="!showUpdateButton" (click)="addHour(hourForm)">Add Hour</button>
+      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addHour(hourForm)">Add Hour</button>
       <button type="button" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="showUpdateButton" (click)="updateHour(hourForm)">Update Hour</button>
     </div>
   </ng-template>

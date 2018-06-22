@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var AdminLTE: any;
 @Component({
@@ -35,7 +36,8 @@ export class AttendanceComponent implements OnInit {
   public error: String='';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -188,7 +190,8 @@ export class AttendanceComponent implements OnInit {
         this.selectedStudent = [];
         this.selectedAll = false;
         this.studentList.map((item, i)=> this.studentList[i].selected = false);
-        this.resetAttendanceForm()
+        this.resetAttendanceForm();
+        this.toastr.success('Attendance taken successfully');
         this.error = resp.json().message;
       }
       else this.error = resp.json().message;

@@ -254,5 +254,12 @@ img.source-image {
   height: 200px;
   width: 190px;
 }
+
+.toast-container.toast-top-full-width .toast, .toast-container.toast-bottom-full-width .toast {
+  width: 100% !important;
+  height: 40px;
+  padding: 10px 50px;
+  border-radius: 0;
+}
 /* upload profile css end */
 

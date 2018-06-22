@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
-
+import { ToastrService } from 'ngx-toastr';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-leave-management',
@@ -25,9 +25,13 @@ export class LeaveManagementComponent implements OnInit {
   public schoolUserName: FormControl;
   public instituteUserName: FormControl; 
   public error: any;
+  public deleteLeaveRecord: any;
+  public disableButton: boolean = false;
+
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -67,10 +71,12 @@ export class LeaveManagementComponent implements OnInit {
 
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.disableButton = false;
   }
 
   public onSubmit(leaveForm) {
     // Get this info From local storage
+    this.disableButton = true;
     this.leaveForm.value.schoolUserName = 'sch1-SCH';
     this.leaveForm.value.instituteUserName = 'inst1-INST';
     this.leaveForm.value.appliedBy = 'huzoor-STF';
@@ -84,6 +90,7 @@ export class LeaveManagementComponent implements OnInit {
             this.leaveForm.reset();
             this.modalRef.hide();
             this.getLeavesList();
+            this.toastr.success('Leave applied successfully');
           } else {
             this.error = resp.json().message;
           }
@@ -93,4 +100,16 @@ export class LeaveManagementComponent implements OnInit {
         });
     }
   }
+
+  public deleteLeaveInfo(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteLeaveRecord = deleteData;
+  };
+
+  removeLeaveRecord(data) {
+    //Delete logic goes here
+    this.modalRef.hide();
+    this.toastr.success('Applied Leave deleted successfully');
+  }
+
 }
