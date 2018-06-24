@@ -6,6 +6,12 @@
     "roles": [100, 101, 102, 103, 104]
   },
   {
+    "routerLink": "timeline",
+    "icon": "fa fa-building",
+    "displayName": "Timeline",
+    "roles": [101, 102, 103, 104]
+  },
+  {
     "routerLink": "institutes",
     "icon": "fa fa-institution",
     "displayName": "Institute Management",
@@ -20,7 +26,7 @@
   {
     "routerLink": "academic-setup",
     "icon": "fa fa-mortar-board",
-    "displayName": "Academic Setup",
+    "displayName": "School Academic Setup",
     "roles": [101, 102]
   },
   {
@@ -54,12 +60,6 @@
     "roles": [102, 103, 104]
   },
   {
-    "routerLink": "timeline",
-    "icon": "fa fa-building",
-    "displayName": "Timeline",
-    "roles": [102, 103, 104]
-  },
-  {
     "routerLink": "timetable",
     "icon": "fa fa-building",
     "displayName": "Timetable",
@@ -75,5 +75,5 @@
     "routerLink": "gallery",
     "icon": "fa fa-building",
     "displayName": "Gallery",
-    "roles": [100, 101, 102, 103, 104]
+    "roles": [ 101, 102]
   }]
