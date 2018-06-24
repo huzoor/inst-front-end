@@ -48,7 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
     FileUploadModule,
     ChartsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({timeOut: 10000,
+    ToastrModule.forRoot({timeOut: 2000,
       positionClass: 'toast-top-full-width',
       preventDuplicates: true,}),
   ],

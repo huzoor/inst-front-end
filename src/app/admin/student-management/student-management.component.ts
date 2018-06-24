@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
-import { countriesList, statesList, districtsList } from '../../shared/AppConstants';
+import { countriesList, statesList, districtsList, validation } from '../../shared/AppConstants';
 import { ToastrService } from 'ngx-toastr';
 
 declare var AdminLTE: any;
@@ -68,8 +68,8 @@ export class StudentManagementComponent implements OnInit {
     this.fatherName = new FormControl('', []);
     this.motherName = new FormControl('', []);
     this.gender = new FormControl('', []);
-    this.email = new FormControl('', []);
-    this.mobile = new FormControl('', []);
+    this.email = new FormControl('', Validators.pattern(validation.email));
+    this.mobile = new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]);
     this.photoPath = new FormControl('', []);
     this._id = new FormControl('', []);
 
