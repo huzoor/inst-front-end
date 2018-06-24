@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList } from '../../shared/AppConstants';
+import { ToastrService } from 'ngx-toastr';
 
 declare var AdminLTE: any;
 @Component({
@@ -43,9 +44,12 @@ export class StudentManagementComponent implements OnInit {
   public error: any;
   public stuAvailStaus: String = '';
   public showUpdateButton: boolean = false;
+  public deleteStudent: any;
+  public disableButton: boolean = false;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -154,11 +158,10 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public createEditStudent(template: TemplateRef<any>, editStudent: any) {
-    console.log('editStudent', editStudent)
+    this.disableButton = false;
      this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
      if (editStudent) {
       this.showUpdateButton = true;
-      // const splitDate = editStudent.dob.split('/');
       const dobDt = new Date(editStudent.dob);
       const crrDate = { "date": { "year": dobDt.getFullYear(), "month": (dobDt.getMonth()+1), "day": dobDt.getDate() }, "jsdate": "", "formatted": editStudent.dob, "epoc": "" }
       this.studentForm.setValue(editStudent);
@@ -184,8 +187,7 @@ export class StudentManagementComponent implements OnInit {
   }
 
   public saveStudent(studentForm) {
-    
-    console.log(this.studentForm.value);
+    this.disableButton = true;
     if (this.studentForm.valid) {
       // Get this info From local storage
     this.studentForm.value.schoolUserName = 'sch1-SCH';
@@ -193,22 +195,22 @@ export class StudentManagementComponent implements OnInit {
     this.studentForm.value.formMode = `create`;
     this.studentForm.value.dob = this.studentForm.value.dob.formatted;
     this.error = '';
-    
-
       this.dataService.addStudent(this.studentForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.studentForm.reset();
             this.modalRef.hide();
             this.getStudentList();
+            this.toastr.success('Student added successfully');
           } else this.error = resp.json().message;
-        }).catch((err) => this.error = err.json().message);
+        }).catch((err) => {
+          this.toastr.error('Unable to add student');
+          this.error = err.json().message
+        });
     }
   };
 
   public updateStudent(studentForm) { 
-    console.log(studentForm.value);
-
     if (this.studentForm.valid) {
       // Get this info From local storage
     this.studentForm.value.schoolUserName = 'sch1-SCH';
@@ -223,8 +225,12 @@ export class StudentManagementComponent implements OnInit {
           this.studentForm.reset();
           this.modalRef.hide();
           this.getStudentList();
+          this.toastr.success('Student updated successfully');
         } else this.error = resp.json().message;
-      }).catch((err) => this.error = err.json().message);
+      }).catch((err) => {
+        this.toastr.error('Unable to update student');
+        this.error = err.json().message
+      });
     }
   }
 
@@ -233,7 +239,6 @@ export class StudentManagementComponent implements OnInit {
     if( studentName !=='undefined'  && studentName.length > 3)
      this.dataService.instnceAvailStaus(studentName, 'stuAvailStaus')
      .then((resp) => {
-       
        if (resp.json().success) {
          this.stuAvailStaus = '';
        } else {
@@ -245,4 +250,16 @@ export class StudentManagementComponent implements OnInit {
        this.error = err.json().message;
      });
    }
+
+  public deleteStudentInfo(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteStudent = deleteData;
+  };
+
+  removeStudent(student) {
+    //Delete logic goes here
+    this.toastr.success('Student deleted successfully');
+    //console.log(student);
+   // this.modalRef.hide();
+  }
 }

@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
+import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -35,9 +36,10 @@ export class AcademicSetupComponent implements OnInit {
   public userRole: number;
   public deleteRecord: any;
   public entityType: any;
-
+  public disableButton: boolean = false;
   constructor(private modalService: BsModalService,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -84,8 +86,9 @@ export class AcademicSetupComponent implements OnInit {
         } else this.error = resp.json().message;
         
       }).catch((err) => {
-        console.log('err',err)
+        console.log('err',err);
         this.error = err.json().message;
+        this.toastr.error(err.json().message);
       });
   }
  
@@ -103,6 +106,7 @@ export class AcademicSetupComponent implements OnInit {
       }).catch((err) => {
         console.log('err',err)
         this.error = err.json().message;
+        this.toastr.error(err.json().message);
       });
   }
 
@@ -119,10 +123,12 @@ export class AcademicSetupComponent implements OnInit {
       }).catch((err) => {
         console.log('err',err)
         this.error = err.json().message;
+        this.toastr.error(err.json().message);
       });
   }
 
   public openModal(template: TemplateRef<any>) {
+    this.disableButton = false;
     this.className = '';
     this.subjectName = '';
     this.schoolUserName = '';
@@ -137,7 +143,7 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public editClass(classData, template: TemplateRef<any>): void {
-    console.log('classData', classData)
+    console.log('classData', classData);
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.className = classData.className;
     this.class_ID = classData._id;
@@ -165,6 +171,7 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public addClass(classForm) {
+    this.disableButton = true;
     if (this.classForm.valid) {
       this.error = '';
       this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
@@ -177,17 +184,20 @@ export class AcademicSetupComponent implements OnInit {
             this.className = new FormControl('',[])
             this.modalRef.hide();
             this.getClassesList();
+            this.toastr.success('Class added successfully');
           } else 
             this.error = resp.json().message;
-          
+            this.toastr.error('Unabled to add subject');
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.error('Unabled to add class');
         });
     }
   }
 
   public addSubject(subjectForm) {
+    this.disableButton = true;
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
@@ -200,12 +210,15 @@ export class AcademicSetupComponent implements OnInit {
             this.subjectName = new FormControl('',[])
             this.modalRef.hide();
             this.getSubjectsList();
+            this.toastr.success('Subject added successfully');
           } else {
             this.error = resp.json().message;
+            this.toastr.error('Unabled to add subject');
           }
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.error('Unabled to add subject');
         });
     }
   }
@@ -225,12 +238,14 @@ export class AcademicSetupComponent implements OnInit {
             this.className = new FormControl('',[])
             this.modalRef.hide();
             this.getClassesList();
+            this.toastr.success('Class updated successfully');
           } else 
             this.error = resp.json().message;
-          
+            this.toastr.error('Unabled to add class');
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.error('Unabled to add class');
         });
     }
   }
@@ -250,38 +265,44 @@ export class AcademicSetupComponent implements OnInit {
             this.subjectName = new FormControl('',[])
             this.modalRef.hide();
             this.getSubjectsList();
+            this.toastr.success('Subject updated successfully');
           } else {
             this.error = resp.json().message;
+            this.toastr.error('Unabled to update subject');
           }
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.error('Unabled to update subject');
         });
     }
   }
 
   public addHour(hourForm) {
     console.log(hourForm.value);
+    this.disableButton = true;
     if (this.hourForm.valid) {
       this.error = '';
       this.hourForm.value.instituteUserName = localStorage.getItem('instituteUserName');
       this.hourForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.hourForm.value.fromMode = `create`;
-     
       this.dataService.addNewHour(this.hourForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.hourName = new FormControl('',[])
             this.startTime = new FormControl('',[])
             this.endTime = new FormControl('',[])
-            this.modalRef.hide();
             this.getHoursList();
+            this.modalRef.hide();
+            this.toastr.success('Hours added successfully');
           } else {
             this.error = resp.json().message;
+            this.toastr.error('Unabled to add hours');
           }
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.error('Unabled to add hours');
         });
     }
   }
@@ -304,8 +325,10 @@ export class AcademicSetupComponent implements OnInit {
             this.subjectName = new FormControl('',[])
             this.modalRef.hide();
             this.getHoursList();
+            this.toastr.success('Hours updated successfully');
           } else {
             this.error = resp.json().message;
+            this.toastr.error('Unabled to update hours');
           }
         })
         .catch((err) => {
@@ -314,6 +337,7 @@ export class AcademicSetupComponent implements OnInit {
           this.error = parsedErr.message;
           this.startTime = parsedErr.hour.startTime;
           this.endTime = parsedErr.hour.endTime;
+          this.toastr.error('Unable to update hours');
         });
     }
   }
@@ -334,13 +358,17 @@ export class AcademicSetupComponent implements OnInit {
         this.getClassesList();
         this.getSubjectsList();
         this.getHoursList();
+        this.modalRef.hide();
+        this.toastr.success(`${entityType} deleted successfully`);
       } else {
         this.error = resp.json().message;
+        this.toastr.error(`Unable to delete ${entityType}`);
       }
     })
     .catch((err) => {
       console.log('Remove Inst Err', err);
       this.error = err.json().message;
+      this.toastr.error(`Unable to delete ${entityType}`);
     });
   }
 

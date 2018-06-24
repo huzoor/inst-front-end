@@ -121,38 +121,38 @@
                           <h3 class="box-title">View Attendance</h3>
                         </div>
                         <div class="box-body">
-                          <div class="row">
+                          <div class="col-sm-12">
                             <div class="alert alert-warning" *ngIf="error">
                               {{error}}
                             </div>
-                            <div class="col-sm-12">
-                              <table class="table table-bordered table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>Roll Number</th>
-                                    <th>Name</th>
-                                    <th>Attendance</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let roll of viewCurrentAttendance">
-                                    <td>{{roll.rollNumber}}</td>
-                                    <td>{{roll.rollNumber}}</td>
-                                    <td>
-                                      <span *ngIf="roll.rollNumber">P</span>
-                                      <span *ngIf="!roll.rollNumber">A</span>
-                                    </td>
-                                  </tr>
-                                  <!-- <tr *ngFor="let roll of viewCurrentAttendance">
+                          </div>
+                          <div class="col-sm-12">
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Roll Number</th>
+                                  <th>Name</th>
+                                  <th>Attendance</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let roll of viewCurrentAttendance">
+                                  <td>{{roll.rollNumber}}</td>
+                                  <td>{{roll.rollNumber}}</td>
+                                  <td>
+                                    <span *ngIf="roll.rollNumber">P</span>
+                                    <span *ngIf="!roll.rollNumber">A</span>
+                                  </td>
+                                </tr>
+                                <!-- <tr *ngFor="let roll of viewCurrentAttendance">
                                       <td >{{roll.rollNumber}}</td>
                                     <td *ngFor="let stu of viewCurrentAttendance">
                                       <span *ngIf="stu.rollNumber">P</span>
                                       <span *ngIf="!stu.rollNumber">A</span>
                                     </td>
                                   </tr> -->
-                                </tbody>
-                              </table>
-                            </div>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node@6/6.12.3/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add primeng
+  /usr/local/Cellar/node@6/6.12.3/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add ngx-toastr
 
 PATH: 
   /usr/local/opt/node@6/bin:/usr/local/opt/node@6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -48,17 +48,22 @@ npm manifest:
       "admin-lte": "2.3.11",
       "bootstrap": "^3.3.7",
       "core-js": "^2.4.1",
+      "file-saver": "^1.3.8",
       "font-awesome": "^4.7.0",
       "icheck": "^1.0.2",
       "install": "^0.10.1",
       "ionicons": "^3.0.0",
       "jquery": "^3.2.1",
       "jqueryui": "^1.11.1",
+      "multer": "^1.3.0",
       "mydatepicker": "^2.6.1",
+      "ng2-charts": "^1.6.0",
+      "ng2-file-upload": "^1.3.0",
       "ng4-file-upload": "^5.0.7",
       "ngx-bootstrap": "^2.0.2",
       "ngx-image-cropper": "^0.2.3",
       "npm": "^5.8.0",
+      "primeng": "^6.0.0-alpha.1",
       "raphael": "^2.2.7",
       "rxjs": "^5.5.5",
       "zone.js": "^0.8.17"
@@ -545,6 +550,10 @@ Lockfile:
   app-root-path@^2.0.1:
     version "2.0.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/app-root-path/-/app-root-path-2.0.1.tgz#cd62dcf8e4fd5a417efc664d2e5b10653c651b46"
+  
+  append-field@^0.1.0:
+    version "0.1.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/append-field/-/append-field-0.1.0.tgz?dl=https://registry.yarnpkg.com/append-field/-/append-field-0.1.0.tgz#6ddc58fa083c7bc545d3c5995b2830cc2366d44a"
   
   append-transform@^0.4.0:
     version "0.4.0"
@@ -1082,6 +1091,13 @@ Lockfile:
     version "1.0.3"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
   
+  busboy@^0.2.11:
+    version "0.2.14"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/busboy/-/busboy-0.2.14.tgz?dl=https://registry.yarnpkg.com/busboy/-/busboy-0.2.14.tgz#6c2a622efcf47c57bbbe1e2a9c37ad36c7925453"
+    dependencies:
+      dicer "0.2.5"
+      readable-stream "1.1.x"
+  
   byline@^5.0.0:
     version "5.0.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/byline/-/byline-5.0.0.tgz#741c5216468eadc457b03410118ad77de8c1ddb1"
@@ -1221,6 +1237,26 @@ Lockfile:
       ansi-styles "^3.1.0"
       escape-string-regexp "^1.0.5"
       supports-color "^4.0.0"
+  
+  chart.js@^2.6.0:
+    version "2.7.2"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/chart.js/-/chart.js-2.7.2.tgz?dl=https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
+    dependencies:
+      chartjs-color "^2.1.0"
+      moment "^2.10.2"
+  
+  chartjs-color-string@^0.5.0:
+    version "0.5.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz?dl=https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz#8d3752d8581d86687c35bfe2cb80ac5213ceb8c1"
+    dependencies:
+      color-name "^1.0.0"
+  
+  chartjs-color@^2.1.0:
+    version "2.2.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/chartjs-color/-/chartjs-color-2.2.0.tgz?dl=https://registry.yarnpkg.com/chartjs-color/-/chartjs-color-2.2.0.tgz#84a2fb755787ed85c39dd6dd8c7b1d88429baeae"
+    dependencies:
+      chartjs-color-string "^0.5.0"
+      color-convert "^0.5.3"
   
   chokidar@^1.4.1, chokidar@^1.4.2, chokidar@^1.7.0:
     version "1.7.0"
@@ -1387,13 +1423,17 @@ Lockfile:
       map-visit "^1.0.0"
       object-visit "^1.0.0"
   
+  color-convert@^0.5.3:
+    version "0.5.3"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/color-convert/-/color-convert-0.5.3.tgz?dl=https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
+  
   color-convert@^1.9.0:
     version "1.9.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/color-convert/-/color-convert-1.9.1.tgz#c1261107aeb2f294ebffec9ed9ecad529a6097ed"
     dependencies:
       color-name "^1.1.1"
   
-  color-name@^1.1.1:
+  color-name@^1.0.0, color-name@^1.1.1:
     version "1.1.3"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   
@@ -1920,6 +1960,13 @@ Lockfile:
   di@^0.0.1:
     version "0.0.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/di/-/di-0.0.1.tgz#806649326ceaa7caa3306d75d985ea2748ba913c"
+  
+  dicer@0.2.5:
+    version "0.2.5"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/dicer/-/dicer-0.2.5.tgz?dl=https://registry.yarnpkg.com/dicer/-/dicer-0.2.5.tgz#5996c086bb33218c812c090bddc09cd12facb70f"
+    dependencies:
+      readable-stream "1.1.x"
+      streamsearch "0.1.2"
   
   diff@^3.1.0, diff@^3.2.0:
     version "3.4.0"
@@ -2496,6 +2543,10 @@ Lockfile:
     dependencies:
       loader-utils "^1.0.2"
       schema-utils "^0.4.5"
+  
+  file-saver@^1.3.8:
+    version "1.3.8"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/file-saver/-/file-saver-1.3.8.tgz?dl=https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
   
   filename-regex@^2.0.0:
     version "2.0.1"
@@ -4516,6 +4567,10 @@ Lockfile:
     version "2.20.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
   
+  moment@^2.10.2:
+    version "2.22.1"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/moment/-/moment-2.22.1.tgz?dl=https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+  
   move-concurrently@^1.0.1:
     version "1.0.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -4542,6 +4597,19 @@ Lockfile:
   ms@^2.0.0:
     version "2.1.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
+  
+  multer@^1.3.0:
+    version "1.3.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/multer/-/multer-1.3.0.tgz?dl=https://registry.yarnpkg.com/multer/-/multer-1.3.0.tgz#092b2670f6846fa4914965efc8cf94c20fec6cd2"
+    dependencies:
+      append-field "^0.1.0"
+      busboy "^0.2.11"
+      concat-stream "^1.5.0"
+      mkdirp "^0.5.1"
+      object-assign "^3.0.0"
+      on-finished "^2.3.0"
+      type-is "^1.6.4"
+      xtend "^4.0.0"
   
   multicast-dns-service-types@^1.1.0:
     version "1.1.0"
@@ -4592,6 +4660,16 @@ Lockfile:
   negotiator@0.6.1:
     version "0.6.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+  
+  ng2-charts@^1.6.0:
+    version "1.6.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ng2-charts/-/ng2-charts-1.6.0.tgz?dl=https://registry.yarnpkg.com/ng2-charts/-/ng2-charts-1.6.0.tgz#108a2133ff62a8623895240fadbddbea2951f29d"
+    dependencies:
+      chart.js "^2.6.0"
+  
+  ng2-file-upload@^1.3.0:
+    version "1.3.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ng2-file-upload/-/ng2-file-upload-1.3.0.tgz?dl=https://registry.yarnpkg.com/ng2-file-upload/-/ng2-file-upload-1.3.0.tgz#d90f8f568f62383462175f8bdfa0096b131f277a"
   
   ng4-file-upload@^5.0.7:
     version "5.0.7"
@@ -5013,6 +5091,10 @@ Lockfile:
     version "4.1.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
   
+  object-assign@^3.0.0:
+    version "3.0.0"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/object-assign/-/object-assign-3.0.0.tgz?dl=https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
+  
   object-assign@^4.0.1, object-assign@^4.1.0:
     version "4.1.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -5056,7 +5138,7 @@ Lockfile:
     version "1.1.1"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/obuf/-/obuf-1.1.1.tgz#104124b6c602c6796881a042541d36db43a5264e"
   
-  on-finished@~2.3.0:
+  on-finished@^2.3.0, on-finished@~2.3.0:
     version "2.3.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
     dependencies:
@@ -5463,6 +5545,10 @@ Lockfile:
       renderkid "^2.0.1"
       utila "~0.4"
   
+  primeng@^6.0.0-alpha.1:
+    version "6.0.0-alpha.1"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/primeng/-/primeng-6.0.0-alpha.1.tgz?dl=https://registry.yarnpkg.com/primeng/-/primeng-6.0.0-alpha.1.tgz#bda5fb05ccc93e16706c85a3d617a0136967bf55"
+  
   process-nextick-args@~2.0.0:
     version "2.0.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
@@ -5807,6 +5893,15 @@ Lockfile:
       isarray "0.0.1"
       string_decoder "~0.10.x"
   
+  readable-stream@1.1.x, readable-stream@~1.1.10:
+    version "1.1.14"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
+    dependencies:
+      core-util-is "~1.0.0"
+      inherits "~2.0.1"
+      isarray "0.0.1"
+      string_decoder "~0.10.x"
+  
   readable-stream@^2.3.6:
     version "2.3.6"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/readable-stream/-/readable-stream-2.3.6.tgz?dl=https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
@@ -5818,15 +5913,6 @@ Lockfile:
       safe-buffer "~5.1.1"
       string_decoder "~1.1.1"
       util-deprecate "~1.0.1"
-  
-  readable-stream@~1.1.10:
-    version "1.1.14"
-    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
-    dependencies:
-      core-util-is "~1.0.0"
-      inherits "~2.0.1"
-      isarray "0.0.1"
-      string_decoder "~0.10.x"
   
   readdir-scoped-modules@^1.0.0:
     version "1.0.2"
@@ -6743,6 +6829,10 @@ Lockfile:
     version "1.0.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
   
+  streamsearch@0.1.2:
+    version "0.1.2"
+    resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/streamsearch/-/streamsearch-0.1.2.tgz?dl=https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
+  
   strict-uri-encode@^2.0.0:
     version "2.0.0"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz?dl=https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
@@ -7107,7 +7197,7 @@ Lockfile:
     version "0.14.5"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   
-  type-is@~1.6.15:
+  type-is@^1.6.4, type-is@~1.6.15:
     version "1.6.16"
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/type-is/-/type-is-1.6.16.tgz#f89ce341541c672b25ee7ae3c73dee3b2be50194"
     dependencies:
@@ -7814,7 +7904,7 @@ Lockfile:
     resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/zone.js/-/zone.js-0.8.20.tgz#a218c48db09464b19ff6fc8f0d4bb5b1046e185d"
 
 Trace: 
-  Error: http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/primeng: ETIMEDOUT
+  Error: http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/ngx-toastr: ETIMEDOUT
       at Timeout._onTimeout (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:123749:19)
       at ontimeout (timers.js:386:11)
       at tryOnTimeout (timers.js:250:5)

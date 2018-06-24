@@ -52,7 +52,7 @@
                           <button type="button" class="btn btn-sm btn-primary" >
                             <i class="fa fa-edit"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-danger">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteLeaveInfo(deleteModal, leave)">
                             <i class="fa fa-close"></i>
                           </button>
                         </div>
@@ -67,6 +67,20 @@
       </div>
     </div>
   </section>
+  <ng-template #deleteModal>
+    <div class="modal-body">
+      <div class="row">
+        <h4 class="modal-title text-center mt-20">Are you sure, you want to delete?</h4>
+      </div>
+    </div>
+    <div class="modal-footer mt-20">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="removeLeaveRecord(deleteLeaveRecord)">Delete</button>
+      </div>
+    </div>
+  </ng-template>
+
   <ng-template #leaveModal>
     <div class="modal-header modal-info ">
       <h4 class="modal-title pull-left">Apply Leave</h4>
@@ -111,7 +125,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="leaveForm.invalid" (click)="onSubmit(leaveForm)">Apply Leave</button>
+      <button type="button" class="btn btn-success" [disabled]="leaveForm.invalid || disableButton" (click)="onSubmit(leaveForm)">Apply Leave</button>
     </div>
   </ng-template>
 </div>
