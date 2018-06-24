@@ -173,7 +173,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <form novalidate [formGroup]="classForm" class="custom-form">
+      <form novalidate [formGroup]="classForm" class="custom-form" (ngSubmit)="createUpdateClass(classForm, showUpdateButton)">
         <div class="row">
           <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
@@ -186,8 +186,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="classForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addClass(classForm)">Submit</button>
-      <button type="button" class="btn btn-success" [disabled]="classForm.invalid" *ngIf="showUpdateButton" (click)="updateClass(classForm)">Update</button>
+      <button type="submit" class="btn btn-success" [disabled]="classForm.invalid || disableButton" *ngIf="!showUpdateButton">Submit</button>
+      <button type="submit" class="btn btn-success" [disabled]="classForm.invalid" *ngIf="showUpdateButton">Update</button>
     </div>
   </ng-template>
   <ng-template #subjectModal>
@@ -198,7 +198,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <form novalidate [formGroup]="subjectForm" class="custom-form">
+      <form novalidate [formGroup]="subjectForm" class="custom-form" (ngSubmit)="createUpdateSubject(subjectForm, showUpdateButton)">
         <div class="row">
           <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
@@ -211,8 +211,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addSubject(subjectForm)">Submit</button>
-      <button type="button" class="btn btn-success" [disabled]="subjectForm.invalid" *ngIf="showUpdateButton" (click)="updateSubject(subjectForm)">Update</button>
+      <button type="submit" class="btn btn-success" [disabled]="subjectForm.invalid || disableButton" *ngIf="!showUpdateButton">Submit</button>
+      <button type="submit" class="btn btn-success" [disabled]="subjectForm.invalid" *ngIf="showUpdateButton">Update</button>
     </div>
   </ng-template>
 <!-- Period Modal start -->
@@ -223,9 +223,10 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+    <form novalidate [formGroup]="hourForm" class="custom-form" (ngSubmit)="crewateUpdateHour(hourForm, showUpdateButton)">
+        
     <div class="modal-body">
       <div class="alert alert-warning" *ngIf="error.length > 0"> {{error}}</div>
-      <form novalidate [formGroup]="hourForm" class="custom-form">
         <div class="row">
           <div class="form-group">
             <div class="col-md-6">
@@ -248,13 +249,14 @@
             </div>
           </div>
         </div>
-      </form>
+      
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid || disableButton" *ngIf="!showUpdateButton" (click)="addHour(hourForm)">Add Hour</button>
-      <button type="button" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="showUpdateButton" (click)="updateHour(hourForm)">Update Hour</button>
+      <button type="submit" class="btn btn-success" [disabled]="hourForm.invalid || disableButton" *ngIf="!showUpdateButton">Add Hour</button>
+      <button type="submit" class="btn btn-success" [disabled]="hourForm.invalid" *ngIf="showUpdateButton">Update Hour</button>
     </div>
+  </form>
   </ng-template>
 
   <!-- Period Modal end -->

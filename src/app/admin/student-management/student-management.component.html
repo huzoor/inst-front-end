@@ -212,23 +212,29 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group">
+              <div class="form-group" [ngClass]="{
+                'has-error': studentForm.controls['email'].invalid && studentForm.controls['email'].dirty, 
+                'has-success': studentForm.controls['email'].valid && studentForm.controls['email'].dirty 
+              }">
               <label class="control-label">Email</label>
-              <input type="text" class="form-control" formControlName="email">
+              <input type="text" class="form-control" formControlName="email" >
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
+              <div class="form-group" [ngClass]="{
+                'has-error': studentForm.controls['mobile'].invalid && studentForm.controls['mobile'].dirty, 
+                'has-success': studentForm.controls['mobile'].valid && studentForm.controls['mobile'].dirty 
+              }">
               <label class="control-label">Mobile <span class="text-danger">*</span></label>
               <input type="text" class="form-control" 
                      formControlName="mobile" 
                      (change) = "studentAvailStaus($event)"
                      required>
             </div>
-            <div class="col-xs-6 alert alert-warning"  *ngIf="stuAvailStaus.length > 0">
+          </div>
+          <div class="col-xs-12 alert alert-warning"  *ngIf="stuAvailStaus.length > 0">
               {{stuAvailStaus}}
             </div>
-          </div>
         </div>
       </form>
     </div>

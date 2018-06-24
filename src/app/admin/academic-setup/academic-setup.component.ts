@@ -37,6 +37,7 @@ export class AcademicSetupComponent implements OnInit {
   public deleteRecord: any;
   public entityType: any;
   public disableButton: boolean = false;
+  public type: string;
   constructor(private modalService: BsModalService,
     private dataService: DataService,
     private toastr: ToastrService) { }
@@ -88,7 +89,7 @@ export class AcademicSetupComponent implements OnInit {
       }).catch((err) => {
         console.log('err',err);
         this.error = err.json().message;
-        this.toastr.error(err.json().message);
+        this.toastr.error('Unable to get class list');
       });
   }
  
@@ -106,7 +107,7 @@ export class AcademicSetupComponent implements OnInit {
       }).catch((err) => {
         console.log('err',err)
         this.error = err.json().message;
-        this.toastr.error(err.json().message);
+        this.toastr.error('Unable to get subject list');
       });
   }
 
@@ -123,7 +124,7 @@ export class AcademicSetupComponent implements OnInit {
       }).catch((err) => {
         console.log('err',err)
         this.error = err.json().message;
-        this.toastr.error(err.json().message);
+        this.toastr.error('Unable to get hours list');
       });
   }
 
@@ -170,174 +171,98 @@ export class AcademicSetupComponent implements OnInit {
     this.showUpdateButton = true;
   }
 
-  public addClass(classForm) {
+  public createUpdateClass(classForm, type) {
     this.disableButton = true;
     if (this.classForm.valid) {
       this.error = '';
       this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
       this.classForm.value.schoolUserName = localStorage.getItem('schoolUserName');
-      this.classForm.value.fromMode = `create`;
-      
+      if (type) {
+        this.classForm.value.fromMode = 'update'
+        this.classForm.value.class_ID = this.class_ID;
+      } else {
+        this.classForm.value.fromMode = 'create'
+      }
+      console.log(this.classForm.value.fromMode);
       this.dataService.addClass(this.classForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.className = new FormControl('',[])
             this.modalRef.hide();
             this.getClassesList();
-            this.toastr.success('Class added successfully');
-          } else 
+            this.toastr.success(`Class ${this.classForm.value.fromMode}d successfully`);
+          } else {
             this.error = resp.json().message;
-            this.toastr.error('Unabled to add subject');
+            this.toastr.error(`Unabled to ${this.classForm.value.fromMode} class`);
+          }
         })
         .catch((err) => {
           this.error = err.json().message;
-          this.toastr.error('Unabled to add class');
+          this.toastr.error(`Unabled to ${this.classForm.value.fromMode} class`);
         });
     }
   }
 
-  public addSubject(subjectForm) {
+  public createUpdateSubject(subjectForm, type) {
     this.disableButton = true;
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
       this.subjectForm.value.schoolUserName = localStorage.getItem('schoolUserName');
       this.subjectForm.value.fromMode = `create`;
-     
+      if (type) {
+        this.subjectForm.value.fromMode = 'update'
+        this.subjectForm.value.subject_ID = this.subject_ID;
+      } else {
+        this.subjectForm.value.fromMode = 'create'
+      }
       this.dataService.addSubject(this.subjectForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.subjectName = new FormControl('',[])
             this.modalRef.hide();
             this.getSubjectsList();
-            this.toastr.success('Subject added successfully');
+            this.toastr.success(`Subject ${this.subjectForm.value.fromMode}d successfully`);
           } else {
             this.error = resp.json().message;
-            this.toastr.error('Unabled to add subject');
+            this.toastr.error(`Unabled to ${this.subjectForm.value.fromMode} subject`);
           }
         })
         .catch((err) => {
           this.error = err.json().message;
-          this.toastr.error('Unabled to add subject');
+          this.toastr.error(`Unabled to ${this.subjectForm.value.fromMode} subject`);
         });
     }
   }
 
-  updateClass(classForm): void {
-    console.log(classForm.value);
-    if (this.classForm.valid) {
-      this.error = '';
-      this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
-      this.classForm.value.schoolUserName = localStorage.getItem('schoolUserName');
-      this.classForm.value.fromMode = `update`;
-      this.classForm.value.class_ID = this.class_ID;
-    
-      this.dataService.addClass(this.classForm.value)
-        .then((resp) => {
-          if (resp.json().success) {
-            this.className = new FormControl('',[])
-            this.modalRef.hide();
-            this.getClassesList();
-            this.toastr.success('Class updated successfully');
-          } else 
-            this.error = resp.json().message;
-            this.toastr.error('Unabled to add class');
-        })
-        .catch((err) => {
-          this.error = err.json().message;
-          this.toastr.error('Unabled to add class');
-        });
-    }
-  }
-
-  updateSubject(subjectForm): void {
-    console.log(subjectForm.value);
-    if (this.subjectForm.valid) {
-      this.error = '';
-      this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
-      this.subjectForm.value.schoolUserName = localStorage.getItem('schoolUserName');
-      this.subjectForm.value.fromMode = `update`;
-      this.subjectForm.value.subject_ID = this.subject_ID;
-
-      this.dataService.addSubject(this.subjectForm.value)
-        .then((resp) => {
-          if (resp.json().success) {
-            this.subjectName = new FormControl('',[])
-            this.modalRef.hide();
-            this.getSubjectsList();
-            this.toastr.success('Subject updated successfully');
-          } else {
-            this.error = resp.json().message;
-            this.toastr.error('Unabled to update subject');
-          }
-        })
-        .catch((err) => {
-          this.error = err.json().message;
-          this.toastr.error('Unabled to update subject');
-        });
-    }
-  }
-
-  public addHour(hourForm) {
+  public crewateUpdateHour(hourForm, type) {
     console.log(hourForm.value);
     this.disableButton = true;
     if (this.hourForm.valid) {
       this.error = '';
       this.hourForm.value.instituteUserName = localStorage.getItem('instituteUserName');
       this.hourForm.value.schoolUserName = localStorage.getItem('schoolUserName');
-      this.hourForm.value.fromMode = `create`;
+      if (type) {
+        this.hourForm.value.hour_ID = this.hour_ID;
+        this.hourForm.value.fromMode = `update`;
+      } else {
+        this.hourForm.value.fromMode = `create`;
+      }
+      
       this.dataService.addNewHour(this.hourForm.value)
         .then((resp) => {
           if (resp.json().success) {
-            this.hourName = new FormControl('',[])
-            this.startTime = new FormControl('',[])
-            this.endTime = new FormControl('',[])
             this.getHoursList();
             this.modalRef.hide();
-            this.toastr.success('Hours added successfully');
+            this.toastr.success(`Hours ${this.hourForm.value.fromMode}d successfully`);
           } else {
             this.error = resp.json().message;
-            this.toastr.error('Unabled to add hours');
+            this.toastr.error(`Unabled to ${this.hourForm.value.fromMode} hours`);
           }
         })
         .catch((err) => {
           this.error = err.json().message;
-          this.toastr.error('Unabled to add hours');
-        });
-    }
-  }
-
-  updateHour(hourForm): void {
-    console.log(hourForm.value);
-    if (this.hourForm.valid) {
-      this.error = '';
-      this.hourForm.value.instituteUserName = localStorage.getItem('instituteUserName');
-      this.hourForm.value.schoolUserName = localStorage.getItem('schoolUserName');
-      this.hourForm.value.fromMode = `update`;
-
-      this.startTime = hourForm.startTime;
-      this.endTime = hourForm.endTime;
-  
-      this.hourForm.value.hour_ID = this.hour_ID;
-      this.dataService.addNewHour(this.hourForm.value)
-        .then((resp) => {
-          if (resp.json().success) {
-            this.subjectName = new FormControl('',[])
-            this.modalRef.hide();
-            this.getHoursList();
-            this.toastr.success('Hours updated successfully');
-          } else {
-            this.error = resp.json().message;
-            this.toastr.error('Unabled to update hours');
-          }
-        })
-        .catch((err) => {
-          console.log('err',err);
-          let parsedErr = err.json();
-          this.error = parsedErr.message;
-          this.startTime = parsedErr.hour.startTime;
-          this.endTime = parsedErr.hour.endTime;
-          this.toastr.error('Unable to update hours');
+          this.toastr.error(`Unabled to ${this.hourForm.value.fromMode} hours`);
         });
     }
   }
