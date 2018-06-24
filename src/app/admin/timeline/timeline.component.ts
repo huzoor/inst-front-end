@@ -21,12 +21,14 @@ export class TimelineComponent implements OnInit {
   public message: FormControl;
   public schoolUserName: FormControl;
   public instituteUserName: FormControl;
-  public schoolName: FormControl;
-  public instituteName: FormControl;
+  public addedBy: String;
+  public addedUser: String;
 
   public timeLineConfig: Object =  timeLineConfig;
-  public timeLineEvents: any[];
+  public timeLineEvents: any;
+  public roleType: Number;
   public error: any;
+  public timeLineEventsMsg: String;
   
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -38,10 +40,11 @@ export class TimelineComponent implements OnInit {
     this.message = new FormControl('', []);
     this.messageTo = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
-    this.schoolName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);
-    this.instituteName = new FormControl('', []);
-    
+    this.roleType = parseInt(localStorage.getItem('role'),10);
+    this.addedBy = localStorage.getItem('name');
+    this.addedUser =  (this.roleType == 101) ? localStorage.getItem('instituteUserName') 
+                                             : localStorage.getItem('schoolUserName') ;
     this.formFileds();
     this.getTimelineEvents();
   }
@@ -60,22 +63,48 @@ export class TimelineComponent implements OnInit {
 
   getTimelineEvents() {
     // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
-    this.dataService.getTimelineEvents({schoolUserName,instituteUserName})
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let messageTo = localStorage.getItem('roleType');
+    let timeLineMode = this.roleType;
+    
+    
+    this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
       .then((resp) => {
-        if (resp.json().success) this.timeLineEvents = resp.json().timeLineEvets;
-        else this.error = 'schools loading failed..!';
+        if (resp.json().success) {
+          this.timeLineEvents = resp.json().timeLineEvets;
+          this.timeLineEventsMsg = this.timeLineEvents.length == 0 ? `No Timeline Events Found` : ``;
+        }
+        else this.error = 'timeline loading failed..!';
       });
+
+      if(this.roleType == 102){
+        this.dataService.getTimelineEvents({schoolUserName })
+        .then((resp) => {
+        if (resp.json().success) {
+          const localEvents = [
+            ...this.timeLineEvents,
+            ...(resp.json().timeLineEvets)
+          ];
+
+          this.timeLineEvents = localEvents.filter((obj, pos, arr) =>
+            arr.map(mapObj => mapObj['message']).indexOf(obj['message']) === pos
+          );
+        }
+      });
+      }
   }
 
   public onSubmitTimeline(timeLineForm) {
     if (this.timeLineForm.valid) {
       // Get this info From local storage
-      this.timeLineForm.value.schoolUserName = 'sch1-SCH';
-      this.timeLineForm.value.instituteUserName = 'inst1-INST';
-      this.timeLineForm.value.schoolName = 'school1';
-      this.timeLineForm.value.instituteName = 'Inst1';
+      this.timeLineForm.value.schoolUserName = localStorage.getItem('schoolUserName');
+      this.timeLineForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+      this.timeLineForm.value.addedBy = this.addedBy;
+      this.timeLineForm.value.addedUser = this.addedUser;
+      // this.timeLineForm.value.schoolName = localStorage.getItem('schoolUserName');
+      // this.timeLineForm.value.instituteName = localStorage.getItem('instituteUserName');
+
       this.error = '';    
       this.dataService.addTimelineEvent(this.timeLineForm.value)
         .then((resp) => {

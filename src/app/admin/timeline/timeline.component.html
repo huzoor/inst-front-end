@@ -1,6 +1,6 @@
 <div class="content-wrapper">
   <section class="content">
-    <div class="row">
+    <div class="row" *ngIf="roleType == 101 || roleType == 102">
       <section class="content-header">
         <div class="row">
           <div class="col-md-12">
@@ -11,6 +11,10 @@
           </div>
         </div>
       </section>
+    </div>
+    <!-- No Timeline Events Message -->
+    <div class="alert alert-warning" *ngIf="timeLineEventsMsg">
+      <strong>Warning!</strong> {{timeLineEventsMsg}}
     </div>
     <div class="row">
       <div class="col-md-6" *ngFor="let TLEvent of timeLineEvents">
@@ -24,12 +28,9 @@
               </div>
               <div class="col-md-8 col-xs-8">
                 <div class="profile-info">
-                  <h3 class="profile-username" *ngIf="TLEvent.instituteName;else schoolUserDisplay">
-                    {{TLEvent.instituteName}}
+                  <h3 class="profile-username">
+                    {{TLEvent.addedBy}}
                   </h3>
-                  <ng-template #schoolUserDisplay>
-                    <h3 class="profile-username">{{TLEvent.schoolName}}</h3>
-                  </ng-template>
                   <div class="text-muted m5"> <strong> {{TLEvent.createdOn | date:'dd-MM-yyyy h:mm a'}} </strong> </div>
                 </div>
               </div>
