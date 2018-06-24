@@ -46,10 +46,10 @@ export class GalleryComponent implements OnInit {
 
   public addGalleryData(formData: any): void {
     // console.log(formData.value);
-
     this.makeFileRequest([], this.filesToUpload, formData.value).then((result) => {
         console.log(result);
         if(result){
+          this.galleryForm.reset();
           this.getGalleryList();
           this.galleryModal.hide();
         }
