@@ -67,7 +67,7 @@ export class ExaminationComponent implements OnInit {
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = `inst1-INST`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType = `classes`;
 
     this.dataService.getEntitiesList({ instituteUserName, entityType })
@@ -89,8 +89,8 @@ export class ExaminationComponent implements OnInit {
 
   public getSubjectsList(classId): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = `inst1-INST`;
-    let schoolUserName = `sch1-SCH`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
 
     this.dataService.getEntitiesList({ instituteUserName, schoolUserName, classId })
       .then((resp) => {
@@ -115,8 +115,8 @@ export class ExaminationComponent implements OnInit {
 
   public createExam(examForm): void {
     this.error = '';
-    let instituteUserName = `inst1-INST`;
-    let schoolUserName = `sch1-SCH`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     if (examForm.valid) {
       examForm.value.instituteUserName = instituteUserName;
       examForm.value.schoolUserName = schoolUserName;
@@ -135,8 +135,8 @@ export class ExaminationComponent implements OnInit {
 
   public getExamsList(): void {
 
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
 
     this.dataService.getExamsList({ instituteUserName, schoolUserName })
       .then((resp) => {
@@ -151,8 +151,8 @@ export class ExaminationComponent implements OnInit {
 
   public getStudentList(marksForm) {
     // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let classEnrolled = marksForm.value.classCode;
     let subjectId = marksForm.value.subjectCode;
 
@@ -182,8 +182,8 @@ export class ExaminationComponent implements OnInit {
   }
 
   getMarksList(marksForm): Promise<any>{
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let classId = marksForm.value.classCode;
     let subjectId = marksForm.value.subjectCode;
     let examType = marksForm.value.examType;
@@ -214,8 +214,8 @@ export class ExaminationComponent implements OnInit {
 
   public addStudentMarks(studentMarks): void {
     // console.log(studentMarks);
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let classId = this.classCode.value;
     let subjectId = this.subjectCode.value;
     let examType = this.examType;

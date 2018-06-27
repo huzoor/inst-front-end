@@ -66,7 +66,7 @@ export class TimelineComponent implements OnInit {
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let messageTo = localStorage.getItem('roleType');
-    let timeLineMode = this.roleType;
+    let timeLineMode = this.roleType == 101 && this.roleType || 0;
     
     
     this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
@@ -75,7 +75,7 @@ export class TimelineComponent implements OnInit {
           this.timeLineEvents = resp.json().timeLineEvets;
           this.timeLineEventsMsg = this.timeLineEvents.length == 0 ? `No Timeline Events Found` : ``;
         }
-        else this.error = 'timeline loading failed..!';
+        else this.error = `timeline loading failed..!`;
       });
 
       if(this.roleType == 102){

@@ -76,8 +76,8 @@ export class AttendanceComponent implements OnInit {
 
   public getStudentsList(formInfo) {
     // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
     // console.log('formInfo', formInfo.value);
@@ -93,7 +93,7 @@ export class AttendanceComponent implements OnInit {
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='classes';
 
     this.dataService.getEntitiesList({instituteUserName, entityType })
@@ -111,7 +111,7 @@ export class AttendanceComponent implements OnInit {
  
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='subjects';
 
     this.dataService.getEntitiesList({instituteUserName, entityType })
@@ -166,9 +166,9 @@ export class AttendanceComponent implements OnInit {
 
   public saveAttendance(): void {
     // Get instituteUserName from localStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
-    let attendanceTakenBy = 'huzoor-STF';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let attendanceTakenBy = localStorage.getItem('userName');
 
     let filterdArr = this.removeDuplicates(this.selectedStudent, 'rollNumber')
 
@@ -204,8 +204,8 @@ export class AttendanceComponent implements OnInit {
   public viewAttendance(formInfo): void {
     this.showAttendance = true;
     this.error = '';
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let classCode = formInfo.value.viewClassName;
     let subjectCode = formInfo.value.viewSubject;
     let createdOn = formInfo.value.viewSelectDate.formatted;

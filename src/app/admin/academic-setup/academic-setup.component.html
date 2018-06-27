@@ -223,7 +223,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form novalidate [formGroup]="hourForm" class="custom-form" (ngSubmit)="crewateUpdateHour(hourForm, showUpdateButton)">
+    <form novalidate [formGroup]="hourForm" class="custom-form" (ngSubmit)="createUpdateHour(hourForm, showUpdateButton)">
         
     <div class="modal-body">
       <div class="alert alert-warning" *ngIf="error.length > 0"> {{error}}</div>
