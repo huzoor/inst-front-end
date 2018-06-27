@@ -36,6 +36,7 @@ export class DataService {
     window.localStorage.removeItem('schoolUserName');
     window.localStorage.removeItem('staffUserName');
     window.localStorage.removeItem('studentUserName');
+    window.localStorage.removeItem('logo');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
@@ -254,7 +255,21 @@ export class DataService {
     let url: string = `${this.BASE_URL}/addStudentMarks`;
     return this.http.post(url, marksList, { headers: this.headers }).toPromise();
   }
-
+ 
+  addImageDetails(imageDtls):  Promise<any> {
+    let url: string = `${this.BASE_URL}/addImageDetails`;
+    return this.http.post(url, imageDtls, { headers: this.headers }).toPromise();
+  }
+  
+  getImageDetails(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getImageDetails`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+  
   getMarksList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getMarksList`;
     let localHeaders: Headers = new Headers({ 

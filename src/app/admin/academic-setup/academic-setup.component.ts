@@ -236,7 +236,7 @@ export class AcademicSetupComponent implements OnInit {
     }
   }
 
-  public crewateUpdateHour(hourForm, type) {
+  public createUpdateHour(hourForm, type) {
     console.log(hourForm.value);
     this.disableButton = true;
     if (this.hourForm.valid) {

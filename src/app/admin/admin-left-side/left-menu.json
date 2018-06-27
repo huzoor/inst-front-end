@@ -40,18 +40,25 @@
     "icon": "fa fa-user-circle-o",
     "displayName": "Staff Managemnt",
     "roles": [102]
+  },  
+  {
+    "routerLink": "student-management",
+    "icon": "fa fa-user",
+    "displayName": "Student Management",
+    "roles": [102]
+  },
+  
+  {
+    "routerLink": "exams",
+    "icon": "fa fa-building",
+    "displayName": "Exam",
+    "roles": [102, 103]
   },
   {
     "routerLink": "attendance",
     "icon": "fa fa-list-alt",
     "displayName": "Attendance",
     "roles": [102, 103]
-  },
-  {
-    "routerLink": "student-management",
-    "icon": "fa fa-user",
-    "displayName": "Student Management",
-    "roles": [102]
   },
   {
     "routerLink": "leave-management",
@@ -63,12 +70,6 @@
     "routerLink": "timetable",
     "icon": "fa fa-building",
     "displayName": "Timetable",
-    "roles": [102, 103]
-  },
-  {
-    "routerLink": "exams",
-    "icon": "fa fa-building",
-    "displayName": "Exam",
     "roles": [102, 103]
   },
   {

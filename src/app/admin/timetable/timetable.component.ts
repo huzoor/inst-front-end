@@ -45,7 +45,7 @@ export class TimetableComponent implements OnInit {
 
   public getHoursList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = `inst1-INST`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
     // let entityType = `classes`;
 
    this.dataService.getHoursList({ instituteUserName })
@@ -63,7 +63,7 @@ export class TimetableComponent implements OnInit {
 
   public getClassesList(): void {
     // Get instituteUserName from localStorage
-    let instituteUserName = `inst1-INST`;
+    let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType = `classes`;
 
     this.dataService.getEntitiesList({ instituteUserName, entityType })
@@ -81,9 +81,15 @@ export class TimetableComponent implements OnInit {
   
   public getClassWiseTimeTable(selectedClass): void {
     this.error = '';
+<<<<<<< HEAD
     let instituteUserName = 'inst1-INST';
     let schoolUserName = 'sch1-SCH';
    this.loadingIndicator = this.getSubjectsList(selectedClass).then(canLoad=> {
+=======
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    this.getSubjectsList(selectedClass).then(canLoad=> {
+>>>>>>> 9f41b1ec52fea8217165c2014341fd35afdeb822
       if(canLoad){
         this.timeTableList = daysList.map( (item, index)=>{
               return {
@@ -123,8 +129,8 @@ export class TimetableComponent implements OnInit {
 
   public getSubjectsList(classId): Promise<any>  {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     return this.dataService.getEntitiesList({ instituteUserName, classId })
       .then((resp) => {
         let res = resp.json()
@@ -164,8 +170,8 @@ export class TimetableComponent implements OnInit {
   public saveTimeTableInfo(){
 
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     let cnt =  this.timeTableList.length;
 
     let timetableInfo: any[] = new Array();

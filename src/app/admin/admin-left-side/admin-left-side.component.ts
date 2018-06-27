@@ -10,6 +10,7 @@ public menuList: any;
 public userRole: number;
 public roleType: String;
 public name: String;
+public userImage: String;
 
   constructor() { }
 
@@ -25,6 +26,7 @@ public name: String;
    this.name = localStorage.getItem('name');
    this.roleType = localStorage.getItem('roleType');
    this.menuList = require('./left-menu.json');
+   this.userImage = localStorage.getItem('logo');
   }
 
 }

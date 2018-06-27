@@ -80,6 +80,7 @@ export class StudentManagementComponent implements OnInit {
     })
 
   }
+<<<<<<< HEAD
   getStudentList() {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
@@ -90,6 +91,9 @@ export class StudentManagementComponent implements OnInit {
         else this.error = 'students list loading failed..!';
       });
   }
+=======
+
+>>>>>>> 9f41b1ec52fea8217165c2014341fd35afdeb822
 
   formFileds() {
     this.studentForm = new FormGroup({
@@ -133,11 +137,22 @@ export class StudentManagementComponent implements OnInit {
           return false;
         })
   } */
+  
+  public getStudentList() {
+    // get this info from LocalStorage
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    this.dataService.getStudentsList({schoolUserName,instituteUserName })
+      .then((resp) => {
+        if (resp.json().success) this.studentList = resp.json().studentsList;
+        else this.error = 'students list loading failed..!';
+      });
+  }
 
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = `sch1-SCH`;
+    let instituteUserName =  localStorage.getItem('instituteUserName');
+    let schoolUserName =  localStorage.getItem('schoolUserName');
     let entityType ='classes';
 
     return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
@@ -191,8 +206,8 @@ export class StudentManagementComponent implements OnInit {
     this.disableButton = true;
     if (this.studentForm.valid) {
       // Get this info From local storage
-    this.studentForm.value.schoolUserName = 'sch1-SCH';
-    this.studentForm.value.instituteUserName = 'inst1-INST';
+    this.studentForm.value.schoolUserName = localStorage.getItem('schoolUserName');
+    this.studentForm.value.instituteUserName = localStorage.getItem('instituteUserName');
     this.studentForm.value.formMode = `create`;
     this.studentForm.value.dob = this.studentForm.value.dob.formatted;
     this.error = '';
@@ -214,8 +229,8 @@ export class StudentManagementComponent implements OnInit {
   public updateStudent(studentForm) { 
     if (this.studentForm.valid) {
       // Get this info From local storage
-    this.studentForm.value.schoolUserName = 'sch1-SCH';
-    this.studentForm.value.instituteUserName = 'inst1-INST';
+    this.studentForm.value.schoolUserName = localStorage.getItem('schoolUserName');
+    this.studentForm.value.instituteUserName = localStorage.getItem('instituteUserName');
     this.studentForm.value.formMode = `update`;
     this.studentForm.value.dob = this.studentForm.value.dob.formatted;
     this.error = '';
