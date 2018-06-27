@@ -80,20 +80,7 @@ export class StudentManagementComponent implements OnInit {
     })
 
   }
-<<<<<<< HEAD
-  getStudentList() {
-    // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
-    this.loadingIndicator = this.dataService.getStudentsList({schoolUserName,instituteUserName })
-      .then((resp) => {
-        if (resp.json().success) this.studentList = resp.json().studentsList;
-        else this.error = 'students list loading failed..!';
-      });
-  }
-=======
 
->>>>>>> 9f41b1ec52fea8217165c2014341fd35afdeb822
 
   formFileds() {
     this.studentForm = new FormGroup({
@@ -142,7 +129,7 @@ export class StudentManagementComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
-    this.dataService.getStudentsList({schoolUserName,instituteUserName })
+   this.loadingIndicator = this.dataService.getStudentsList({schoolUserName,instituteUserName })
       .then((resp) => {
         if (resp.json().success) this.studentList = resp.json().studentsList;
         else this.error = 'students list loading failed..!';

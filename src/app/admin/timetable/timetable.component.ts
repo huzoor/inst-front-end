@@ -48,7 +48,7 @@ export class TimetableComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
     // let entityType = `classes`;
 
-   this.dataService.getHoursList({ instituteUserName })
+    this.dataService.getHoursList({ instituteUserName })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -81,15 +81,9 @@ export class TimetableComponent implements OnInit {
   
   public getClassWiseTimeTable(selectedClass): void {
     this.error = '';
-<<<<<<< HEAD
-    let instituteUserName = 'inst1-INST';
-    let schoolUserName = 'sch1-SCH';
-   this.loadingIndicator = this.getSubjectsList(selectedClass).then(canLoad=> {
-=======
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
-    this.getSubjectsList(selectedClass).then(canLoad=> {
->>>>>>> 9f41b1ec52fea8217165c2014341fd35afdeb822
+   this.loadingIndicator = this.getSubjectsList(selectedClass).then(canLoad=> {
       if(canLoad){
         this.timeTableList = daysList.map( (item, index)=>{
               return {

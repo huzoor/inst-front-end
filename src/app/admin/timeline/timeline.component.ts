@@ -64,19 +64,13 @@ export class TimelineComponent implements OnInit {
 
   getTimelineEvents() {
     // get this info from LocalStorage
-<<<<<<< HEAD
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
-    this.loadingIndicator = this.dataService.getTimelineEvents({schoolUserName,instituteUserName})
-=======
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let messageTo = localStorage.getItem('roleType');
     let timeLineMode = this.roleType == 101 && this.roleType || 0;
     
     
-    this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
->>>>>>> 9f41b1ec52fea8217165c2014341fd35afdeb822
+    this.loadingIndicator = this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
       .then((resp) => {
         if (resp.json().success) {
           this.timeLineEvents = resp.json().timeLineEvets;
