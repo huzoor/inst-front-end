@@ -11,6 +11,7 @@ declare var AdminLTE: any;
   styleUrls: ['./student-academic-setup.component.css']
 })
 export class StudentAcademicSetupComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public instituteUserName: FormControl;
   public subjectList: any[] = new Array();
   public subjsList: any[] = new Array();
@@ -53,7 +54,7 @@ export class StudentAcademicSetupComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
      let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+   this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {

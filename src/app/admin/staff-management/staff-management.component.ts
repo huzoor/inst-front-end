@@ -15,6 +15,7 @@ const date = new Date();
   styleUrls: ['./staff-management.component.css']
 })
 export class StaffManagementComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public staffList: Object = {
     teaching: [],
     nonTeching: []
@@ -137,7 +138,7 @@ export class StaffManagementComponent implements OnInit {
     // get this info from LocalStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
-    this.dataService.getStaffList({schoolUserName, instituteUserName})
+    this.loadingIndicator = this.dataService.getStaffList({schoolUserName, instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
           this.staffList = {

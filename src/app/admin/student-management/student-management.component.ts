@@ -14,6 +14,7 @@ declare var AdminLTE: any;
   styleUrls: ['./student-management.component.css']
 })
 export class StudentManagementComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public modalRef: BsModalRef;
   public studentForm: FormGroup;
   public name: FormControl;
@@ -83,7 +84,7 @@ export class StudentManagementComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
-    this.dataService.getStudentsList({schoolUserName,instituteUserName })
+    this.loadingIndicator = this.dataService.getStudentsList({schoolUserName,instituteUserName })
       .then((resp) => {
         if (resp.json().success) this.studentList = resp.json().studentsList;
         else this.error = 'students list loading failed..!';

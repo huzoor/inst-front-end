@@ -13,6 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public timeLineForm: FormGroup;
@@ -62,7 +63,7 @@ export class TimelineComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
-    this.dataService.getTimelineEvents({schoolUserName,instituteUserName})
+    this.loadingIndicator = this.dataService.getTimelineEvents({schoolUserName,instituteUserName})
       .then((resp) => {
         if (resp.json().success) this.timeLineEvents = resp.json().timeLineEvets;
         else this.error = 'schools loading failed..!';

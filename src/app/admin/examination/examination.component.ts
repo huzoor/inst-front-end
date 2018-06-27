@@ -14,6 +14,7 @@ declare var AdminLTE: any;
   styleUrls: ['./examination.component.css']
 })
 export class ExaminationComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public testName: FormControl;
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
@@ -138,7 +139,7 @@ export class ExaminationComponent implements OnInit {
     let instituteUserName = 'inst1-INST';
     let schoolUserName = 'sch1-SCH';
 
-    this.dataService.getExamsList({ instituteUserName, schoolUserName })
+  this.loadingIndicator = this.dataService.getExamsList({ instituteUserName, schoolUserName })
       .then((resp) => {
         if (resp.json().success) {
           this.examsList = resp.json().examsList
@@ -156,7 +157,7 @@ export class ExaminationComponent implements OnInit {
     let classEnrolled = marksForm.value.classCode;
     let subjectId = marksForm.value.subjectCode;
 
-    this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
+   this.loadingIndicator = this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
       .then((resp) => {
         if (resp.json().success) {
           this.studentList =  resp.json().studentsList.map(stu=>{
@@ -220,7 +221,7 @@ export class ExaminationComponent implements OnInit {
     let subjectId = this.subjectCode.value;
     let examType = this.examType;
 
-    this.dataService.addStudentMarks({instituteUserName,schoolUserName, classId, subjectId, examType, marksObtained: studentMarks})
+  this.loadingIndicator = this.dataService.addStudentMarks({instituteUserName,schoolUserName, classId, subjectId, examType, marksObtained: studentMarks})
     .then((resp) => {
 
       if(resp.json().success){

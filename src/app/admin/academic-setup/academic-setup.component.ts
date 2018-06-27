@@ -13,6 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./academic-setup.component.css']
 })
 export class AcademicSetupComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public modalRef: BsModalRef;
   public classForm: FormGroup;
   public subjectForm: FormGroup;
@@ -79,7 +80,7 @@ export class AcademicSetupComponent implements OnInit {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='classes';
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -97,7 +98,7 @@ export class AcademicSetupComponent implements OnInit {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType ='subjects';
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -114,7 +115,7 @@ export class AcademicSetupComponent implements OnInit {
   public getHoursList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    this.dataService.getHoursList({instituteUserName })
+    this.loadingIndicator = this.dataService.getHoursList({instituteUserName })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {

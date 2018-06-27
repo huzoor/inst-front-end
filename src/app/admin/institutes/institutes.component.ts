@@ -14,6 +14,7 @@ const date = new Date();
   styleUrls: ['./institutes.component.css']
 })
 export class InstitutesComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public instituteList: any;
   public placeholder = 'mm/dd/yyyy';
   public showEditForm: boolean = false;
@@ -73,7 +74,7 @@ export class InstitutesComponent implements OnInit {
   }
 
   getInstitutesList() {
-    this.dataService.getInstitutes()
+   this.loadingIndicator = this.dataService.getInstitutes()
       .then((resp) => {
         if (resp.json().success) {
           console.log('Inst Loaded ', resp.json().institutes);

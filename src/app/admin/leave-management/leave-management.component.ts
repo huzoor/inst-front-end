@@ -13,6 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./leave-management.component.css']
 })
 export class LeaveManagementComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public placeholder = 'mm/dd/yyyy';
   public leavesList: any;
   public modalRef: BsModalRef;
@@ -51,7 +52,7 @@ export class LeaveManagementComponent implements OnInit {
     let schoolUserName = 'sch1-SCH';
     let instituteUserName = 'inst1-INST';
     let appliedBy = 'huzoor-STF';
-    this.dataService.getleavesList({schoolUserName, instituteUserName, appliedBy })
+    this.loadingIndicator = this.dataService.getleavesList({schoolUserName, instituteUserName, appliedBy })
       .then((resp) => {
         if (resp.json().success) {
           this.leavesList = resp.json().LeavesList;
@@ -84,7 +85,7 @@ export class LeaveManagementComponent implements OnInit {
 
     if (this.leaveForm.valid) {
       this.error = '';
-      this.dataService.applyLeave(this.leaveForm.value)
+     this.loadingIndicator = this.dataService.applyLeave(this.leaveForm.value)
         .then((resp) => {
           if (resp.json().success) {
             this.leaveForm.reset();
@@ -99,6 +100,14 @@ export class LeaveManagementComponent implements OnInit {
           this.error = err.json().message;
         });
     }
+  }
+
+  public approveLeave(approveLeave: any): void {
+    console.log(approveLeave);
+  }
+
+  public cancelLeave(approveLeave: any): void {
+    console.log(approveLeave);
   }
 
   public deleteLeaveInfo(template: TemplateRef<any>, deleteData) {

@@ -261,5 +261,21 @@ img.source-image {
   padding: 10px 50px;
   border-radius: 0;
 }
+
+.ng-busy-default-sign {
+  background: none !important;
+  border: 0px !important;
+  box-shadow: none !important;
+}
+.ng-busy-default-spinner {
+  width: 50px !important;
+  height: 50px !important;
+  position: fixed !important;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 /* upload profile css end */
 

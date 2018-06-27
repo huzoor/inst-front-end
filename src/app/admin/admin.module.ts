@@ -32,6 +32,7 @@ import { ChartsModule } from 'ng2-charts';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { BusyModule } from 'angular2-busy';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot({timeOut: 2000,
       positionClass: 'toast-top-full-width',
       preventDuplicates: true,}),
+    BusyModule,
   ],
   declarations: [
     AdminComponent,

@@ -13,6 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public modalRef: BsModalRef;
   public error: any = '';
   public subjectsList: any;
@@ -47,7 +48,7 @@ export class TimetableComponent implements OnInit {
     let instituteUserName = `inst1-INST`;
     // let entityType = `classes`;
 
-    this.dataService.getHoursList({ instituteUserName })
+   this.dataService.getHoursList({ instituteUserName })
       .then((resp) => {
         let res = resp.json()
         if (res.success) {
@@ -82,7 +83,7 @@ export class TimetableComponent implements OnInit {
     this.error = '';
     let instituteUserName = 'inst1-INST';
     let schoolUserName = 'sch1-SCH';
-    this.getSubjectsList(selectedClass).then(canLoad=> {
+   this.loadingIndicator = this.getSubjectsList(selectedClass).then(canLoad=> {
       if(canLoad){
         this.timeTableList = daysList.map( (item, index)=>{
               return {

@@ -13,6 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./attendance.component.css']
 })
 export class AttendanceComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public placeholder: String = 'mm/dd/yyyy';
   public attendanceForm: FormGroup;
   public viewAttendanceForm: FormGroup;
@@ -81,7 +82,7 @@ export class AttendanceComponent implements OnInit {
     let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
     // console.log('formInfo', formInfo.value);
-    this.dataService.getStudentsList({schoolUserName, instituteUserName, classEnrolled})
+    this.loadingIndicator = this.dataService.getStudentsList({schoolUserName, instituteUserName, classEnrolled})
       .then((resp) => {
         if (resp.json().success) {
           if(resp.json().studentsList.length == 0)  this.error = 'No students found...';          
@@ -212,7 +213,7 @@ export class AttendanceComponent implements OnInit {
 
     console.log(this.viewAttendanceForm.value);
 
-    this.dataService.getAttendance({instituteUserName, schoolUserName, classCode, subjectCode, createdOn})
+    this.loadingIndicator = this.dataService.getAttendance({instituteUserName, schoolUserName, classCode, subjectCode, createdOn})
     .then((resp) => {
       if (resp.json().success) {
         if(resp.json().attendanceInfo.length == 0)  this.error = 'No records found...';          

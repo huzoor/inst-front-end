@@ -15,6 +15,7 @@ declare var AdminLTE: any;
 })
 
 export class GalleryComponent implements OnInit {
+  public loadingIndicator: Promise<any>;
   public galleryModal: BsModalRef;
   public galleryList: any;
   public galleryForm: FormGroup;
@@ -62,7 +63,7 @@ export class GalleryComponent implements OnInit {
     let role = parseInt(localStorage.getItem('role'),10);
     let entityType = ( (role === 101) ? localStorage.getItem('instituteUserName') : 
                        localStorage.getItem('schoolUserName'))
-    this.dataService.getGalleryList({entityType})
+    this.loadingIndicator = this.dataService.getGalleryList({entityType})
       .then((resp) => {
         if (resp.json().success) {
           this.galleryList = resp.json().galleryList;
