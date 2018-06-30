@@ -14,6 +14,7 @@ declare var AdminLTE: any;
 })
 export class TimetableComponent implements OnInit {
   public loadingIndicator: Promise<any>;
+  public readOnlyField: boolean = false;
   public modalRef: BsModalRef;
   public error: any = '';
   public subjectsList: any;
@@ -33,6 +34,8 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
+    // changing subject as readonly for staff(103) user
+    this.readOnlyField = (parseInt(localStorage.getItem('role')) === 103 ? true : false);
     this.selectedClass = new FormControl('', []);
     this.subjectCode = new FormControl('', []);
     this.classForm = new FormGroup({

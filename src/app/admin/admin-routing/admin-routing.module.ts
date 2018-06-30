@@ -92,22 +92,23 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
           },
           {
             path: 'timetable',
-            component: TimetableComponent
+            component: TimetableComponent,
+            canActivate: [EnsureAuthenticated]
           },
           {
             path: 'exams',
             component: ExaminationComponent,
-            canActivate: [EnsureAuthenticated],
+            canActivate: [EnsureAuthenticated]
           },
           {
             path: 'change-password',
             component: ChangePasswordComponent,
-            canActivate: [EnsureAuthenticated],
+            canActivate: [EnsureAuthenticated]
           },
           {
             path: 'gallery',
             component: GalleryComponent,
-            canActivate: [EnsureAuthenticated],
+            canActivate: [EnsureAuthenticated]
           }
         ]
       }

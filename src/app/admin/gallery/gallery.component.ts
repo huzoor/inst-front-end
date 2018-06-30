@@ -37,8 +37,13 @@ export class GalleryComponent implements OnInit {
     });
   }
 
-  public addGallery(template: TemplateRef<any>) {
+  public createEditGallery(template: TemplateRef<any>, galleryInfo) {
     this.galleryModal = this.modalService.show(template, { ignoreBackdropClick: true });
+    if (galleryInfo !== '' ) {
+      this.galleryForm.setValue(galleryInfo);
+    } else {
+      this.galleryForm.reset();
+    }
   }
   uploadImage(file: any): void {
     // console.log(file);

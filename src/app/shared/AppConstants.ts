@@ -1,9 +1,9 @@
 // export const serviceUrl = `http://ec2-18-216-194-208.us-east-2.compute.amazonaws.com:26666/api`;
 
-// export const serviceUrl = `http://18.216.194.208:26666/api`;
+ export const serviceUrl = `http://18.216.194.208:26666/api`;
 // export const imageBaseUri = `http://18.216.194.208:26666/`;
 
-export const serviceUrl = `http://localhost:26666/api`;
+//export const serviceUrl = `http://localhost:26666/api`;
 export const imageBaseUri = `http://localhost:26666/`;
 
 
