@@ -24,15 +24,15 @@
           <div class="box-body">
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
-                <li class="active">
+                <li class="active" *ngIf="userRoleType == 103 || userRoleType == 104">
                   <a href="#leaveList" data-toggle="tab">Leave List</a>
                 </li>
                 <li>
-                  <a href="#approveList" data-toggle="tab">Approve Leave</a>
+                  <a href="#approveList" data-toggle="tab" id="getApproveList">Approve Leave</a>
                 </li>
               </ul>
               <div class="tab-content">
-                <div class="tab-pane active" id="leaveList">
+                <div class="tab-pane active" id="leaveList" *ngIf="userRoleType == 103 || userRoleType == 104">
                   <div class="row mt-10">
                     <div class="col-sm-12">
                       <table class="table table-bordered table-striped">
@@ -42,7 +42,7 @@
                             <th>To Date</th>
                             <th>Reason</th>
                             <th>Status</th>
-                            <th>Approved By</th>
+                            <!-- <th>Approved By</th> -->
                             <th>actions</th>
                           </tr>
                         </thead>
@@ -51,14 +51,14 @@
                             <td>{{leave.fromDate | date:'dd-MM-yyyy'}}</td>
                             <td>{{leave.toDate | date:'dd-MM-yyyy' }} </td>
                             <td>{{leave.reason}}</td>
-                            <td>
-                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple">A waiting approval </div>
+                            <td> {{leave.status}}</td>
+                            <!-- <td>
+                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple"> Waiting for approval </div>
                               <ng-template #notApprovedTmple>
-                                <div class="text-success"> Approved </div>
+                                <div class="text-success"> {{leave.approvedBy}} </div>
                               </ng-template>
-                            </td>
-                            <td>{{leave.approvedBy}}</td>
-                            <td>
+                            </td> -->
+                            <td *ngIf="leave.rejectedBy.length <= 0 &&  leave.deletedBy.length <= 0 ">
                               <div class="actions" *ngIf="!leave.isApproved">
                                 <button type="button" class="btn btn-sm btn-primary">
                                   <i class="fa fa-edit"></i>
@@ -75,7 +75,7 @@
                   </div>
                 </div>
 
-                <div class="tab-pane" id="approveList">
+                <div class="tab-pane" id="approveList" >
                   <div class="row mt-10">
                     <div class="col-sm-12">
                       <table class="table table-bordered table-striped">
@@ -85,28 +85,28 @@
                             <th>To Date</th>
                             <th>Reason</th>
                             <th>Status</th>
-                            <th>Approved By</th>
+                            <!-- <th>Approved By</th> -->
                             <th>actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let leave of leavesList">
+                          <tr *ngFor="let leave of approveLeavesList">
                             <td>{{leave.fromDate | date:'dd-MM-yyyy'}}</td>
                             <td>{{leave.toDate | date:'dd-MM-yyyy' }} </td>
                             <td>{{leave.reason}}</td>
-                            <td>
-                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple">A waiting approval </div>
+                            <td>{{leave.status}}</td>
+                            <!-- <td>
+                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple"> Waiting for approval </div>
                               <ng-template #notApprovedTmple>
-                                <div class="text-success"> Approved </div>
+                                <div class="text-success"> {{leave.approvedBy}} </div>
                               </ng-template>
-                            </td>
-                            <td>{{leave.approvedBy}}</td>
+                            </td> -->
                             <td>
-                              <div class="actions">
+                              <div class="actions" *ngIf="leave.deletedBy.length <= 0 "> 
                                 <button type="button" class="btn btn-sm btn-success" (click)="approveLeave(leave)">
                                   <i class="fa fa-check"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-danger" (click)="cancelLeave(leave)">
+                                <button type="button" class="btn btn-sm btn-danger" (click)="rejectLeave(leave)">
                                   <i class="fa fa-close"></i>
                                 </button>
                               </div>

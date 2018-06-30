@@ -184,6 +184,21 @@ export class DataService {
     return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
   }
  
+  approveLeave(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/approveLeave`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+
+  rejectLeave(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/rejectLeave`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+  
+  deleteLeave(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/deleteLeave`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+ 
 
   getleavesList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getLeavesList`;

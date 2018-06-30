@@ -16,6 +16,7 @@ export class LeaveManagementComponent implements OnInit {
   public loadingIndicator: Promise<any>;
   public placeholder = 'mm/dd/yyyy';
   public leavesList: any;
+  public approveLeavesList: any;
   public modalRef: BsModalRef;
   public leaveForm: FormGroup;
   public fromDate: FormControl;
@@ -28,6 +29,7 @@ export class LeaveManagementComponent implements OnInit {
   public error: any;
   public deleteLeaveRecord: any;
   public disableButton: boolean = false;
+  public userRoleType: any;
 
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -44,18 +46,29 @@ export class LeaveManagementComponent implements OnInit {
     this.schoolUserName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);
     this.formFileds();
+    this.userRoleType  = parseInt(localStorage.getItem('role'), 10);
+    this.getLeavesList('list');
 
-    this.getLeavesList();
+    if(this.userRoleType == 102 || this.userRoleType == 103)
+        this.getLeavesList('approve');
+    
+    if(this.userRoleType == 102) document.getElementById('getApproveList').click();
+    
   }
-  getLeavesList() {
+  getLeavesList(listMode) {
     // get this info from LocalStorage
-    let schoolUserName = 'sch1-SCH';
-    let instituteUserName = 'inst1-INST';
-    let appliedBy = 'huzoor-STF';
-    this.loadingIndicator = this.dataService.getleavesList({schoolUserName, instituteUserName, appliedBy })
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let appliedBy = localStorage.getItem('userName');
+    let role = parseInt(localStorage.getItem('role'), 10);
+
+    this.loadingIndicator = this.dataService.getleavesList({schoolUserName, instituteUserName, appliedBy, role, listMode })
       .then((resp) => {
         if (resp.json().success) {
-          this.leavesList = resp.json().LeavesList;
+          if(listMode == 'approve')
+            this.approveLeavesList = resp.json().LeavesList;
+          else
+            this.leavesList = resp.json().LeavesList;
         } else {
           this.error = 'LeavesList loading failed..!';
         }
@@ -78,47 +91,89 @@ export class LeaveManagementComponent implements OnInit {
   public onSubmit(leaveForm) {
     // Get this info From local storage
     this.disableButton = true;
-    this.leaveForm.value.schoolUserName = 'sch1-SCH';
-    this.leaveForm.value.instituteUserName = 'inst1-INST';
-    this.leaveForm.value.appliedBy = 'huzoor-STF';
-    this.leaveForm.value.userRole = 'staff';
+    this.leaveForm.value.schoolUserName =localStorage.getItem('schoolUserName');
+    this.leaveForm.value.instituteUserName = localStorage.getItem('instituteUserName');
+    this.leaveForm.value.appliedBy = localStorage.getItem('userName');
+    this.leaveForm.value.userRole =  localStorage.getItem('roleType');
 
     if (this.leaveForm.valid) {
       this.error = '';
      this.loadingIndicator = this.dataService.applyLeave(this.leaveForm.value)
         .then((resp) => {
           if (resp.json().success) {
+            let role = parseInt(localStorage.getItem('role'), 10);
             this.leaveForm.reset();
             this.modalRef.hide();
-            this.getLeavesList();
-            this.toastr.success('Leave applied successfully');
-          } else {
-            this.error = resp.json().message;
-          }
+            this.getLeavesList('list');
+            if(role == 102 || role == 103)
+              this.getLeavesList('approve');
+
+            this.toastr.success(`${resp.json().message}`);
+          } else 
+            this.toastr.error(`${resp.json().message}`);
+          
         })
         .catch((err) => {
           this.error = err.json().message;
+          this.toastr.success(`Error in appying leave, please retry`);
         });
     }
   }
 
   public approveLeave(approveLeave: any): void {
     console.log(approveLeave);
+    let approvedUser= localStorage.getItem('userName');
+    this.loadingIndicator = this.dataService.approveLeave({...approveLeave, approvedUser })
+        .then((resp) => {
+          if (resp.json().success) {
+            this.getLeavesList('approve');
+            this.toastr.success( `${resp.json().message}`);
+          } else this.toastr.error(`${resp.json().message}`);
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+          this.toastr.success(`Error in approving leave, please retry`);
+        });
   }
 
-  public cancelLeave(approveLeave: any): void {
-    console.log(approveLeave);
+  public rejectLeave(removeLeave: any): void {
+    console.log(removeLeave);
+    let rejectedUser= localStorage.getItem('userName');
+    this.loadingIndicator = this.dataService.rejectLeave({...removeLeave, rejectedUser })
+        .then((resp) => {
+          if (resp.json().success) {
+            this.getLeavesList('approve');
+            this.toastr.success(`${resp.json().message}`);
+          } else this.toastr.error(`${resp.json().message}`);
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+          this.toastr.success(`Error in calcelling leave, please retry`);
+        });
   }
 
   public deleteLeaveInfo(template: TemplateRef<any>, deleteData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.deleteLeaveRecord = deleteData;
+
+  
   };
 
   removeLeaveRecord(data) {
-    //Delete logic goes here
     this.modalRef.hide();
-    this.toastr.success('Applied Leave deleted successfully');
+    let deletedUser= localStorage.getItem('userName');
+    this.loadingIndicator = this.dataService.deleteLeave({...data, deletedUser })
+        .then((resp) => {
+          if (resp.json().success) {
+            this.getLeavesList('list');
+            this.toastr.success('Leave cancelled successfully');
+          } else this.toastr.error(`${resp.json().message}`);
+        })
+        .catch((err) => {
+          this.error = err.json().message;
+          this.toastr.success(`Error in calcelling leave, please retry`);
+        });
+    
   }
 
 }
