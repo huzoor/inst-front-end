@@ -43,7 +43,7 @@ export const districtsList = [
 
 export const timeLineConfig = {
     messageTypes:['News', 'Circular'],
-    recipientType:[ 'all', 'School', 'teaching', 'non-teaching' ,'Student'] 
+    recipientType:[ 'All', 'School', 'Teaching', 'Non-Teaching' ,'Student'] 
 }
 
 export const leaveTypes = {

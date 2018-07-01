@@ -76,7 +76,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="galleryModal.hide()">Close</button>
-      <button type="button" class="btn btn-success saveGalBtn" (click)="addGalleryData(galleryForm)">Save Gallery</button>
+      <button type="button" class="btn btn-success saveGalBtn" *ngIf="!showEditForm" (click)="addGalleryData(galleryForm)">Save Gallery</button>
+      <button type="button" class="btn btn-success saveGalBtn" *ngIf="showEditForm" (click)="updateGallery(galleryForm)">Update Gallery</button>
     </div>
   </ng-template>
 </div>

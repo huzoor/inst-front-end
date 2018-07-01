@@ -24,7 +24,7 @@ export class TimelineComponent implements OnInit {
   public instituteUserName: FormControl;
   public addedBy: String;
   public addedUser: String;
-
+  public showEditButton: boolean = false;
   public timeLineConfig: Object =  timeLineConfig;
   public timeLineEvents: any;
   public roleType: Number;
@@ -58,8 +58,15 @@ export class TimelineComponent implements OnInit {
     });
   }
 
-  public openModal(template: TemplateRef<any>) {
+  public createEditTimeline(template: TemplateRef<any>, timelineInfo) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    if (timelineInfo !== '') {
+      this.showEditButton = true;
+      this.timeLineForm.setValue(timelineInfo);
+    } else {
+      this.timeLineForm.reset();
+      this.showEditButton = false;
+    }
   }
 
   getTimelineEvents() {
@@ -96,7 +103,7 @@ export class TimelineComponent implements OnInit {
       }
   }
 
-  public onSubmitTimeline(timeLineForm) {
+  public saveTimeline(timeLineForm) {
     if (this.timeLineForm.valid) {
       // Get this info From local storage
       this.timeLineForm.value.schoolUserName = localStorage.getItem('schoolUserName');
@@ -117,5 +124,9 @@ export class TimelineComponent implements OnInit {
           
         }).catch((err) =>  this.error = err.json().message );
     }
+  }
+
+  public updateTimeline(updatetimeline): void {
+    console.log(updatetimeline.value);
   }
 }
