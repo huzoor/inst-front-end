@@ -42,7 +42,10 @@ export class GalleryComponent implements OnInit {
     this.galleryModal = this.modalService.show(template, { ignoreBackdropClick: true });
     if (galleryInfo !== '') {
       this.showEditForm = true;
-      this.galleryForm.setValue(galleryInfo);
+      this.galleryForm.setValue({
+        title: galleryInfo.title,
+        description: galleryInfo.description
+      });
     } else {
       this.galleryForm.reset();
       this.showEditForm = false;

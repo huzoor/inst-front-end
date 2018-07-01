@@ -62,7 +62,11 @@ export class TimelineComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     if (timelineInfo !== '') {
       this.showEditButton = true;
-      this.timeLineForm.setValue(timelineInfo);
+      this.timeLineForm.setValue({
+        messageType: timelineInfo.messageType,
+        message: timelineInfo.message,
+        messageTo: timelineInfo.messageTo
+      });
     } else {
       this.timeLineForm.reset();
       this.showEditButton = false;
