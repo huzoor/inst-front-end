@@ -30,7 +30,7 @@ export class AdminHeaderComponent implements OnInit {
     this.userName = localStorage.getItem('userName');
     this.name = localStorage.getItem('name');
     this.roleType = localStorage.getItem('roleType');
-    this.resetUrl = '/reset-password?userName=this.userName&type=this.roleType';
+    this.resetUrl = `change-password?userName=${this.userName}&type=${this.roleType}`;
 
     this.getImageDetails();
   }

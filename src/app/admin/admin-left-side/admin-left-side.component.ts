@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-admin-left-side',
@@ -12,7 +13,7 @@ public roleType: String;
 public name: String;
 public userImage: String;
 
-  constructor() { }
+  constructor(private auth: DataService,) { }
 
   ngOnInit() {
     /*
@@ -27,6 +28,22 @@ public userImage: String;
    this.roleType = localStorage.getItem('roleType');
    this.menuList = require('./left-menu.json');
    this.userImage = localStorage.getItem('logo');
+
+   this.getImageDetails();
+  }
+
+  public getImageDetails(){
+    const inputDtls = {
+      role : parseInt(localStorage.getItem('role'), 10),
+      userName : localStorage.getItem('userName'),
+    };
+
+    this.auth.getImageDetails(inputDtls).then((resp) => {
+      if(resp.json().success) 
+        this.userImage = resp.json().logo;
+    }).catch((err) => {
+      console.log('err',err)
+    });
   }
 
 }
