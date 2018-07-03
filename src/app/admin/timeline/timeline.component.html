@@ -3,9 +3,14 @@
     <div class="row" *ngIf="roleType == 101 || roleType == 102">
       <section class="content-header">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            <div class="breadcrumb-heading">
+              Timeline
+            </div>
+          </div>
+          <div class="col-md-6">
             <div class="pull-right">
-              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(timelineModal)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="createEditTimeline(timelineModal, '')">
                 <i class="fa fa-plus"></i> COMPOSE </button>
             </div>
           </div>
@@ -17,7 +22,7 @@
       <strong>Warning!</strong> {{timeLineEventsMsg}}
     </div>
     <div class="row">
-      <div class="col-md-6" *ngFor="let TLEvent of timeLineEvents">
+      <div class="col-md-4" *ngFor="let TLEvent of timeLineEvents">
         <div class="box">
           <div class="box-header with-border">
             <div class="row">
@@ -31,7 +36,16 @@
                   <h3 class="profile-username">
                     {{TLEvent.addedBy}}
                   </h3>
-                  <div class="text-muted m5"> <strong> {{TLEvent.createdOn | date:'dd-MM-yyyy h:mm a'}} </strong> </div>
+                  <div class="text-muted m5">
+                    <strong> {{TLEvent.createdOn | date:'dd-MM-yyyy h:mm a'}} </strong>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="pull-right">
+                  <a href="javascript:void(0);" (click)="createEditTimeline(timelineModal, TLEvent)">
+                    <i class="fa fa-edit"></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -39,14 +53,14 @@
           <div class="box-body">
             <div class="row pd-15">
               <div class="col-sm-12">
-                  {{TLEvent.message}}
+                {{TLEvent.message}}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-    
+
     </div>
   </section>
   <ng-template #timelineModal>
@@ -103,7 +117,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="timeLineForm.invalid" (click)="onSubmitTimeline(timeLineForm)">Compose</button>
+      <button type="button" class="btn btn-success" [disabled]="timeLineForm.invalid" *ngIf="!showEditButton" (click)="saveTimeline(timeLineForm)">Composes</button>
+      <button type="button" class="btn btn-success" [disabled]="timeLineForm.invalid" *ngIf="showEditButton" (click)="updateTimeline(timeLineForm)">Update</button>
     </div>
   </ng-template>
 </div>

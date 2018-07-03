@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
-import {FileUploader} from '../../../../node_modules/ng2-file-upload';
+import { FileUploader } from '../../../../node_modules/ng2-file-upload';
 import { serviceUrl, imageBaseUri } from '../../shared/AppConstants';
 
 declare var AdminLTE: any;
@@ -17,6 +17,7 @@ declare var AdminLTE: any;
 export class GalleryComponent implements OnInit {
   public loadingIndicator: Promise<any>;
   public galleryModal: BsModalRef;
+  public showEditForm: boolean = false;
   public galleryList: any;
   public galleryForm: FormGroup;
   public title: FormControl;
@@ -39,36 +40,45 @@ export class GalleryComponent implements OnInit {
 
   public createEditGallery(template: TemplateRef<any>, galleryInfo) {
     this.galleryModal = this.modalService.show(template, { ignoreBackdropClick: true });
-    if (galleryInfo !== '' ) {
-      this.galleryForm.setValue(galleryInfo);
+    if (galleryInfo !== '') {
+      this.showEditForm = true;
+      this.galleryForm.setValue({
+        title: galleryInfo.title,
+        description: galleryInfo.description
+      });
     } else {
       this.galleryForm.reset();
+      this.showEditForm = false;
     }
   }
   uploadImage(file: any): void {
     // console.log(file);
-    this.filesToUpload = <Array<File>> file.target.files;
+    this.filesToUpload = <Array<File>>file.target.files;
   }
 
   public addGalleryData(formData: any): void {
     // console.log(formData.value);
     this.makeFileRequest([], this.filesToUpload, formData.value).then((result) => {
-        console.log(result);
-        if(result){
-          this.galleryForm.reset();
-          this.getGalleryList();
-          this.galleryModal.hide();
-        }
+      console.log(result);
+      if (result) {
+        this.galleryForm.reset();
+        this.getGalleryList();
+        this.galleryModal.hide();
+      }
     }, (error) => {
-        console.error(error);
+      console.error(error);
     });
   }
 
+  public updateGallery(updateForm: any): void {
+    console.log(updateForm);
+  }
+
   public getGalleryList() {
-    let role = parseInt(localStorage.getItem('role'),10);
-    let entityType = ( (role === 101) ? localStorage.getItem('instituteUserName') : 
-                       localStorage.getItem('schoolUserName'))
-    this.loadingIndicator = this.dataService.getGalleryList({entityType})
+    let role = parseInt(localStorage.getItem('role'), 10);
+    let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
+      localStorage.getItem('schoolUserName'))
+    this.loadingIndicator = this.dataService.getGalleryList({ entityType })
       .then((resp) => {
         if (resp.json().success) {
           this.galleryList = resp.json().galleryList;
@@ -80,34 +90,34 @@ export class GalleryComponent implements OnInit {
 
   public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any) {
     let url = `${serviceUrl}/upload`;
-    let role = parseInt(localStorage.getItem('role'),10);
-    let entityType = ( (role === 101) ? localStorage.getItem('instituteUserName') : 
-                       localStorage.getItem('schoolUserName'))
+    let role = parseInt(localStorage.getItem('role'), 10);
+    let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
+      localStorage.getItem('schoolUserName'))
     return new Promise((resolve, reject) => {
-        var formData: any = new FormData();
-        var xhr = new XMLHttpRequest();
-        if(formInfo){
-          formData.append("title",formInfo.title)
-          formData.append("description",formInfo.description)
-          formData.append("entityType",entityType)
-        }
-        for(var i = 0; i < files.length; i++) {
-            formData.append("imageName", files[i], files[i].name);
-        }
-        
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    resolve(JSON.parse(xhr.response));
-                } else {
-                    reject(xhr.response);
-                }
-            }
-        }
-        xhr.open("POST", url, true);
-        xhr.send(formData);
-    });
-}
+      var formData: any = new FormData();
+      var xhr = new XMLHttpRequest();
+      if (formInfo) {
+        formData.append("title", formInfo.title)
+        formData.append("description", formInfo.description)
+        formData.append("entityType", entityType)
+      }
+      for (var i = 0; i < files.length; i++) {
+        formData.append("imageName", files[i], files[i].name);
+      }
 
-  
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      }
+      xhr.open("POST", url, true);
+      xhr.send(formData);
+    });
+  }
+
+
 }
