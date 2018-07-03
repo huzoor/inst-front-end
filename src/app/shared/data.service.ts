@@ -164,6 +164,11 @@ export class DataService {
     return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
   }
   
+  updateTimelineEvent(timeLine): Promise<any> {
+    let url: string = `${this.BASE_URL}/updateTimelineEvent`;
+    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+  }
+  
   saveTimeTableInfo(timetableInfo): Promise<any> {
     let url: string = `${this.BASE_URL}/saveTimeTableInfo`;
     console.log('timetableInfo in service', timetableInfo)

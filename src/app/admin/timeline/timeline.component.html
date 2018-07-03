@@ -18,7 +18,7 @@
       </section>
     </div>
     <!-- No Timeline Events Message -->
-    <div class="alert alert-warning" *ngIf="timeLineEventsMsg">
+    <div class="alert alert-warning" *ngIf="timeLineEvents.length == 0 ">
       <strong>Warning!</strong> {{timeLineEventsMsg}}
     </div>
     <div class="row">

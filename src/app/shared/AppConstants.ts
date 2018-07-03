@@ -1,11 +1,11 @@
 // export const serviceUrl = `http://ec2-18-191-120-54.us-east-2.compute.amazonaws.com:26666/api`;
 // export const imageBaseUri = `http://ec2-18-191-120-54.us-east-2.compute.amazonaws.com:26666/`;
 
-export const serviceUrl = `http://18.191.120.54:26666/api`;
-export const imageBaseUri = `http://18.191.120.54:26666/`;
+// export const serviceUrl = `http://18.191.120.54:26666/api`;
+// export const imageBaseUri = `http://18.191.120.54:26666/`;
 
-// export const serviceUrl = `http://localhost:26666/api`;
-// export const imageBaseUri = `http://localhost:26666/`;
+export const serviceUrl = `http://localhost:26666/api`;
+export const imageBaseUri = `http://localhost:26666/`;
 
 export const validation = {
     email: /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/
@@ -42,7 +42,7 @@ export const districtsList = [
 
 export const timeLineConfig = {
     messageTypes:['News', 'Circular'],
-    recipientType:[ 'All', 'School', 'Teaching', 'Non-Teaching' ,'Student'] 
+    recipientType:[ 'all', 'school', 'teaching', 'non-teaching' ,'student'] 
 }
 
 export const leaveTypes = {

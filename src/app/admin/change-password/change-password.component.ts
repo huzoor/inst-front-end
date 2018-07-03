@@ -43,7 +43,15 @@ export class ChangePasswordComponent implements OnInit {
       confirmPassword: this.confirmPassword
     });
   }
-
+  getRestType(role){
+    switch(role){
+      case 100: return 'Admin';
+      case 101: return 'Inst';
+      case 102: return 'Sch';
+      case 103: return 'Stf';
+      case 104: return 'Stu';
+    }
+  }
   changePaswword(formData: any): void {
     console.log(formData.value);
     var passwordForm: any = formData.value;
@@ -51,13 +59,23 @@ export class ChangePasswordComponent implements OnInit {
     if ("success") {
       if(passwordForm.newPassword === passwordForm.confirmPassword) {
         console.log("success");
+        let resetFormInfo = {}
         this.passwordMatchError = '';
-        const resetFormInfo = {
-          ...passwordForm,
-          userName: `${this.parmUserName}`,
-          instanceUrl: `reset${this.parmType}Password`,
+        if(this.parmUserName && this.parmType)
+          resetFormInfo = {
+            ...passwordForm,
+            userName: `${this.parmUserName}`,
+            instanceUrl: `reset${this.parmType}Password`,
+          }
+        else {
+          let resetString = this.getRestType(parseInt(localStorage.getItem('role'), 10));
+          resetFormInfo = {
+            ...passwordForm,
+            userName: `${localStorage.getItem('userName')}`,
+            instanceUrl: `reset${resetString}Password`,
+          };
         }
-
+        
         this.dataService.resetPassword(resetFormInfo)
         .then((resp) => {
           if (resp.json().success) {

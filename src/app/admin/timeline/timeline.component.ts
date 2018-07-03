@@ -17,6 +17,7 @@ export class TimelineComponent implements OnInit {
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public timeLineForm: FormGroup;
+  public timeLineId: FormControl;
   public messageType: FormControl;
   public messageTo: FormControl;
   public message: FormControl;
@@ -26,7 +27,7 @@ export class TimelineComponent implements OnInit {
   public addedUser: String;
   public showEditButton: boolean = false;
   public timeLineConfig: Object =  timeLineConfig;
-  public timeLineEvents: any;
+  public timeLineEvents: any = [];
   public roleType: Number;
   public error: any;
   public timeLineEventsMsg: String;
@@ -37,6 +38,7 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
+    this.timeLineId = new FormControl('', []);
     this.messageType = new FormControl('', []);
     this.message = new FormControl('', []);
     this.messageTo = new FormControl('', []);
@@ -52,6 +54,7 @@ export class TimelineComponent implements OnInit {
 
   formFileds() {
     this.timeLineForm = new FormGroup({
+      timeLineId: this.timeLineId,
       messageType: this.messageType,
       message: this.message,
       messageTo: this.messageTo
@@ -63,6 +66,7 @@ export class TimelineComponent implements OnInit {
     if (timelineInfo !== '') {
       this.showEditButton = true;
       this.timeLineForm.setValue({
+        timeLineId: timelineInfo._id,
         messageType: timelineInfo.messageType,
         message: timelineInfo.message,
         messageTo: timelineInfo.messageTo
@@ -91,7 +95,7 @@ export class TimelineComponent implements OnInit {
       });
 
       if(this.roleType == 102){
-        this.dataService.getTimelineEvents({schoolUserName })
+        this.dataService.getTimelineEvents({ schoolUserName , timeLineMode: this.roleType })
         .then((resp) => {
         if (resp.json().success) {
           const localEvents = [
@@ -131,6 +135,23 @@ export class TimelineComponent implements OnInit {
   }
 
   public updateTimeline(updatetimeline): void {
+    
     console.log(updatetimeline.value);
+    let updateInfo = {
+      ...(updatetimeline.value),
+      schoolUserName : localStorage.getItem('schoolUserName'),
+      instituteUserName : localStorage.getItem('instituteUserName'),
+      addedBy : this.addedBy,
+      addedUser : this.addedUser,
+    }
+    this.dataService.updateTimelineEvent(updateInfo)
+    .then((resp) => {
+      if (resp.json().success) {
+        this.timeLineForm.reset();
+        this.modalRef.hide();
+        this.getTimelineEvents();
+      } else this.error = resp.json().message;
+      
+    }).catch((err) =>  this.error = err.json().message );
   }
 }
