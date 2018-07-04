@@ -11,22 +11,27 @@ import { DataService } from '../../shared/data.service';
 })
 export class ForgotPasswordComponent implements OnInit {
   public forgotForm: FormGroup;
+  public userRileList: any;
   public email: FormControl;
+  public userRole: FormControl;
   public error: any;
 
 
   constructor(private router: Router, private auth: DataService) { }
 
   ngOnInit() {
+    this.userRileList = ["Admin", "Institute", "School", "Staff", "Student"];
     this.email = new FormControl('', [Validators.required]);
+    this.userRole = new FormControl('');
 
     this.forgotForm = new FormGroup({
+      userRole: this.userRole,
       email: this.email
     });
   }
 
   forgotPassword(): void {
-    console.log(this.forgotForm.value.email);
+    console.log(this.forgotForm.value);
   }
 
 }
