@@ -21,7 +21,8 @@ public userImage: String;
     Institute: 101,
     School: 102,
     Staff: 103,
-    Student: 104
+    Student: 104,
+    Non Teachin Staff: 105
     */
    this.userRole = parseInt(localStorage.getItem('role'));
    this.name = localStorage.getItem('name');

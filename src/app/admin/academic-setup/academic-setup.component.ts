@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
 @Component({
@@ -13,7 +13,6 @@ declare var AdminLTE: any;
   styleUrls: ['./academic-setup.component.css']
 })
 export class AcademicSetupComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
   public modalRef: BsModalRef;
   public classForm: FormGroup;
   public subjectForm: FormGroup;
@@ -41,10 +40,12 @@ export class AcademicSetupComponent implements OnInit {
   public type: string;
   constructor(private modalService: BsModalService,
     private dataService: DataService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.userRole = parseInt(localStorage.getItem('role'));
     this.className = new FormControl('', []);
     this.subjectName = new FormControl('', []);
@@ -79,34 +80,36 @@ export class AcademicSetupComponent implements OnInit {
   public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    let entityType ='classes';
-    this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
+    let entityType = 'classes';
+    this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
         } else this.error = resp.json().message;
-        
+
       }).catch((err) => {
-        console.log('err',err);
+        console.log('err', err);
         this.error = err.json().message;
         this.toastr.error('Unable to get class list');
       });
   }
- 
+
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    let entityType ='subjects';
-    this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
+    let entityType = 'subjects';
+    this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
         let res = resp.json()
+        this.loadingIndicator.hide();
         if (res.success) {
           this.subjectList = res.Subjects;
         } else this.error = resp.json().message;
-        
+
       }).catch((err) => {
-        console.log('err',err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
         this.toastr.error('Unable to get subject list');
       });
@@ -115,16 +118,18 @@ export class AcademicSetupComponent implements OnInit {
   public getHoursList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    this.loadingIndicator = this.dataService.getHoursList({instituteUserName })
+    this.dataService.getHoursList({ instituteUserName })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.hourList = res.hoursList;
         } else this.error = resp.json().message;
-        
+
       }).catch((err) => {
-        console.log('err',err)
+        console.log('err', err)
         this.error = err.json().message;
+        this.loadingIndicator.hide();
         this.toastr.error('Unable to get hours list');
       });
   }
@@ -139,7 +144,7 @@ export class AcademicSetupComponent implements OnInit {
     this.endTime = '';
     this.error = '';
     this.showUpdateButton = false;
-    
+
     this.hourForm.reset();
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
   }
@@ -174,6 +179,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public createUpdateClass(classForm, type) {
     this.disableButton = true;
+    this.loadingIndicator.show();
     if (this.classForm.valid) {
       this.error = '';
       this.classForm.value.instituteUserName = localStorage.getItem('instituteUserName');
@@ -187,8 +193,9 @@ export class AcademicSetupComponent implements OnInit {
       console.log(this.classForm.value.fromMode);
       this.dataService.addClass(this.classForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
-            this.className = new FormControl('',[])
+            this.className = new FormControl('', [])
             this.modalRef.hide();
             this.getClassesList();
             this.toastr.success(`Class ${this.classForm.value.fromMode}d successfully`);
@@ -198,6 +205,7 @@ export class AcademicSetupComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           this.error = err.json().message;
           this.toastr.error(`Unabled to ${this.classForm.value.fromMode} class`);
         });
@@ -206,6 +214,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public createUpdateSubject(subjectForm, type) {
     this.disableButton = true;
+    this.loadingIndicator.show();
     if (this.subjectForm.valid) {
       this.error = '';
       this.subjectForm.value.instituteUserName = localStorage.getItem('instituteUserName');
@@ -219,8 +228,9 @@ export class AcademicSetupComponent implements OnInit {
       }
       this.dataService.addSubject(this.subjectForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
-            this.subjectName = new FormControl('',[])
+            this.subjectName = new FormControl('', [])
             this.modalRef.hide();
             this.getSubjectsList();
             this.toastr.success(`Subject ${this.subjectForm.value.fromMode}d successfully`);
@@ -230,6 +240,7 @@ export class AcademicSetupComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           this.error = err.json().message;
           this.toastr.error(`Unabled to ${this.subjectForm.value.fromMode} subject`);
         });
@@ -238,6 +249,7 @@ export class AcademicSetupComponent implements OnInit {
 
   public createUpdateHour(hourForm, type) {
     console.log(hourForm.value);
+    this.loadingIndicator.show();
     this.disableButton = true;
     if (this.hourForm.valid) {
       this.error = '';
@@ -249,9 +261,10 @@ export class AcademicSetupComponent implements OnInit {
       } else {
         this.hourForm.value.fromMode = `create`;
       }
-      
+
       this.dataService.addNewHour(this.hourForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.getHoursList();
             this.modalRef.hide();
@@ -262,40 +275,43 @@ export class AcademicSetupComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           this.error = err.json().message;
           this.toastr.error(`Unabled to ${this.hourForm.value.fromMode} hours`);
         });
     }
   }
-  
+
   public removeEntity(template: TemplateRef<any>, deleteData, type) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.deleteRecord = deleteData;
     this.entityType = type;
   };
-  
 
-  deleteEntity(EntityInfo, entityType){
+
+  deleteEntity(EntityInfo, entityType) {
     const endPoint = `remove${entityType}`;
     this.modalRef.hide();
-    this.dataService.removeInstance({_id: EntityInfo._id}, endPoint)
-    .then((resp) => {
-      if (resp.json().success) {
-        this.getClassesList();
-        this.getSubjectsList();
-        this.getHoursList();
-        this.modalRef.hide();
-        this.toastr.success(`${entityType} deleted successfully`);
-      } else {
-        this.error = resp.json().message;
+    this.loadingIndicator.show();
+    this.dataService.removeInstance({ _id: EntityInfo._id }, endPoint)
+      .then((resp) => {
+        if (resp.json().success) {
+          this.loadingIndicator.hide();
+          this.getClassesList();
+          this.getSubjectsList();
+          this.getHoursList();
+          this.modalRef.hide();
+          this.toastr.success(`${entityType} deleted successfully`);
+        } else {
+          this.error = resp.json().message;
+          this.toastr.error(`Unable to delete ${entityType}`);
+        }
+      })
+      .catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err.json().message;
         this.toastr.error(`Unable to delete ${entityType}`);
-      }
-    })
-    .catch((err) => {
-      console.log('Remove Inst Err', err);
-      this.error = err.json().message;
-      this.toastr.error(`Unable to delete ${entityType}`);
-    });
+      });
   }
 
 }

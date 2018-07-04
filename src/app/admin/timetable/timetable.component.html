@@ -1,4 +1,4 @@
-<div class="content-wrapper" [ngBusy]="loadingIndicator">
+<div class="content-wrapper" >
   <section class="content">
     <div class="row">
       <div class="col-md-12">
@@ -46,7 +46,7 @@
                             <div class="form-group">
                               <select class="form-control" (change)="onSubjectChange($event.target.value, ttl.dayName, hour.hourName)" [disabled]="readOnlyField">
                                 <option value="">Select Subject</option>
-                                <option *ngFor="let subj of hour.subjectsList"  [value]="subj._id">
+                                <option *ngFor="let subj of hour.subjectsList" [selected]="subj.isSelected" [value]="subj._id">
                                   {{subj.subjName}}
                                 </option>
                               </select>

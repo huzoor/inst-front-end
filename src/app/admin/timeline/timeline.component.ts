@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { timeLineConfig } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-timeline',
@@ -13,7 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+  
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
   public timeLineForm: FormGroup;
@@ -34,10 +34,12 @@ export class TimelineComponent implements OnInit {
   
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.timeLineId = new FormControl('', []);
     this.messageType = new FormControl('', []);
     this.message = new FormControl('', []);
@@ -85,8 +87,9 @@ export class TimelineComponent implements OnInit {
     let timeLineMode = this.roleType == 101 && this.roleType || 0;
     
     
-    this.loadingIndicator = this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
+     this.dataService.getTimelineEvents({schoolUserName, instituteUserName, messageTo, timeLineMode})
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
           this.timeLineEvents = resp.json().timeLineEvets;
           this.timeLineEventsMsg = this.timeLineEvents.length == 0 ? `No Timeline Events Found` : ``;
@@ -97,6 +100,7 @@ export class TimelineComponent implements OnInit {
       if(this.roleType == 102){
         this.dataService.getTimelineEvents({ schoolUserName , timeLineMode: this.roleType })
         .then((resp) => {
+          this.loadingIndicator.hide();
         if (resp.json().success) {
           const localEvents = [
             ...this.timeLineEvents,
@@ -120,22 +124,26 @@ export class TimelineComponent implements OnInit {
       this.timeLineForm.value.addedUser = this.addedUser;
       // this.timeLineForm.value.schoolName = localStorage.getItem('schoolUserName');
       // this.timeLineForm.value.instituteName = localStorage.getItem('instituteUserName');
-
+      this.loadingIndicator.show();
       this.error = '';    
       this.dataService.addTimelineEvent(this.timeLineForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.timeLineForm.reset();
             this.modalRef.hide();
             this.getTimelineEvents();
           } else this.error = resp.json().message;
           
-        }).catch((err) =>  this.error = err.json().message );
+        }).catch((err) => {
+          this.loadingIndicator.hide();
+          this.error = err.json().message 
+        });
     }
   }
 
   public updateTimeline(updatetimeline): void {
-    
+    this.loadingIndicator.show();
     console.log(updatetimeline.value);
     let updateInfo = {
       ...(updatetimeline.value),
@@ -146,12 +154,16 @@ export class TimelineComponent implements OnInit {
     }
     this.dataService.updateTimelineEvent(updateInfo)
     .then((resp) => {
+      this.loadingIndicator.hide();
       if (resp.json().success) {
         this.timeLineForm.reset();
         this.modalRef.hide();
         this.getTimelineEvents();
       } else this.error = resp.json().message;
       
-    }).catch((err) =>  this.error = err.json().message );
+    }).catch((err) => { 
+      this.loadingIndicator.hide();
+      this.error = err.json().message 
+    });
   }
 }

@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { daysList } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-timetable',
@@ -13,7 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+
   public readOnlyField: boolean = false;
   public modalRef: BsModalRef;
   public error: any = '';
@@ -27,13 +27,15 @@ export class TimetableComponent implements OnInit {
   public selectedClass: FormControl;
   public timeTableList: any = '';
   public timetableInfo: any = [];
-  constructor(private dataService: DataService) {
-    this.getClassesList();
-    this.getHoursList();
-   }
+  constructor(private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) {
+  }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
+    this.getClassesList();
+    this.getHoursList();
     // changing subject as readonly for staff(103) user
     this.readOnlyField = (parseInt(localStorage.getItem('role')) === 103 ? true : false);
     this.selectedClass = new FormControl('', []);
@@ -53,13 +55,14 @@ export class TimetableComponent implements OnInit {
 
     this.dataService.getHoursList({ instituteUserName })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.hoursList = res.hoursList;
         } else this.error = resp.json().message;
 
       }).catch((err) => {
-        console.log('err', err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
@@ -71,65 +74,68 @@ export class TimetableComponent implements OnInit {
 
     this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
         } else this.error = resp.json().message;
 
       }).catch((err) => {
-        console.log('err', err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
-  
+
   public getClassWiseTimeTable(selectedClass): void {
+    this.loadingIndicator.show();
     this.error = '';
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
-   this.loadingIndicator = this.getSubjectsList(selectedClass).then(canLoad=> {
-      if(canLoad){
-        this.timeTableList = daysList.map( (item, index)=>{
+    this.getSubjectsList(selectedClass).then(canLoad => {
+      if (canLoad) {
+        this.loadingIndicator.hide();
+        this.timeTableList = daysList.map((item, index) => {
+          return {
+            dayName: item,
+            hoursList: this.hoursList.map(h => {
               return {
-                dayName: item,
-                hoursList: this.hoursList.map(h=>{
+                startTime: h.startTime,
+                endTime: h.endTime,
+                hourName: h.hourName,
+                subjectsList: this.subjectsList.map(s => {
+                  let isSelected = false;
+                  h.associatedWith.filter(ass => {
+                    if (ass.subjectId == s._id && item == ass.dayName)
+                      isSelected = true
+                  })
                   return {
-                    startTime: h.startTime,
-                    endTime: h.endTime,
-                    hourName: h.hourName,
-                    subjectsList: this.subjectsList.map(s=> {
-                      let isSelected = false;
-                      h.associatedWith.filter(ass => {
-                        if(ass.subjectId == s._id && item == ass.dayName)
-                          isSelected = true
-                      })
-                      return {
-                        _id: s._id,
-                        hourId: h._id,                        
-                        subjectId: s._id,
-                        subjName:s.subjectName,
-                        isSelected,
-                        dayName: item,
-                        instituteUserName,
-                        schoolUserName,
-                        classId: selectedClass,
-                      }
-                    })
+                    _id: s._id,
+                    hourId: h._id,
+                    subjectId: s._id,
+                    subjName: s.subjectName,
+                    isSelected,
+                    dayName: item,
+                    instituteUserName,
+                    schoolUserName,
+                    classId: selectedClass,
                   }
-                }),
+                })
               }
-          });
-          console.log(this.timeTableList)
+            }),
+          }
+        });
       }
     });
-   
+
   };
 
-  public getSubjectsList(classId): Promise<any>  {
+  public getSubjectsList(classId): Promise<any> {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
     return this.dataService.getEntitiesList({ instituteUserName, classId })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
@@ -140,69 +146,67 @@ export class TimetableComponent implements OnInit {
         }
 
       }).catch((err) => {
-        console.log('err', err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
         return false;
       });
   }
 
-  public onSubjectChange(subj, day, hourName){
+  public onSubjectChange(subj, day, hourName) {
     console.log(subj, day, hourName);
     this.timeTableList.filter(i => {
-        if(i.dayName === day) {
-          i.hoursList.filter(p => {
-            if(p.hourName === hourName){
-              p.subjectsList.filter( s=> {
-                    if(s._id === subj)
-                      s.isSelected = true;
-                    else s.isSelected = false;
-                })
-            }
-          })
-        }
-      });
-      console.log(this.timeTableList)
+      if (i.dayName === day) {
+        i.hoursList.filter(p => {
+          if (p.hourName === hourName) {
+            p.subjectsList.filter(s => {
+              if (s._id === subj)
+                s.isSelected = true;
+              else s.isSelected = false;
+            })
+          }
+        })
+      }
+    });
   }
 
-  public saveTimeTableInfo(){
-
+  public saveTimeTableInfo() {
+    this.loadingIndicator.show();
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
-    let cnt =  this.timeTableList.length;
-
+    let cnt = this.timeTableList.length;
     let timetableInfo: any[] = new Array();
-
-    this.timeTableList.map((i,index) =>{
-      i.hoursList.map(h =>{
-        h.subjectsList.map(s =>{
-            if(s.isSelected){
-              timetableInfo.push(s); 
-            }
-        })	
+    this.timeTableList.map((i, index) => {
+      i.hoursList.map(h => {
+        h.subjectsList.map(s => {
+          if (s.isSelected) {
+            timetableInfo.push(s);
+          }
+        })
       })
     });
-  
+
     let processedInfo = {
-      instituteUserName, schoolUserName, 
-      selectedClass: this.selectedClass.value, 
+      instituteUserName, schoolUserName,
+      selectedClass: this.selectedClass.value,
       timetableInfo
     };
 
     this.dataService.saveTimeTableInfo(processedInfo)
-    .then((resp) => {
-    console.log(resp);
-    if (resp.json().success) {
-      this.error = resp.json().message;
-      this.classForm.reset();
-      this.timetableForm.reset();
-      this.timeTableList = [];
-    } else this.error = resp.json().message;
+      .then((resp) => {
+        console.log(resp);
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.error = resp.json().message;
+          this.getClassWiseTimeTable(this.selectedClass.value);
+          this.timetableForm.reset();
+          this.timeTableList = [];
+        } else this.error = resp.json().message;
 
-    }).catch((err) =>  {
-    console.log(err);
-    this.error = err;
-    });
-  
+      }).catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err;
+      });
+
   }
 }

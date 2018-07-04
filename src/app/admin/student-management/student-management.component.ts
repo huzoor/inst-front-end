@@ -6,7 +6,7 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList, validation } from '../../shared/AppConstants';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-student-management',
@@ -14,7 +14,7 @@ declare var AdminLTE: any;
   styleUrls: ['./student-management.component.css']
 })
 export class StudentManagementComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+  
   public modalRef: BsModalRef;
   public studentForm: FormGroup;
   public name: FormControl;
@@ -50,7 +50,8 @@ export class StudentManagementComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -129,8 +130,9 @@ export class StudentManagementComponent implements OnInit {
     // get this info from LocalStorage
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
-   this.loadingIndicator = this.dataService.getStudentsList({schoolUserName,instituteUserName })
+    this.dataService.getStudentsList({schoolUserName,instituteUserName })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) this.studentList = resp.json().studentsList;
         else this.error = 'students list loading failed..!';
       });
@@ -144,6 +146,7 @@ export class StudentManagementComponent implements OnInit {
 
     return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
@@ -154,7 +157,7 @@ export class StudentManagementComponent implements OnInit {
         }
         
       }).catch((err) => {
-        console.log('err',err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
         return false;
       });
@@ -191,6 +194,7 @@ export class StudentManagementComponent implements OnInit {
 
   public saveStudent(studentForm) {
     this.disableButton = true;
+    this.loadingIndicator.show();
     if (this.studentForm.valid) {
       // Get this info From local storage
     this.studentForm.value.schoolUserName = localStorage.getItem('schoolUserName');
@@ -200,6 +204,7 @@ export class StudentManagementComponent implements OnInit {
     this.error = '';
       this.dataService.addStudent(this.studentForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.studentForm.reset();
             this.modalRef.hide();
@@ -207,6 +212,7 @@ export class StudentManagementComponent implements OnInit {
             this.toastr.success('Student added successfully');
           } else this.error = resp.json().message;
         }).catch((err) => {
+          this.loadingIndicator.hide();
           this.toastr.error('Unable to add student');
           this.error = err.json().message
         });
@@ -214,6 +220,7 @@ export class StudentManagementComponent implements OnInit {
   };
 
   public updateStudent(studentForm) { 
+    this.loadingIndicator.show();
     if (this.studentForm.valid) {
       // Get this info From local storage
     this.studentForm.value.schoolUserName = localStorage.getItem('schoolUserName');
@@ -224,6 +231,7 @@ export class StudentManagementComponent implements OnInit {
 
     this.dataService.addStudent(this.studentForm.value)
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
           this.studentForm.reset();
           this.modalRef.hide();
@@ -231,6 +239,7 @@ export class StudentManagementComponent implements OnInit {
           this.toastr.success('Student updated successfully');
         } else this.error = resp.json().message;
       }).catch((err) => {
+        this.loadingIndicator.hide();
         this.toastr.error('Unable to update student');
         this.error = err.json().message
       });

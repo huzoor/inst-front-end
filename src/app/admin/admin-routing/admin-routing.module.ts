@@ -21,7 +21,7 @@ import { ExaminationComponent } from '../examination/examination.component';
 import { StudentAcademicSetupComponent } from '../student-academic-setup/student-academic-setup.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
-
+import { NonTeachingStaffComponent } from '../non-teaching-staff/non-teaching-staff.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -68,6 +68,11 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
           {
             path: 'staff-management',
             component: StaffManagementComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'non-technical-staff',
+            component: NonTeachingStaffComponent,
             canActivate: [EnsureAuthenticated]
           },
           {

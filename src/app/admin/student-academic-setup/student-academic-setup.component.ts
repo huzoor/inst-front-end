@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
 @Component({
@@ -11,19 +11,49 @@ declare var AdminLTE: any;
   styleUrls: ['./student-academic-setup.component.css']
 })
 export class StudentAcademicSetupComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
   public instituteUserName: FormControl;
   public subjectList: any[] = new Array();
   public subjsList: any[] = new Array();
   public classList: any[] = new Array();
+  public staffList: any[] = [];
+
   public error: any;
   constructor(private modalService: BsModalService,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.getStaffDetails();
     this.getSubjectsList();
+    this.loadingIndicator.show();
   }
+// Staff Setup start
+  public getStaffDetails(): void {
+    let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
+     this.dataService.getStaffList({schoolUserName, instituteUserName})
+    .then((resp) => {
+      this.loadingIndicator.hide();
+      if (resp.json().success) {
+        this.staffList = resp.json().staffList;
+        console.log(this.staffList);
+      } else {
+        console.log('Staff Load Failed');
+        this.error = 'StaffInfo loading failed..!';
+      }
+    });
+  }
+
+  public selectClass(className): void {
+    console.log(className);
+  }
+
+  public saveStaff(staffData: any): void {
+    console.log(staffData);
+  }
+
+  // Staff setup end
 
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
@@ -54,14 +84,15 @@ export class StudentAcademicSetupComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
      let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
-   this.loadingIndicator = this.dataService.getEntitiesList({instituteUserName, entityType })
+   this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
+          this.loadingIndicator.hide();
           this.subjsList = res.Subjects;
           this.getClassesList().then((calLoad)=>{
             this.subjectList = this.classList.map(item=>{
-              
               return {
                 class: item.className,
                 subjects: this.subjsList.map(i=> { 
@@ -75,19 +106,17 @@ export class StudentAcademicSetupComponent implements OnInit {
                   }
                 })
               }
-            })
+            });
           })
         } else this.error = resp.json().message;
         
       }).catch((err) => {
-        console.log('err',err)
+        console.log('err',err);
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
 
-  public loadTimeTable(){
-
-  }
   public saveSubjects(subjectsInfo): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
@@ -99,8 +128,8 @@ export class StudentAcademicSetupComponent implements OnInit {
 
     console.log(mappedList);
     this.dataService.addAcadamicSetup({ mappedList, instituteUserName, schoolUserName}).then((resp)=>{
+      this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.loadTimeTable();
           this.error = resp.json().message;
         } else this.error = resp.json().message;
     }).catch((err) => {

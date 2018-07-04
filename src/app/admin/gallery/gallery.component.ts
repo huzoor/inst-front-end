@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
 import { FileUploader } from '../../../../node_modules/ng2-file-upload';
 import { serviceUrl, imageBaseUri } from '../../shared/AppConstants';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-gallery',
@@ -15,7 +15,7 @@ declare var AdminLTE: any;
 })
 
 export class GalleryComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+  
   public galleryModal: BsModalRef;
   public showEditForm: boolean = false;
   public galleryList: any;
@@ -25,10 +25,13 @@ export class GalleryComponent implements OnInit {
   public filesToUpload: Array<File>;
   public imageServerUri: String = imageBaseUri;
   public error: any;
-  constructor(private modalService: BsModalService, private dataService: DataService) { }
+  constructor(private modalService: BsModalService,
+     private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.getGalleryList();
     this.title = new FormControl('', []);
     this.description = new FormControl('', []);
@@ -58,9 +61,11 @@ export class GalleryComponent implements OnInit {
 
   public addGalleryData(formData: any): void {
     // console.log(formData.value);
+    this.loadingIndicator.show();
     this.makeFileRequest([], this.filesToUpload, formData.value).then((result) => {
       console.log(result);
       if (result) {
+        this.loadingIndicator.hide();
         this.galleryForm.reset();
         this.getGalleryList();
         this.galleryModal.hide();
@@ -78,11 +83,13 @@ export class GalleryComponent implements OnInit {
     let role = parseInt(localStorage.getItem('role'), 10);
     let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
       localStorage.getItem('schoolUserName'))
-    this.loadingIndicator = this.dataService.getGalleryList({ entityType })
+     this.dataService.getGalleryList({ entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
           this.galleryList = resp.json().galleryList;
         } else {
+          this.loadingIndicator.hide();
           this.error = 'gallery list loading failed..!';
         }
       });

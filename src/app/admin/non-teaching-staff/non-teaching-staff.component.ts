@@ -10,11 +10,11 @@ import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
 const date = new Date();
 @Component({
-  selector: 'app-staff-management',
-  templateUrl: './staff-management.component.html',
-  styleUrls: ['./staff-management.component.css']
+  selector: 'app-non-teaching-staff',
+  templateUrl: './non-teaching-staff.component.html',
+  styleUrls: ['./non-teaching-staff.component.css']
 })
-export class StaffManagementComponent implements OnInit {
+export class NonTeachingStaffComponent implements OnInit {
   
   public staffList: Object = {
     teaching: [],
@@ -61,7 +61,6 @@ export class StaffManagementComponent implements OnInit {
     private dataService: DataService,
     private $http: Http,
     private loadingIndicator: NgxSpinnerService) {
-    
   }
 
   ngOnInit() {
@@ -157,7 +156,6 @@ export class StaffManagementComponent implements OnInit {
           });
         } else {
           this.loadingIndicator.hide();
-          console.log('Staff Load Failed');
           this.error = 'StaffInfo loading failed..!';
         }
       });
@@ -197,7 +195,6 @@ export class StaffManagementComponent implements OnInit {
         })
         .catch((err) => {
           this.loadingIndicator.hide();
-          console.log('Add Staff Err', err);
           this.error = err.json().message;
         });
     }
@@ -226,7 +223,6 @@ export class StaffManagementComponent implements OnInit {
         })
         .catch((err) => {
           this.loadingIndicator.hide();
-          console.log('Add Staff Err', err);
           this.error = err.json().message;
         });
     }
@@ -263,8 +259,8 @@ export class StaffManagementComponent implements OnInit {
   };
 
   removeStaff(staffInfo){
-    this.loadingIndicator.show();
     const endPoint = `removeStaff`;
+    this.loadingIndicator.show();
     this.dataService.removeInstance({_id: staffInfo._id}, endPoint)
     .then((resp) => {
       this.loadingIndicator.hide();
@@ -276,7 +272,6 @@ export class StaffManagementComponent implements OnInit {
     })
     .catch((err) => {
       this.loadingIndicator.hide();
-      console.log('Remove Inst Err', err);
       this.error = err.json().message;
     });
   }

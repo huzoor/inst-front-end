@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { examTypes } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 
 @Component({
@@ -14,7 +14,7 @@ declare var AdminLTE: any;
   styleUrls: ['./examination.component.css']
 })
 export class ExaminationComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+
   public testName: FormControl;
   public placeholder = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
@@ -24,7 +24,7 @@ export class ExaminationComponent implements OnInit {
   public classCode: FormControl;
   public examType: FormControl;
 
-  
+
   public externalExamTypes: any[];
   public examsList: any[];
   public classList: any = [];
@@ -35,10 +35,12 @@ export class ExaminationComponent implements OnInit {
   public error: any = '';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.testName = new FormControl('', []);
     this.classCode = new FormControl('', []);
     this.subjectCode = new FormControl('', []);
@@ -59,9 +61,9 @@ export class ExaminationComponent implements OnInit {
     });
 
     this.examinationForm = new FormGroup({
-          examType: this.examType,
-          classCode: this.classCode,
-          subjectCode: this.subjectCode,
+      examType: this.examType,
+      classCode: this.classCode,
+      subjectCode: this.subjectCode,
     });
   }
 
@@ -70,20 +72,20 @@ export class ExaminationComponent implements OnInit {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let entityType = `classes`;
-
     this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
         } else this.error = resp.json().message;
 
       }).catch((err) => {
-        console.log('err', err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
-  public onClassChange(classId){
+  public onClassChange(classId) {
     this.error = '';
     this.getSubjectsList(classId);
   }
@@ -95,13 +97,14 @@ export class ExaminationComponent implements OnInit {
 
     this.dataService.getEntitiesList({ instituteUserName, schoolUserName, classId })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
         } else this.error = resp.json().message;
 
       }).catch((err) => {
-        console.log('err', err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
@@ -115,6 +118,7 @@ export class ExaminationComponent implements OnInit {
   }
 
   public createExam(examForm): void {
+    this.loadingIndicator.show();
     this.error = '';
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
@@ -123,12 +127,13 @@ export class ExaminationComponent implements OnInit {
       examForm.value.schoolUserName = schoolUserName;
       this.dataService.addExam(examForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.modalRef.hide();
             this.getExamsList();
           } else this.error = resp.json().message;
         }).catch((err) => {
-          console.log('err', err)
+          this.loadingIndicator.hide();
           this.error = 'Error in adding Exam';
         });
     }
@@ -139,8 +144,9 @@ export class ExaminationComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
 
-  this.loadingIndicator = this.dataService.getExamsList({ instituteUserName, schoolUserName })
+    this.dataService.getExamsList({ instituteUserName, schoolUserName })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
           this.examsList = resp.json().examsList
         } else this.error = resp.json().message;
@@ -157,10 +163,11 @@ export class ExaminationComponent implements OnInit {
     let classEnrolled = marksForm.value.classCode;
     let subjectId = marksForm.value.subjectCode;
 
-   this.loadingIndicator = this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
+    this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.studentList =  resp.json().studentsList.map(stu=>{
+          this.studentList = resp.json().studentsList.map(stu => {
             return {
               name: stu.name,
               rollNumber: stu.rollNumber,
@@ -175,14 +182,14 @@ export class ExaminationComponent implements OnInit {
       });
   }
   getMarks(stuId) {
-   if(this.fetchedMarksList.length === 0) return 0;
+    if (this.fetchedMarksList.length === 0) return 0;
 
-   let studentInfo =  this.fetchedMarksList[0].marksObtained.filter(stu=> stu.studentId === stuId )
-   if(studentInfo.length > 0) return studentInfo[0].marks;
-   else return 0;
+    let studentInfo = this.fetchedMarksList[0].marksObtained.filter(stu => stu.studentId === stuId)
+    if (studentInfo.length > 0) return studentInfo[0].marks;
+    else return 0;
   }
 
-  getMarksList(marksForm): Promise<any>{
+  getMarksList(marksForm): Promise<any> {
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let classId = marksForm.value.classCode;
@@ -191,8 +198,9 @@ export class ExaminationComponent implements OnInit {
 
     return this.dataService.getMarksList({ instituteUserName, schoolUserName, classId, subjectId, examType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.fetchedMarksList =  resp.json().MarksList;
+          this.fetchedMarksList = resp.json().MarksList;
           return true;
         } else {
           this.error = 'students list loading failed..!';
@@ -204,36 +212,37 @@ export class ExaminationComponent implements OnInit {
   public enterStudentMarks(marksForm): void {
     // console.log(marksForm.value);
     this.examType = marksForm.value.examType;
-    this.getMarksList(marksForm).then( canLoadStudents =>{
-      if(canLoadStudents){
+    this.getMarksList(marksForm).then(canLoadStudents => {
+      if (canLoadStudents) {
         this.getStudentList(marksForm);
         this.showStudentsList = true;
-      } else {  this.error = 'students list loading failed..!'; }
+      } else { this.error = 'students list loading failed..!'; }
     })
-    
+
   }
 
   public addStudentMarks(studentMarks): void {
     // console.log(studentMarks);
+    this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let classId = this.classCode.value;
     let subjectId = this.subjectCode.value;
     let examType = this.examType;
 
-  this.loadingIndicator = this.dataService.addStudentMarks({instituteUserName,schoolUserName, classId, subjectId, examType, marksObtained: studentMarks})
-    .then((resp) => {
-
-      if(resp.json().success){
-        this.error = resp.json().message;
-        this.showStudentsList = false;
-        this.fetchedMarksList = [];
-        this.studentList= [];
-        this.examinationForm.reset();
-      }
-    }).catch((err) => {
-      console.log('err',err)
-      this.error = err.json().message;
-    });
+    this.dataService.addStudentMarks({ instituteUserName, schoolUserName, classId, subjectId, examType, marksObtained: studentMarks })
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.error = resp.json().message;
+          this.showStudentsList = false;
+          this.fetchedMarksList = [];
+          this.studentList = [];
+          this.examinationForm.reset();
+        }
+      }).catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err.json().message;
+      });
   }
 }

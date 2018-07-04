@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-attendance',
@@ -13,7 +13,7 @@ declare var AdminLTE: any;
   styleUrls: ['./attendance.component.css']
 })
 export class AttendanceComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+
   public placeholder: String = 'mm/dd/yyyy';
   public attendanceForm: FormGroup;
   public viewAttendanceForm: FormGroup;
@@ -34,23 +34,25 @@ export class AttendanceComponent implements OnInit {
   public addAttendance: any;
   public viewCurrentAttendance: any;
   public showAttendance = false;
-  public error: String='';
+  public error: String = '';
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.selectDate = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
-   
+
     this.viewSelectDate = new FormControl('', []);
     this.viewClassName = new FormControl('', []);
     this.viewSubject = new FormControl('', []);
 
-    
+
     this.formFileds();
     this.getClassesList();
     this.getSubjectsList();
@@ -63,7 +65,7 @@ export class AttendanceComponent implements OnInit {
       subject: this.subject,
       selectDate: this.selectDate
     });
-   
+
     this.viewAttendanceForm = new FormGroup({
       viewClassName: this.viewClassName,
       viewSubject: this.viewSubject,
@@ -82,10 +84,11 @@ export class AttendanceComponent implements OnInit {
     let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
     // console.log('formInfo', formInfo.value);
-    this.loadingIndicator = this.dataService.getStudentsList({schoolUserName, instituteUserName, classEnrolled})
+    this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
       .then((resp) => {
+        this.loadingIndicator.hide();
         if (resp.json().success) {
-          if(resp.json().studentsList.length == 0)  this.error = 'No students found...';          
+          if (resp.json().studentsList.length == 0) this.error = 'No students found...';
           else this.studentList = resp.json().studentsList;
         }
         else this.error = 'students list loading failed..!';
@@ -95,35 +98,37 @@ export class AttendanceComponent implements OnInit {
   public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    let entityType ='classes';
+    let entityType = 'classes';
 
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
         } else this.error = resp.json().message;
-        
+
       }).catch((err) => {
-        console.log('err',err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
- 
+
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    let entityType ='subjects';
+    let entityType = 'subjects';
 
-    this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.dataService.getEntitiesList({ instituteUserName, entityType })
       .then((resp) => {
+        this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
         } else this.error = resp.json().message;
-        
+
       }).catch((err) => {
-        console.log('err',err)
+        this.loadingIndicator.hide();
         this.error = err.json().message;
       });
   }
@@ -132,11 +137,12 @@ export class AttendanceComponent implements OnInit {
     for (let i = 0; i < this.studentList.length; i++) {
       this.studentList[i].selected = this.selectedAll;
       if (this.selectedAll) {
-        this.selectedStudent.push({ classCode: this.className.value, 
-                                    subjectCode: this.subject.value, 
-                                    rollNumber: this.studentList[i].rollNumber,
-                                  });
-      } 
+        this.selectedStudent.push({
+          classCode: this.className.value,
+          subjectCode: this.subject.value,
+          rollNumber: this.studentList[i].rollNumber,
+        });
+      }
       else {
         this.selectedStudent = [];
       }
@@ -145,21 +151,21 @@ export class AttendanceComponent implements OnInit {
 
   public checkAllSelected(row) {
     if (row.selected === true) {
-      this.selectedStudent.push({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber });
+      this.selectedStudent.push({ classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber });
     } else {
       // this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true}), 1);
-      this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber}), 1);
+      this.selectedStudent.splice(this.selectedStudent.indexOf({ classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber }), 1);
     }
     console.log(this.selectedStudent);
   }
 
   public removeDuplicates(myArr, prop) {
     return myArr.filter((obj, pos, arr) => {
-        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+      return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
     });
   }
 
-  public  resetAttendanceForm(){
+  public resetAttendanceForm() {
     this.selectDate = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
@@ -167,6 +173,7 @@ export class AttendanceComponent implements OnInit {
 
   public saveAttendance(): void {
     // Get instituteUserName from localStorage
+    this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let attendanceTakenBy = localStorage.getItem('userName');
@@ -177,7 +184,7 @@ export class AttendanceComponent implements OnInit {
       classCode: this.className.value,
       subjectCode: this.subject.value,
       createdOn: this.selectDate.value.formatted,
-      presentiesList:filterdArr,
+      presentiesList: filterdArr,
       schoolUserName,
       instituteUserName,
       attendanceTakenBy,
@@ -186,20 +193,21 @@ export class AttendanceComponent implements OnInit {
     console.log(saveAttendance);
 
     this.dataService.addAttendance(saveAttendance)
-    .then((resp) => {
-      if(resp.json().success){ 
-        this.selectedStudent = [];
-        this.selectedAll = false;
-        this.studentList.map((item, i)=> this.studentList[i].selected = false);
-        this.resetAttendanceForm();
-        this.toastr.success('Attendance taken successfully');
-        this.error = resp.json().message;
-      }
-      else this.error = resp.json().message;
-    }).catch((err) => {
-      console.log('err',err)
-      this.error = err.json().message;
-    })
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.selectedStudent = [];
+          this.selectedAll = false;
+          this.studentList.map((item, i) => this.studentList[i].selected = false);
+          this.resetAttendanceForm();
+          this.toastr.success('Attendance taken successfully');
+          this.error = resp.json().message;
+        }
+        else this.error = resp.json().message;
+      }).catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err.json().message;
+      })
   }
 
   public viewAttendance(formInfo): void {
@@ -210,15 +218,19 @@ export class AttendanceComponent implements OnInit {
     let classCode = formInfo.value.viewClassName;
     let subjectCode = formInfo.value.viewSubject;
     let createdOn = formInfo.value.viewSelectDate.formatted;
-
+    this.loadingIndicator.show();
     console.log(this.viewAttendanceForm.value);
 
-    this.loadingIndicator = this.dataService.getAttendance({instituteUserName, schoolUserName, classCode, subjectCode, createdOn})
-    .then((resp) => {
-      if (resp.json().success) {
-        if(resp.json().attendanceInfo.length == 0)  this.error = 'No records found...';          
-        else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
-      } else this.error = resp.json().message;
-    }).catch(err => this.error = err.json().message);
+    this.dataService.getAttendance({ instituteUserName, schoolUserName, classCode, subjectCode, createdOn })
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          if (resp.json().attendanceInfo.length == 0) this.error = 'No records found...';
+          else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
+        } else this.error = resp.json().message;
+      }).catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err.json().message
+      });
   }
 }

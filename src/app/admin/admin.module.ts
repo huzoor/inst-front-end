@@ -32,7 +32,8 @@ import { ChartsModule } from 'ng2-charts';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { BusyModule } from 'angular2-busy';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NonTeachingStaffComponent } from './non-teaching-staff/non-teaching-staff.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,7 @@ import { BusyModule } from 'angular2-busy';
     ToastrModule.forRoot({timeOut: 2000,
       positionClass: 'toast-top-full-width',
       preventDuplicates: true,}),
-    BusyModule,
+    NgxSpinnerModule,
   ],
   declarations: [
     AdminComponent,
@@ -73,7 +74,8 @@ import { BusyModule } from 'angular2-busy';
     ExaminationComponent,
     StudentAcademicSetupComponent,
     GalleryComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    NonTeachingStaffComponent
   ],
   exports: [AdminComponent]
 })

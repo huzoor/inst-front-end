@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
 const date = new Date();
@@ -14,7 +14,7 @@ const date = new Date();
   styleUrls: ['./institutes.component.css']
 })
 export class InstitutesComponent implements OnInit {
-  public loadingIndicator: Promise<any>;
+  
   public instituteList: any;
   public placeholder = 'mm/dd/yyyy';
   public showEditForm: boolean = false;
@@ -41,10 +41,14 @@ export class InstitutesComponent implements OnInit {
   public statesList: any = statesList;
   public districtsList: any = districtsList;
 
-  constructor(private modalService: BsModalService, private eleRef: ElementRef, private dataService: DataService) { }
+  constructor(private modalService: BsModalService, 
+    private eleRef: ElementRef, 
+    private dataService: DataService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.instituteName = new FormControl('', []);
     this.address = new FormControl('', []);
     this.code = new FormControl('', []);
@@ -74,13 +78,14 @@ export class InstitutesComponent implements OnInit {
   }
 
   getInstitutesList() {
-   this.loadingIndicator = this.dataService.getInstitutes()
+    this.dataService.getInstitutes()
       .then((resp) => {
         if (resp.json().success) {
+          this.loadingIndicator.hide();
           console.log('Inst Loaded ', resp.json().institutes);
           this.instituteList = resp.json().institutes;
         } else {
-          console.log('Inst Load Failed');
+          this.loadingIndicator.hide();
           this.error = 'Institutes loading failed..!';
         }
       });
@@ -137,12 +142,14 @@ export class InstitutesComponent implements OnInit {
   }
 
   public saveInstituteForm(instituteform) {
+    this.loadingIndicator.show();
     console.log(instituteform.value.registeredDate);
     if (this.instituteform.valid) {
       this.error = '';
       this.instituteform.value.formMode = `create`;
       this.dataService.addInstitute(this.instituteform.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.instituteform.reset();
             this.modalRef.hide();
@@ -152,6 +159,7 @@ export class InstitutesComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           console.log('Add Inst Err', err);
           this.error = err.json().message;
         });
@@ -160,6 +168,7 @@ export class InstitutesComponent implements OnInit {
   }
   
   public updateInstituteForm(instituteform) {
+    this.loadingIndicator.show();
     this.instituteform.get('registeredDate').setValue(instituteform.value.registeredDate.formatted);
     console.log(instituteform.value);
     if (this.instituteform.valid) {
@@ -167,6 +176,7 @@ export class InstitutesComponent implements OnInit {
       this.instituteform.value.formMode = `update`;
       this.dataService.addInstitute(this.instituteform.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.instituteform.reset();
             this.modalRef.hide();
@@ -176,6 +186,7 @@ export class InstitutesComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           console.log('Add Inst Err', err);
           this.error = err.json().message;
         });
@@ -189,8 +200,10 @@ export class InstitutesComponent implements OnInit {
   removeInstitute(institute){
     const endPoint = `removeInstitute`;
     this.modalRef.hide();
+    this.loadingIndicator.show();
     this.dataService.removeInstance({_id: institute._id}, endPoint)
     .then((resp) => {
+      this.loadingIndicator.hide();
       if (resp.json().success) {
         this.getInstitutesList();
       } else {
@@ -198,6 +211,7 @@ export class InstitutesComponent implements OnInit {
       }
     })
     .catch((err) => {
+      this.loadingIndicator.hide();
       console.log('Remove Inst Err', err);
       this.error = err.json().message;
     });
