@@ -83,6 +83,7 @@ export class AdminHeaderComponent implements OnInit {
       if(resp.json().success){ 
         this.getImageDetails();
         this.toastr.success(`${localStorage.getItem('userName')} Image uploaded successfully`);
+        location.reload();
       } else {
         this.error = resp.json().message;
         this.toastr.error(`${localStorage.getItem('userName')} Image upload failed... Please try again`);

@@ -12,8 +12,8 @@ export const validation = {
 }
 
 export const staffRoles = [
-    { id: 1, type: 'teaching' },
-    { id: 2, type: 'non-teaching'}
+    { id: 1, type: 'Teaching' },
+    { id: 2, type: 'Non-Teaching'}
 ];
 
 export const staffQualifications = [
@@ -42,7 +42,7 @@ export const districtsList = [
 
 export const timeLineConfig = {
     messageTypes:['News', 'Circular'],
-    recipientType:[ 'all', 'school', 'teaching', 'non-teaching' ,'student'] 
+    recipientType:[ 'All', 'School', 'Teaching', 'Non-Teaching' ,'Student'] 
 }
 
 export const leaveTypes = {

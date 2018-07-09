@@ -24,15 +24,15 @@
           <div class="box-body">
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
-                <li class="active" *ngIf="userRoleType == 103 || userRoleType == 104">
+                <li class="active" *ngIf="userRoleType !== 101">
                   <a href="#leaveList" data-toggle="tab">Leave List</a>
                 </li>
-                <li>
-                  <a href="#approveList" data-toggle="tab" id="getApproveList">Approve Leave</a>
+                <li *ngIf="userRoleType !== 104 && userRoleType !== 105 ">
+                  <a href="#approveList" data-toggle="tab" id="getApproveList">Leaves To Be Approve</a>
                 </li>
               </ul>
               <div class="tab-content">
-                <div class="tab-pane active" id="leaveList" *ngIf="userRoleType == 103 || userRoleType == 104">
+                <div class="tab-pane active" id="leaveList" *ngIf="userRoleType !== 101">
                   <div class="row mt-10">
                     <div class="col-sm-12">
                       <table class="table table-bordered table-striped">
@@ -58,14 +58,16 @@
                                 <div class="text-success"> {{leave.approvedBy}} </div>
                               </ng-template>
                             </td> -->
-                            <td *ngIf="leave.rejectedBy.length <= 0 &&  leave.deletedBy.length <= 0 ">
-                              <div class="actions" *ngIf="!leave.isApproved">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-danger" (click)="deleteLeaveInfo(deleteModal, leave)">
-                                  <i class="fa fa-close"></i>
-                                </button>
+                            <td>
+                              <div class="actions" *ngIf="leave.rejectedBy.length <= 0 &&  leave.deletedBy.length <= 0 ">
+                                <div *ngIf="!leave.isApproved">
+                                  <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteLeaveInfo(deleteModal, leave)">
+                                    <i class="fa fa-close"></i>
+                                  </button>
+                                </div>
                               </div>
                             </td>
                           </tr>

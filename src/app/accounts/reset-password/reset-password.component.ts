@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Router, ActivatedRoute, Params} from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -18,7 +19,9 @@ export class ResetPasswordComponent implements OnInit {
   public parmUserName: String;
   public parmType: String;
 
-  constructor(private dataService: DataService, private activatedRoute: ActivatedRoute) {
+  constructor(private dataService: DataService, 
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute) {
    }
 
   ngOnInit() {

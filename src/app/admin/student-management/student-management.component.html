@@ -228,8 +228,11 @@
               <label class="control-label">Mobile <span class="text-danger">*</span></label>
               <input type="text" class="form-control" 
                      formControlName="mobile" 
-                     (change) = "studentAvailStaus($event)"
                      required>
+              <!-- <input type="text" class="form-control" 
+                     formControlName="mobile" 
+                     (change) = "studentAvailStaus($event)"
+                     required> -->
             </div>
           </div>
           <div class="col-xs-12 alert alert-warning"  *ngIf="stuAvailStaus.length > 0">

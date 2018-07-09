@@ -158,6 +158,12 @@ export class DataService {
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
+  
+  removeStudent(stuId): Promise<any> {
+    let url: string = `${this.BASE_URL}/removeStudent`;
+    return this.http.put(url, stuId, { headers: this.headers }).toPromise();
+  }
+
 
   addTimelineEvent(timeLine): Promise<any> {
     let url: string = `${this.BASE_URL}/addTimelineEvent`;
@@ -204,7 +210,6 @@ export class DataService {
     return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
   }
  
-
   getleavesList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getLeavesList`;
     let localHeaders: Headers = new Headers({ 
@@ -263,6 +268,11 @@ export class DataService {
 
   setTimeTable(fromInfo):  Promise<any> {
     let url: string = `${this.BASE_URL}/setTimeTable`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
+  }
+  
+  setGalleryDesc(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/setGalleryDesc`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
  

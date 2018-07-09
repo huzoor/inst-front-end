@@ -4,6 +4,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
+import { ToastrService } from 'ngx-toastr';
+
 declare var AdminLTE: any;
 @Component({
   selector: 'app-student-academic-setup',
@@ -20,6 +22,7 @@ export class StudentAcademicSetupComponent implements OnInit {
   public error: any;
   constructor(private modalService: BsModalService,
     private dataService: DataService,
+    private toastr: ToastrService,
     private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -131,6 +134,7 @@ export class StudentAcademicSetupComponent implements OnInit {
       this.loadingIndicator.hide();
         if (resp.json().success) {
           this.error = resp.json().message;
+          this.toastr.success(`Academic Setup Added/Updated Successfully`);
         } else this.error = resp.json().message;
     }).catch((err) => {
         console.log('err',err)

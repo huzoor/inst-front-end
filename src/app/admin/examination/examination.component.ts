@@ -67,7 +67,6 @@ export class ExaminationComponent implements OnInit {
     });
   }
 
-
   public getClassesList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
@@ -85,6 +84,7 @@ export class ExaminationComponent implements OnInit {
         this.error = err.json().message;
       });
   }
+
   public onClassChange(classId) {
     this.error = '';
     this.getSubjectsList(classId);
@@ -115,6 +115,10 @@ export class ExaminationComponent implements OnInit {
 
   getSubjectName(code) {
     return this.subjectsList.filter(i => i._id == code)[0].subjectName
+  }
+ 
+  getExamName(code) {
+    return this.examsList.filter(i => i._id == code)[0].testName
   }
 
   public createExam(examForm): void {

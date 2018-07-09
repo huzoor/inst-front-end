@@ -42,7 +42,8 @@
                 </div>
               </div>
               <div class="col-md-2">
-                <div class="pull-right">
+                  <!-- {{currntUserName}} - {{TLEvent.addedUser}} -->
+                <div class="pull-right" *ngIf="currntUserName === TLEvent.addedUser">
                   <a href="javascript:void(0);" (click)="createEditTimeline(timelineModal, TLEvent)">
                     <i class="fa fa-edit"></i>
                   </a>

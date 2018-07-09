@@ -30,6 +30,7 @@ export class TimelineComponent implements OnInit {
   public timeLineEvents: any = [];
   public roleType: Number;
   public error: any;
+  public currntUserName: any;
   public timeLineEventsMsg: String;
   
   constructor(private modalService: BsModalService,
@@ -51,6 +52,7 @@ export class TimelineComponent implements OnInit {
     this.addedUser =  (this.roleType == 101) ? localStorage.getItem('instituteUserName') 
                                              : localStorage.getItem('schoolUserName') ;
     this.formFileds();
+    this.currntUserName = localStorage.getItem('userName');
     this.getTimelineEvents();
   }
 

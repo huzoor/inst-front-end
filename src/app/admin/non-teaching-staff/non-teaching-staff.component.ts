@@ -261,6 +261,7 @@ export class NonTeachingStaffComponent implements OnInit {
   removeStaff(staffInfo){
     const endPoint = `removeStaff`;
     this.loadingIndicator.show();
+    this.modalRef.hide();
     this.dataService.removeInstance({_id: staffInfo._id}, endPoint)
     .then((resp) => {
       this.loadingIndicator.hide();

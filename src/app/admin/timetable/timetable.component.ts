@@ -197,10 +197,7 @@ export class TimetableComponent implements OnInit {
         console.log(resp);
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.error = resp.json().message;
-          this.getClassWiseTimeTable(this.selectedClass.value);
-          this.timetableForm.reset();
-          this.timeTableList = [];
+          location.reload();
         } else this.error = resp.json().message;
 
       }).catch((err) => {

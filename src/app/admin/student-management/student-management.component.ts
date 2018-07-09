@@ -33,7 +33,7 @@ export class StudentManagementComponent implements OnInit {
   public gender: FormControl;
   public email: FormControl;
   public mobile: FormControl;
-  public photoPath: FormControl;
+  // public photoPath: FormControl;
   public _id: FormControl;
 
   public countriesList: any[] = countriesList;
@@ -72,7 +72,7 @@ export class StudentManagementComponent implements OnInit {
     this.gender = new FormControl('', []);
     this.email = new FormControl('', Validators.pattern(validation.email));
     this.mobile = new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]);
-    this.photoPath = new FormControl('', []);
+    // this.photoPath = new FormControl('', []);
     this._id = new FormControl('', []);
 
     this.formFileds();
@@ -101,7 +101,7 @@ export class StudentManagementComponent implements OnInit {
       gender: this.gender,
       email: this.email,
       mobile: this.mobile,
-      photoPath: this.photoPath,
+      // photoPath: this.photoPath,
       _id: this._id,
     });
   }
@@ -270,7 +270,21 @@ export class StudentManagementComponent implements OnInit {
 
   removeStudent(student) {
     //Delete logic goes here
-    this.toastr.success('Student deleted successfully');
+    this.dataService.removeStudent({stuId: student._id})
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.studentForm.reset();
+          this.modalRef.hide();
+          this.toastr.success('Student deleted successfully');
+          this.getStudentList();
+        } else this.error = resp.json().message;
+      }).catch((err) => {
+        this.loadingIndicator.hide();
+        this.toastr.error('Unable to update student');
+        this.error = err.json().message
+      });
+
     //console.log(student);
    // this.modalRef.hide();
   }

@@ -52,12 +52,15 @@ export class LeaveManagementComponent implements OnInit {
     this.userRoleType = parseInt(localStorage.getItem('role'), 10);
     this.getLeavesList('list');
 
-    if (this.userRoleType == 102 || this.userRoleType == 103)
-      this.getLeavesList('approve');
+    // if (this.userRoleType == 102 || this.userRoleType == 103)
+    //   this.getLeavesList('approve');
+    
+    if (this.userRoleType !== 101 )
+       this.getLeavesList('approve');
 
-    if (this.userRoleType == 102) document.getElementById('getApproveList').click();
-
+    // if (this.userRoleType == 101) document.getElementById('getApproveList').click();
   }
+
   getLeavesList(listMode) {
     // get this info from LocalStorage
     let schoolUserName = localStorage.getItem('schoolUserName');
@@ -112,7 +115,9 @@ export class LeaveManagementComponent implements OnInit {
             this.leaveForm.reset();
             this.modalRef.hide();
             this.getLeavesList('list');
-            if (role == 102 || role == 103)
+            // if (role == 102 || role == 103)
+            //   this.getLeavesList('approve');
+            if (role == 101 || role == 102 || role == 103 )
               this.getLeavesList('approve');
 
             this.toastr.success(`${resp.json().message}`);
@@ -169,8 +174,6 @@ export class LeaveManagementComponent implements OnInit {
   public deleteLeaveInfo(template: TemplateRef<any>, deleteData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
     this.deleteLeaveRecord = deleteData;
-
-
   };
 
   removeLeaveRecord(data) {

@@ -265,6 +265,7 @@ export class StaffManagementComponent implements OnInit {
   removeStaff(staffInfo){
     this.loadingIndicator.show();
     const endPoint = `removeStaff`;
+    this.modalRef.hide();
     this.dataService.removeInstance({_id: staffInfo._id}, endPoint)
     .then((resp) => {
       this.loadingIndicator.hide();

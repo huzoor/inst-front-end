@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
+import { ToastrService } from 'ngx-toastr';
 import { FileUploader } from '../../../../node_modules/ng2-file-upload';
 import { serviceUrl, imageBaseUri } from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -20,14 +21,18 @@ export class GalleryComponent implements OnInit {
   public showEditForm: boolean = false;
   public galleryList: any;
   public galleryForm: FormGroup;
+  public galleryId: String;
   public title: FormControl;
   public description: FormControl;
   public filesToUpload: Array<File>;
   public imageServerUri: String = imageBaseUri;
+  public userRoleType: any;
   public error: any;
+
   constructor(private modalService: BsModalService,
      private dataService: DataService,
-    private loadingIndicator: NgxSpinnerService) { }
+     private toastr: ToastrService,
+     private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -39,6 +44,7 @@ export class GalleryComponent implements OnInit {
       title: this.title,
       description: this.description
     });
+    this.userRoleType = parseInt(localStorage.getItem('role'), 10);
   }
 
   public createEditGallery(template: TemplateRef<any>, galleryInfo) {
@@ -49,6 +55,7 @@ export class GalleryComponent implements OnInit {
         title: galleryInfo.title,
         description: galleryInfo.description
       });
+      this.galleryId = galleryInfo._id;
     } else {
       this.galleryForm.reset();
       this.showEditForm = false;
@@ -61,14 +68,17 @@ export class GalleryComponent implements OnInit {
 
   public addGalleryData(formData: any): void {
     // console.log(formData.value);
+    const url = `${serviceUrl}/addToGallery`;
     this.loadingIndicator.show();
-    this.makeFileRequest([], this.filesToUpload, formData.value).then((result) => {
-      console.log(result);
+    this.makeFileRequest([], this.filesToUpload, formData.value, url).then((result) => {
+      // console.log(result);
+      this.galleryId = '';
       if (result) {
+        this.galleryModal.hide();
         this.loadingIndicator.hide();
         this.galleryForm.reset();
         this.getGalleryList();
-        this.galleryModal.hide();
+        this.toastr.success(`Image Added Successfully`);
       }
     }, (error) => {
       console.error(error);
@@ -76,7 +86,44 @@ export class GalleryComponent implements OnInit {
   }
 
   public updateGallery(updateForm: any): void {
-    console.log(updateForm);
+    // console.log(updateForm);
+    this.loadingIndicator.show();
+    const url = `${serviceUrl}/editGallery`;
+    let role = parseInt(localStorage.getItem('role'), 10), 
+        entityType = ((role === 101) ? localStorage.getItem('instituteUserName') : localStorage.getItem('schoolUserName')),
+        galFormInfo = {
+        ...(updateForm.value),
+        galId: this.galleryId,
+        entityType
+      }
+      // console.log(galFormInfo)
+       if(this.filesToUpload)
+      this.makeFileRequest([], this.filesToUpload, {...galFormInfo}, url).then((result) => {
+        console.log(result);
+        this.galleryId = '';
+        if (result) {
+          this.galleryModal.hide();
+          this.loadingIndicator.hide();
+          this.galleryForm.reset();
+          this.getGalleryList();
+          this.toastr.success(`Image updated Successfully`);
+        }
+      }, (error) => {
+        console.error(error);
+      });
+    else this.dataService.setGalleryDesc(galFormInfo).then((result) => {
+      // console.log(result);
+      this.galleryId = '';
+      if (result) {
+        this.galleryModal.hide();
+        this.loadingIndicator.hide();
+        this.galleryForm.reset();
+        this.getGalleryList();
+        this.toastr.success(`Image updated Successfully`);
+      }
+    }, (error) => {
+      console.error(error);
+    });
   }
 
   public getGalleryList() {
@@ -91,12 +138,12 @@ export class GalleryComponent implements OnInit {
         } else {
           this.loadingIndicator.hide();
           this.error = 'gallery list loading failed..!';
+          this.toastr.error(`gallery list loading failed...!`);
         }
       });
   }
 
-  public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any) {
-    let url = `${serviceUrl}/upload`;
+  public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any, url: string) {
     let role = parseInt(localStorage.getItem('role'), 10);
     let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
       localStorage.getItem('schoolUserName'))
@@ -107,6 +154,7 @@ export class GalleryComponent implements OnInit {
         formData.append("title", formInfo.title)
         formData.append("description", formInfo.description)
         formData.append("entityType", entityType)
+        if(formInfo.galId)  formData.append("galId", formInfo.galId)
       }
       for (var i = 0; i < files.length; i++) {
         formData.append("imageName", files[i], files[i].name);

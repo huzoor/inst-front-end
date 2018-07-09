@@ -226,14 +226,7 @@
     <form novalidate [formGroup]="hourForm" class="custom-form" (ngSubmit)="createUpdateHour(hourForm, showUpdateButton)">
     <div class="modal-body">
       <div class="alert alert-warning" *ngIf="error.length > 0"> {{error}}</div>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-md-6">
-              <label class="control-label m5">Hour Name</label>
-              <input type="text" class="form-control" formControlName="hourName"  [(ngModel)]="hourName"  required>
-            </div>
-          </div>
-        </div>
+       
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -245,6 +238,15 @@
             <div class="form-group">
               <label class="control-label">End Time</label>
               <timepicker  formControlName="endTime"  [(ngModel)]="endTime" required></timepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-md-6">
+              <label class="control-label m5">Hour Name</label>
+              <input type="text" class="form-control" formControlName="hourName"  [(ngModel)]="hourName"  required>
             </div>
           </div>
         </div>
