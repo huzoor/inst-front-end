@@ -17,8 +17,7 @@ const date = new Date();
 export class StaffManagementComponent implements OnInit {
   
   public staffList: Object = {
-    teaching: [],
-    nonTeching: []
+    teaching: []
   };
   public placeholder: String = 'mm/dd/yyyy';
   public modalRef: BsModalRef;
@@ -147,13 +146,11 @@ export class StaffManagementComponent implements OnInit {
         this.loadingIndicator.hide();
         if (resp.json().success) {
           this.staffList = {
-            teaching: [],
-            nonTeching: []
+            teaching: []
           };
           const staffDetails = resp.json().staffList;
           staffDetails.map((item) => {
-            if (item.staffRole === 'teaching') this.staffList['teaching'].push(item);
-            else this.staffList['nonTeching'].push(item);
+            if (item.staffRole === 'Teaching') this.staffList['teaching'].push(item);
           });
         } else {
           this.loadingIndicator.hide();
@@ -262,7 +259,7 @@ export class StaffManagementComponent implements OnInit {
     console.log(deleteData);
   };
 
-  removeStaff(staffInfo){
+  public removeStaff(staffInfo){
     this.loadingIndicator.show();
     const endPoint = `removeStaff`;
     this.modalRef.hide();
@@ -282,7 +279,7 @@ export class StaffManagementComponent implements OnInit {
     });
   }
 
-  staffAvailStaus(event){
+  public staffAvailStaus(event){
     const staffName = event.target.value;
     if( staffName !=='undefined'  && staffName.length > 3)
      this.dataService.instnceAvailStaus(staffName, 'stfAvailStaus')

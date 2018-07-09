@@ -17,7 +17,6 @@ const date = new Date();
 export class NonTeachingStaffComponent implements OnInit {
   
   public staffList: Object = {
-    teaching: [],
     nonTeching: []
   };
   public placeholder: String = 'mm/dd/yyyy';
@@ -146,13 +145,11 @@ export class NonTeachingStaffComponent implements OnInit {
         this.loadingIndicator.hide();
         if (resp.json().success) {
           this.staffList = {
-            teaching: [],
             nonTeching: []
           };
           const staffDetails = resp.json().staffList;
           staffDetails.map((item) => {
-            if (item.staffRole === 'teaching') this.staffList['teaching'].push(item);
-            else this.staffList['nonTeching'].push(item);
+            if (item.staffRole === 'Non-Teaching') this.staffList['nonTeching'].push(item);
           });
         } else {
           this.loadingIndicator.hide();

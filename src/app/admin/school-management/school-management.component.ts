@@ -6,7 +6,8 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DataTablesModule } from 'angular-datatables';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-school-management',
@@ -43,10 +44,12 @@ export class SchoolManagementComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.schoolName = new FormControl('', []);
     this.registeredDate = new FormControl('', []);
     this.address = new FormControl('', []);
@@ -67,6 +70,7 @@ export class SchoolManagementComponent implements OnInit {
     this.dataService.getSchoolList({instituteUserName})
       .then((resp) => {
         if (resp.json().success) {
+          this.loadingIndicator.hide();
           this.SchoolsList = resp.json().schools;
         } else {
           this.error = 'schools loading failed..!';
@@ -115,6 +119,7 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public saveSchoolForm(schoolForm) {
+    this.loadingIndicator.show();
     this.disableButton = true;
     if (this.schoolForm.valid) {
       this.error = '';
@@ -124,6 +129,7 @@ export class SchoolManagementComponent implements OnInit {
       this.schoolForm.value.instituteUserName = instituteUserName;
       this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.schoolForm.reset();
             this.modalRef.hide();
@@ -135,6 +141,7 @@ export class SchoolManagementComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.show();
           this.toastr.error('Unable to add school');
           this.error = err.json().message;
         });
@@ -142,6 +149,7 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public updateSchoolForm(schoolForm) {
+    this.loadingIndicator.show();
     this.changeCountry(schoolForm.country);
     this.changeState(schoolForm.state);
     this.schoolForm.get('registeredDate').setValue(schoolForm.value.registeredDate.formatted);
@@ -152,6 +160,7 @@ export class SchoolManagementComponent implements OnInit {
       this.error = '';
       this.dataService.addSchool(this.schoolForm.value)
         .then((resp) => {
+          this.loadingIndicator.hide();
           if (resp.json().success) {
             this.schoolForm.reset();
             this.modalRef.hide();
@@ -163,6 +172,7 @@ export class SchoolManagementComponent implements OnInit {
           }
         })
         .catch((err) => {
+          this.loadingIndicator.hide();
           this.toastr.error('Unable to update school');
           this.error = err.json().message;
         });

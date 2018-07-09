@@ -4,10 +4,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
-import { ToastrService } from 'ngx-toastr';
 import { FileUploader } from '../../../../node_modules/ng2-file-upload';
 import { serviceUrl, imageBaseUri } from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-gallery',
@@ -16,7 +16,8 @@ declare var AdminLTE: any;
 })
 
 export class GalleryComponent implements OnInit {
-  
+  public modalRef: BsModalRef;
+  public deleteGallery: any;
   public galleryModal: BsModalRef;
   public showEditForm: boolean = false;
   public galleryList: any;
@@ -27,12 +28,13 @@ export class GalleryComponent implements OnInit {
   public filesToUpload: Array<File>;
   public imageServerUri: String = imageBaseUri;
   public userRoleType: any;
+  public currentUserName: any;
   public error: any;
 
   constructor(private modalService: BsModalService,
      private dataService: DataService,
      private toastr: ToastrService,
-     private loadingIndicator: NgxSpinnerService) { }
+    private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -45,6 +47,7 @@ export class GalleryComponent implements OnInit {
       description: this.description
     });
     this.userRoleType = parseInt(localStorage.getItem('role'), 10);
+    this.currentUserName = localStorage.getItem('userName') ;
   }
 
   public createEditGallery(template: TemplateRef<any>, galleryInfo) {
@@ -88,7 +91,7 @@ export class GalleryComponent implements OnInit {
   public updateGallery(updateForm: any): void {
     // console.log(updateForm);
     this.loadingIndicator.show();
-    const url = `${serviceUrl}/editGallery`;
+    const editUrl = `${serviceUrl}/editGallery`;
     let role = parseInt(localStorage.getItem('role'), 10), 
         entityType = ((role === 101) ? localStorage.getItem('instituteUserName') : localStorage.getItem('schoolUserName')),
         galFormInfo = {
@@ -98,7 +101,7 @@ export class GalleryComponent implements OnInit {
       }
       // console.log(galFormInfo)
        if(this.filesToUpload)
-      this.makeFileRequest([], this.filesToUpload, {...galFormInfo}, url).then((result) => {
+      this.makeFileRequest([], this.filesToUpload, {...galFormInfo}, editUrl).then((result) => {
         console.log(result);
         this.galleryId = '';
         if (result) {
@@ -127,14 +130,30 @@ export class GalleryComponent implements OnInit {
   }
 
   public getGalleryList() {
-    let role = parseInt(localStorage.getItem('role'), 10);
-    let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
-      localStorage.getItem('schoolUserName'))
-     this.dataService.getGalleryList({ entityType })
+    this.galleryList = [];
+    // let role = parseInt(localStorage.getItem('role'), 10);
+    // let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
+    //   localStorage.getItem('schoolUserName'))
+
+    if(localStorage.getItem('instituteUserName'))
+     this.dataService.getGalleryList({ entityType: localStorage.getItem('instituteUserName') })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.galleryList = resp.json().galleryList;
+          this.galleryList = resp.json().galleryList.map(g=> g)
+        } else {
+          this.loadingIndicator.hide();
+          this.error = 'gallery list loading failed..!';
+          this.toastr.error(`gallery list loading failed...!`);
+        }
+      });
+   
+      if(localStorage.getItem('schoolUserName'))
+     this.dataService.getGalleryList({ entityType: localStorage.getItem('schoolUserName') })
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.galleryList = [...this.galleryList, ...resp.json().galleryList.map(g=> g)]
         } else {
           this.loadingIndicator.hide();
           this.error = 'gallery list loading failed..!';
@@ -143,7 +162,20 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any, url: string) {
+  public deleteGalleryIno(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteGallery = deleteData;
+  };
+
+  removeGallery(galleryData) {
+    //Delete logic goes here
+    this.toastr.success('Gallery deleted successfully');
+    console.log(galleryData);
+   // this.modalRef.hide();
+  }
+
+  public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any, editUrl:any = ``) {
+    let url = editUrl.length > 0 ? editUrl : `${serviceUrl}/upload`;
     let role = parseInt(localStorage.getItem('role'), 10);
     let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
       localStorage.getItem('schoolUserName'))

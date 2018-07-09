@@ -9,19 +9,6 @@ var AdminLTE = (function() {
         $.AdminLTE.layout.fix();
         $.AdminLTE.layout.fixSidebar();
       });
-      setTimeout(() => {
-        $(function () {
-          $('#data-table').DataTable({
-            'paging'      : true,
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : true,
-            'destroy'     : true
-          })
-        });
-      }, 3000);
     }
   }
 })(AdminLTE||{});

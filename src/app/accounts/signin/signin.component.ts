@@ -63,7 +63,12 @@ export class SigninComponent implements OnInit {
             .then((userInfo) => {
               if (userInfo.json().success) {
                 localStorage.setItem('token', userInfo.json().auth_token);
-                localStorage.setItem('role', userInfo.json().role);
+                if(userInfo.json().user.roleType && userInfo.json().user.roleType == 'Non-Teaching'){
+                  localStorage.setItem('role', '105');
+                }else {
+                  localStorage.setItem('role', userInfo.json().role);
+                }
+
                 localStorage.setItem('roleType', userInfo.json().user.roleType);
                 localStorage.setItem('userName', userInfo.json().user.userName);
                 localStorage.setItem('name', userInfo.json().user.name);
