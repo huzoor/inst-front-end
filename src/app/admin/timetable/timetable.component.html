@@ -7,8 +7,6 @@
             <h3 class="box-title">Time Table</h3>
           </div>
           <div class="box-body">
-
-            <div class="row">
               <form class="form-horizontal" [formGroup]="classForm">
                 <div class="form-group">
                   <label class="control-label col-sm-2" for="pwd">Select Class</label>
@@ -22,8 +20,6 @@
                   </div>
                 </div>
               </form>
-            </div>
-            
             <div class="row" *ngIf="error.length > 0" style="padding: 35px 45px;">
               <div class="alert alert-warning">
                {{error}}
@@ -56,11 +52,11 @@
                       </div>
                       </td> 
                     </tr>
-                    <tr>
-                      <td><button (click)="saveTimeTableInfo()" class="btn btn-success">Save</button></td>
-                    </tr>
                   </tbody>
                 </table>
+              </div>
+              <div class="col-md-12 text-right" *ngIf="timeTableList">
+                <button (click)="saveTimeTableInfo()" class="btn btn-success">Save</button>
               </div>
             </div>
           </div>

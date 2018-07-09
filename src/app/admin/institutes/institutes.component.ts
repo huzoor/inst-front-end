@@ -6,6 +6,7 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
+import { DataTablesModule } from 'angular-datatables';
 declare var AdminLTE: any;
 const date = new Date();
 @Component({
@@ -14,7 +15,6 @@ const date = new Date();
   styleUrls: ['./institutes.component.css']
 })
 export class InstitutesComponent implements OnInit {
-  
   public instituteList: any;
   public placeholder = 'mm/dd/yyyy';
   public showEditForm: boolean = false;

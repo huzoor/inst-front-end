@@ -14,7 +14,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="table-responsive">
-                  <table id="data-table" class="table table-bordered table-striped">
+                  <table datatable class="table table-bordered table-striped" *ngIf="instituteList">
                     <thead>
                       <tr>
                         <th>Institute&nbsp;Name</th>
@@ -40,9 +40,6 @@
                         <td>{{institute.registeredDate | date:'dd-MM-yyyy'}}</td>
                         <td>
                           <div class="actions">
-                            <!-- <button type="button" class="btn btn-sm btn-success" routerLink="/institute-profile/{{institute.id}}">
-                                  <i class="fa fa-eye"></i>
-                                </button> -->
                             <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(instituteModal, institute)">
                               <i class="fa fa-pencil"></i>
                             </button>

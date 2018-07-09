@@ -7,6 +7,7 @@ import { DataService } from '../../shared/data.service';
 import { FileUploader } from '../../../../node_modules/ng2-file-upload';
 import { serviceUrl, imageBaseUri } from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-gallery',
@@ -15,7 +16,8 @@ declare var AdminLTE: any;
 })
 
 export class GalleryComponent implements OnInit {
-  
+  public modalRef: BsModalRef;
+  public deleteGallery: any;
   public galleryModal: BsModalRef;
   public showEditForm: boolean = false;
   public galleryList: any;
@@ -27,6 +29,7 @@ export class GalleryComponent implements OnInit {
   public error: any;
   constructor(private modalService: BsModalService,
      private dataService: DataService,
+     private toastr: ToastrService,
     private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -93,6 +96,18 @@ export class GalleryComponent implements OnInit {
           this.error = 'gallery list loading failed..!';
         }
       });
+  }
+
+  public deleteGalleryIno(template: TemplateRef<any>, deleteData) {
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.deleteGallery = deleteData;
+  };
+
+  removeGallery(galleryData) {
+    //Delete logic goes here
+    this.toastr.success('Gallery deleted successfully');
+    console.log(galleryData);
+   // this.modalRef.hide();
   }
 
   public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any) {

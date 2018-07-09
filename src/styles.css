@@ -277,5 +277,48 @@ img.source-image {
   bottom: 0;
   right: 0;
 }
+div#DataTables_Table_0_filter input, div#DataTables_Table_0_length select {
+  margin-bottom: 5px; 
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  font-size: 15px;
+}
+
+div#DataTables_Table_0_length select {
+  width: 75px;
+  background: #fff;
+}
+table.dataTable.no-footer, table.dataTable thead th, 
+table.dataTable thead td {
+  border-bottom: 0;
+}
+div#DataTables_Table_0_length label, 
+.dataTables_filter label {
+  font-weight: 400;
+}
+a#DataTables_Table_0_previous, 
+a#DataTables_Table_0_next {
+  border: 0;
+}
+div#DataTables_Table_0_paginate {
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  padding: 0;
+  border-radius: 3px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: #337ab7;
+  color: #fff !important;
+  border: 0;
+  border-radius: 0;
+}
+.dataTables_info {
+  margin-top: 8px;
+}
 /* upload profile css end */
 

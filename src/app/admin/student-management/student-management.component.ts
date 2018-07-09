@@ -7,6 +7,7 @@ import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList, validation } from '../../shared/AppConstants';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DataTablesModule } from 'angular-datatables';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-student-management',
@@ -55,6 +56,7 @@ export class StudentManagementComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
+    this.loadingIndicator.show();
     this.countriesList = countriesList;
     this.name = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);

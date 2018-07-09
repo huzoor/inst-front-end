@@ -215,6 +215,12 @@
     "@types/jquery" "*"
     moment ">=2.14.0"
 
+"@types/datatables.net@^1.10.6":
+  version "1.10.12"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/@types/datatables.net/-/datatables.net-1.10.12.tgz?dl=https://registry.yarnpkg.com/@types/datatables.net/-/datatables.net-1.10.12.tgz#b5a801326eaa005ca175ea48d84d5b93b4953278"
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/daterangepicker@^2.1.10":
   version "2.1.18"
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/@types/daterangepicker/-/daterangepicker-2.1.18.tgz#5ca4c8b1c3a161f664219bf01a1abab694e067a9"
@@ -397,6 +403,10 @@ align-text@^0.1.1, align-text@^0.1.3:
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+
+angular-datatables@^4.2.0:
+  version "4.4.1"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/angular-datatables/-/angular-datatables-4.4.1.tgz?dl=https://registry.yarnpkg.com/angular-datatables/-/angular-datatables-4.4.1.tgz#b1bc2529d95304153365ed811a3cf9c53da35657"
 
 ansi-align@^2.0.0:
   version "2.0.0"
@@ -1688,6 +1698,19 @@ dashdash@^1.12.0:
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
   dependencies:
     assert-plus "^1.0.0"
+
+datatables.net-dt@^1.10.15:
+  version "1.10.19"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/datatables.net-dt/-/datatables.net-dt-1.10.19.tgz?dl=https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-1.10.19.tgz#fc668e4942ac6e331be2707975d0f33e01afb60f"
+  dependencies:
+    datatables.net "1.10.19"
+    jquery ">=1.7"
+
+datatables.net@1.10.19, datatables.net@^1.10.15:
+  version "1.10.19"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/datatables.net/-/datatables.net-1.10.19.tgz?dl=https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.19.tgz#97a1ed41c85e62d61040603481b59790a172dd1f"
+  dependencies:
+    jquery ">=1.7"
 
 date-now@^0.1.4:
   version "0.1.4"
@@ -3713,9 +3736,9 @@ jasminewd2@^2.1.0:
   version "2.2.0"
   resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
 
-jquery@^3.2.1:
+jquery@>=1.7, jquery@^3.2.1:
   version "3.3.1"
-  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+  resolved "http://artidev.shn.io:8081/artifactory/api/npm/npm-virtual/jquery/-/jquery-3.3.1.tgz?dl=https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 jqueryui@^1.11.1:
   version "1.11.1"
