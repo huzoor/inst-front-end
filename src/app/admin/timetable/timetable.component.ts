@@ -25,7 +25,7 @@ export class TimetableComponent implements OnInit {
   public timetableForm: FormGroup;
   public subjectCode: FormControl;
   public selectedClass: FormControl;
-  public timeTableList: any = '';
+  public timeTableList: any = [];
   public timetableInfo: any = [];
   constructor(private dataService: DataService,
     private loadingIndicator: NgxSpinnerService) {
@@ -105,7 +105,7 @@ export class TimetableComponent implements OnInit {
                 subjectsList: this.subjectsList.map(s => {
                   let isSelected = false;
                   h.associatedWith.filter(ass => {
-                    if (ass.subjectId == s._id && item == ass.dayName)
+                    if (ass.subjectId == s._id && item == ass.dayName && ass.classId == selectedClass)
                       isSelected = true
                   })
                   return {
@@ -124,6 +124,7 @@ export class TimetableComponent implements OnInit {
             }),
           }
         });
+        console.log(this.timeTableList)
       }
     });
 

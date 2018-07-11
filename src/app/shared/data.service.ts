@@ -275,6 +275,11 @@ export class DataService {
     let url: string = `${this.BASE_URL}/setGalleryDesc`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
+  
+  removeGalleryItem(galId): Promise<any> {
+    let url: string = `${this.BASE_URL}/removeGalleryItem`;
+    return this.http.put(url, galId, { headers: this.headers }).toPromise();
+  }
  
   addAcadamicSetup(fromInfo):  Promise<any> {
     let url: string = `${this.BASE_URL}/addAcadamicSetup`;
