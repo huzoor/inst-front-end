@@ -134,7 +134,7 @@ export class GalleryComponent implements OnInit {
     // let role = parseInt(localStorage.getItem('role'), 10);
     // let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
     //   localStorage.getItem('schoolUserName'))
-
+    this.loadingIndicator.show();
     if(localStorage.getItem('instituteUserName'))
      this.dataService.getGalleryList({ entityType: localStorage.getItem('instituteUserName') })
       .then((resp) => {
@@ -169,9 +169,21 @@ export class GalleryComponent implements OnInit {
 
   removeGallery(galleryData) {
     //Delete logic goes here
-    this.toastr.success('Gallery deleted successfully');
+    
     console.log(galleryData);
-   // this.modalRef.hide();
+    this.loadingIndicator.show();
+    this.dataService.removeGalleryItem({galId: galleryData._id}).then((resp) => {
+      if (resp.json().success) {
+        this.modalRef.hide();
+        this.toastr.success('Gallery deleted successfully');
+        this.galleryList = this.galleryList.filter( gal=> gal._id != galleryData._id);
+        this.loadingIndicator.hide();
+      } else {
+        this.loadingIndicator.hide();
+        this.toastr.error(`gallery delete failed...!`);
+      }
+    });
+
   }
 
   public makeFileRequest(params: Array<string>, files: Array<File>, formInfo: any, editUrl:any = ``) {
