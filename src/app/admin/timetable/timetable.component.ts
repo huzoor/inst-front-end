@@ -25,7 +25,7 @@ export class TimetableComponent implements OnInit {
   public timetableForm: FormGroup;
   public subjectCode: FormControl;
   public selectedClass: FormControl;
-  public timeTableList: any = '';
+  public timeTableList: any = [];
   public timetableInfo: any = [];
   constructor(private dataService: DataService,
     private loadingIndicator: NgxSpinnerService) {
