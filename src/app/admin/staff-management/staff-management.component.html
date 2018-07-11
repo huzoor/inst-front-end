@@ -114,12 +114,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label"> Role</label>
-              <select class="form-control" formControlName="staffRole" [(ngModel)]="staffRoleType">
-                <option value=""> Select Type</option>
-                <option *ngFor="let role of staffRoles" [value]="role.type">
-                  {{role.type}}
-                </option>
-              </select>
+              <input type="text" class="form-control" formControlName="staffRole" readonly> 
             </div>
           </div>
         </div>

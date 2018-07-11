@@ -193,7 +193,7 @@ export class InstitutesComponent implements OnInit {
     }
   }
   public deleteInstitute(template: TemplateRef<any>, deleteData) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteRecord = deleteData;
   };
   

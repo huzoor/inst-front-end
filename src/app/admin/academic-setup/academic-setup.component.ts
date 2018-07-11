@@ -283,7 +283,7 @@ export class AcademicSetupComponent implements OnInit {
   }
 
   public removeEntity(template: TemplateRef<any>, deleteData, type) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteRecord = deleteData;
     this.entityType = type;
   };

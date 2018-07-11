@@ -87,19 +87,19 @@ export class StudentAcademicSetupComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
      let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
+    this.loadingIndicator.hide();
    this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
-          this.loadingIndicator.hide();
           this.subjsList = res.Subjects;
           this.getClassesList().then((calLoad)=>{
             this.subjectList = this.classList.map(item=>{
               return {
                 class: item.className,
                 subjects: this.subjsList.map(i=> { 
-                  let isSelected =  i.associatedWith.filter(i => i.classId === item._id )
+                  let isSelected =  i.associatedWith.filter(i => i.classId === item._id );
                   return { 
                     classID: item._id, 
                     subjectID: i._id, 

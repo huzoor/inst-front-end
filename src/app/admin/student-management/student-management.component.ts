@@ -266,7 +266,7 @@ export class StudentManagementComponent implements OnInit {
    }
 
   public deleteStudentInfo(template: TemplateRef<any>, deleteData) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteStudent = deleteData;
   };
 

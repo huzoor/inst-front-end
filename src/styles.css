@@ -320,5 +320,11 @@ div#DataTables_Table_0_paginate {
 .dataTables_info {
   margin-top: 8px;
 }
+div#DataTables_Table_0_info {
+  display: none;
+}
+.modal-dialog.custom-modal {
+  width: 400px;
+}
 /* upload profile css end */
 

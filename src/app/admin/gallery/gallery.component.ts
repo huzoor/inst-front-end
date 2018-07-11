@@ -163,7 +163,7 @@ export class GalleryComponent implements OnInit {
   }
 
   public deleteGalleryIno(template: TemplateRef<any>, deleteData) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteGallery = deleteData;
   };
 

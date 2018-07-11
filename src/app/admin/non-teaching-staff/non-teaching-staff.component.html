@@ -114,12 +114,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label"> Role</label>
-              <select class="form-control" formControlName="staffRole">
-                <option value=""> Select Type</option>
-                <option *ngFor="let role of staffRoles" [value]="role.type">
-                  {{role.type}}
-                </option>
-              </select>
+              <input type="text" class="form-control" formControlName="staffRole" readonly> 
             </div>
           </div>
         </div>
@@ -141,9 +136,9 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Subject</label>
+              <label class="control-label">Department/Designation</label>
               <select class="form-control" formControlName="subject">
-                <option value="">Select Subject</option>
+                <option value="">Select Department</option>
                 <option *ngFor="let subj of subjectsList" [value]="subj._id">
                   {{subj.subjectName}}
                 </option>

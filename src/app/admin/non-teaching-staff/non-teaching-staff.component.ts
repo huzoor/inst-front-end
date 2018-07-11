@@ -133,6 +133,9 @@ export class NonTeachingStaffComponent implements OnInit {
     } else {
       this.showUpdateButton = false;
       this.staffForm.reset();
+      setTimeout(() => {
+        this.staffForm.get('staffRole').setValue('Non-Teaching');
+      }, 10);
     }
   }
 
@@ -250,7 +253,7 @@ export class NonTeachingStaffComponent implements OnInit {
   }
 
   public deleteStaffRecord(template: TemplateRef<any>, deleteData) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteStaff = deleteData;
     console.log(deleteData);
   };

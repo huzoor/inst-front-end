@@ -180,7 +180,7 @@ export class SchoolManagementComponent implements OnInit {
   }
 
   public deleteSchoolInfo(template: TemplateRef<any>, deleteData) {
-    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
+    this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
     this.deleteSchool = deleteData;
   };
 
