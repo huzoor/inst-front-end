@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators, Form } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-import { staffRoles, staffQualifications, countriesList, statesList, districtsList, yearsList } from '../../shared/AppConstants';
+import { staffRoles, staffQualifications, countriesList, statesList, nonTechingDesignations, districtsList, yearsList } from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
 declare var AdminLTE: any;
@@ -25,6 +25,7 @@ export class NonTeachingStaffComponent implements OnInit {
   public userName: FormControl;
   public staffName: FormControl;
   public subject: FormControl;
+  public designation: FormControl;
   public staffRole: FormControl;
   public experience: FormControl;
   public yearOfPassing: FormControl;
@@ -43,7 +44,7 @@ export class NonTeachingStaffComponent implements OnInit {
 
   public staffRoles: any = new Array;
   public staffQualifications: any = new Array;
-  public subjectsList: any  = new Array;
+  public subjectsList: any = nonTechingDesignations ;
   
   public countriesList: any = countriesList;
   public statesList: any = statesList;
@@ -64,7 +65,7 @@ export class NonTeachingStaffComponent implements OnInit {
 
   ngOnInit() {
     AdminLTE.init();
-    this.loadingIndicator.show();
+    // this.loadingIndicator.show();
     this.staffRoles = staffRoles;
     this.countriesList = countriesList;
     this.staffQualifications = staffQualifications;
@@ -80,6 +81,7 @@ export class NonTeachingStaffComponent implements OnInit {
     this.yearOfPassing = new FormControl('', []);
     this.qualification = new FormControl('', []);
     this.subject = new FormControl('', []);
+    this.designation = new FormControl('', []);
     this.address = new FormControl('', []);
     this.state = new FormControl('', []);
     this.city = new FormControl('', []);
@@ -90,8 +92,8 @@ export class NonTeachingStaffComponent implements OnInit {
     this.instituteUserName = new FormControl('', []);
     
     this.formFileds();
-    this.getSubjectsList().then(canLoad => this.getStaffList())    
-    
+
+    this.getStaffList();
   }
 
   formFileds() {
@@ -103,6 +105,7 @@ export class NonTeachingStaffComponent implements OnInit {
       staffRole: this.staffRole,
       mobile: this.mobile,
       subject: this.subject,
+      designation: this.designation,
       experience: this.experience,
       yearOfPassing: this.yearOfPassing,
       qualification: this.qualification,
@@ -169,10 +172,10 @@ export class NonTeachingStaffComponent implements OnInit {
     this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
 
-  public getSubjectName(subjId) {
-    let subjList = this.subjectsList.filter(i=> i._id == subjId);
-    return subjList.length > 0 ? subjList[0].subjectName : '';
-  }
+  // public getSubjectName(subjId) {
+  //   let subjList = this.subjectsList.filter(i=> i._id == subjId);
+  //   return subjList.length > 0 ? subjList[0].subjectName : '';
+  // }
 
   public addStaff(staffForm) {
     this.loadingIndicator.show();
@@ -228,29 +231,6 @@ export class NonTeachingStaffComponent implements OnInit {
     }
   }
 
-  public getSubjectsList(): Promise<Boolean> {
-    // Get instituteUserName from localStorage
-    let instituteUserName = localStorage.getItem('instituteUserName');
-    let schoolUserName = localStorage.getItem('schoolUserName');
-    let entityType ='subjects';
-
-    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
-      .then((resp) => {
-        this.loadingIndicator.hide();
-        let res = resp.json()
-        if (res.success) {
-          this.subjectsList = res.Subjects;
-          return true;
-        } else {
-          this.error = resp.json().message;
-          return false;
-        }
-      }).catch((err) => {
-        this.loadingIndicator.hide();
-        this.error = err.json().message;
-        return false;
-      });
-  }
 
   public deleteStaffRecord(template: TemplateRef<any>, deleteData) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true, class: 'custom-modal' });
