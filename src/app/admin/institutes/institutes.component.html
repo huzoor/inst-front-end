@@ -1,4 +1,4 @@
-<div class="content-wrapper" >
+<div class="content-wrapper">
   <section class="content">
     <div class="row">
       <div class="col-xs-12">
@@ -12,46 +12,37 @@
           </div>
           <div class="box-body">
             <div class="row">
-              <div class="col-sm-12">
-                <div class="table-responsive">
-                  <table datatable class="table table-bordered table-striped" *ngIf="instituteList">
-                    <thead>
-                      <tr>
-                        <th>Institute&nbsp;Name</th>
-                        <th>Code</th>
-                        <th>Address</th>
-                        <th>Schools&nbsp;Registered</th>
-                        <th>Admin</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Registered&nbsp;On</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let institute of instituteList">
-                        <td>{{institute.instituteName}}</td>
-                        <td>{{institute.code}} </td>
-                        <td>{{institute.address}}</td>
-                        <td>{{institute.schoolsRegistered}}</td>
-                        <td>{{institute.userName}}</td>
-                        <td>{{institute.email}}</td>
-                        <td>{{institute.mobile}}</td>
-                        <td>{{institute.registeredDate | date:'dd-MM-yyyy'}}</td>
-                        <td>
-                          <div class="actions">
-                            <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(instituteModal, institute)">
-                              <i class="fa fa-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteInstitute(deleteModal, institute)">
-                              <i class="fa fa-close"></i>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="col-md-3 pull-right">
+                <input #instituteSearch type="text" class="form-control" pInputText size="50" placeholder="Search Student">
+              </div>
+              <div class="col-sm-12 mt-10">
+                <p-dataTable [value]="instituteList" [globalFilter]="instituteSearch" #dt [rows]="20" [paginator]="true" sortMode="multiple" resizableColumns="true" columnResizeMode="expand">
+                  <p-column field="instituteName" header="INST Name" [sortable]="true"></p-column>
+                  <p-column field="code" header=" Code" [sortable]="true"></p-column>
+                  <p-column field="address" header=" Address" [sortable]="true"></p-column>
+                  <p-column field="schoolsRegistered" header="Schools" [sortable]="true"></p-column>
+                  <p-column field="userName" header="Admin" [sortable]="true"></p-column>
+                  <p-column field="email" header="Email" [sortable]="true"></p-column>
+                  <p-column field="mobile" header="Mobile" [sortable]="true"></p-column>
+                  <p-column field="registeredDate" header="Registered On" [sortable]="true">
+                    <ng-template let-col let-institute="rowData" pTemplate="body">
+                      <span>{{institute.registeredDate | date:'dd-MM-yyyy'}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button">
+                    <ng-template pTemplate="header">
+                      Actions
+                    </ng-template>
+                    <ng-template let-institute="rowData" pTemplate="body">
+                      <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(instituteModal, institute)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="deleteInstitute(deleteModal, institute)">
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
               </div>
             </div>
           </div>

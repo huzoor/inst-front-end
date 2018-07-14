@@ -38,7 +38,7 @@ export class TimetableComponent implements OnInit {
     this.getClassesList();
     this.getHoursList();
     // changing subject as readonly for staff(103) / Student (104) user
-    this.userRole = parseInt(localStorage.getItem('role'));
+    this.userRole = parseInt(localStorage.getItem('role'), 10);
     this.readOnlyField = ( (this.userRole === 103 || this.userRole === 104)  ? true : false);
     this.selectedClass = new FormControl('', []);
     this.subjectCode = new FormControl('', []);
@@ -96,8 +96,9 @@ export class TimetableComponent implements OnInit {
     this.getSubjectsList(selectedClass).then(canLoad => {
       if (canLoad) {
         this.loadingIndicator.hide();
-        // userRole == stf filter selectedSubjectsList with the subject added
-        let selectedSubjectsList = this.subjectsList.filter();
+        let stfSubjectId = (this.userRole == 103) &&  localStorage.getItem('stfSubject');
+        let selectedSubjectsList = (this.userRole == 103) ? this.subjectsList.filter(s=> s._id == stfSubjectId) : [...this.subjectsList]; 
+       
         this.timeTableList = daysList.map((item, index) => {
           return {
             dayName: item,
@@ -106,7 +107,7 @@ export class TimetableComponent implements OnInit {
                 startTime: h.startTime,
                 endTime: h.endTime,
                 hourName: h.hourName,
-                subjectsList: this.subjectsList.map(s => {
+                subjectsList: selectedSubjectsList.map(s => {
                   let isSelected = false;
                   h.associatedWith.filter(ass => {
                     if (ass.subjectId == s._id && item == ass.dayName && ass.classId == selectedClass)
@@ -128,7 +129,7 @@ export class TimetableComponent implements OnInit {
             }),
           }
         });
-        console.log(this.timeTableList)
+        // console.log(this.timeTableList)
       }
     });
 

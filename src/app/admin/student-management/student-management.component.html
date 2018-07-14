@@ -1,4 +1,4 @@
-<div class="content-wrapper" >
+<div class="content-wrapper">
   <section class="content">
     <div class="row">
       <section class="content-header">
@@ -23,38 +23,34 @@
           </div>
           <div class="box-body table-responsive">
             <div class="row">
-              <div class="col-sm-12">
-                <table datatable class="table table-bordered table-striped" *ngIf="studentList" >
-                  <thead>
-                    <tr>
-                      <th>Student Name</th>
-                      <th>Class</th>
-                      <th>Roll Number</th>
-                      <th>Father Name</th>
-                      <th>Mobile</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let student of studentList">
-                      <td>{{student.name}}</td>
-                      <td>{{getClassName(student.classEnrolled)}} </td>
-                      <td>{{student.rollNumber}} </td>
-                      <td>{{student.fatherName}}</td>
-                      <td>{{student.mobile}}</td>
-                      <td>
-                        <div class="actions">
-                          <button type="button" class="btn btn-sm btn-primary" (click)="createEditStudent(studentModal, student)">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteStudentInfo(deleteModal, student)">
-                            <i class="fa fa-close"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="col-md-3 pull-right">
+                <input #studentSearch type="text" class="form-control" pInputText size="50" placeholder="Search Student">
+              </div>
+              <div class="col-sm-12 mt-10">
+                <p-dataTable [value]="studentList" [globalFilter]="studentSearch" #dt [rows]="20" [paginator]="true" sortMode="multiple">
+                  <p-column field="name" header="Student Name" [sortable]="true"></p-column>
+                  <p-column field="classEnrolled" header="Class" [sortable]="true">
+                    <ng-template let-col let-studentList="rowData" pTemplate="body">
+                      <span>{{getClassName(studentList.classEnrolled)}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="rollNumber" header="Roll Number" [sortable]="true"></p-column>
+                  <p-column field="fatherName" header="Father Name" [sortable]="true"></p-column>
+                  <p-column field="mobile" header="Mobile" [sortable]="true"></p-column>
+                  <p-column styleClass="col-button">
+                    <ng-template pTemplate="header">
+                      Actions
+                    </ng-template>
+                    <ng-template let-student="rowData" pTemplate="body">
+                      <button type="button" class="btn btn-sm btn-primary" (click)="createEditStudent(studentModal, student)">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="deleteStudentInfo(deleteModal, student)">
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
               </div>
             </div>
           </div>
@@ -110,7 +106,7 @@
                 <span class="text-danger">*</span>
               </label>
               <select class="form-control" formControlName="classEnrolled">
-                <option value="">Select Class</option>
+                <option value=" ">Select Class</option>
                 <option *ngFor="let class of classList" [value]="class._id">
                   {{class.className}}
                 </option>
@@ -119,7 +115,9 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Roll Number <span class="text-danger">*</span></label>
+              <label class="control-label">Roll Number
+                <span class="text-danger">*</span>
+              </label>
               <input type="text" class="form-control" formControlName="rollNumber">
             </div>
           </div>
@@ -152,7 +150,9 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">Country <span class="text-danger">*</span></label>
+              <label class="control-label">Country
+                <span class="text-danger">*</span>
+              </label>
               <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
                 <option value=""> Select Country</option>
                 <option *ngFor="let ctry of countriesList" [value]="ctry.code">
@@ -163,7 +163,9 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">State <span class="text-danger">*</span></label>
+              <label class="control-label">State
+                <span class="text-danger">*</span>
+              </label>
               <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
                 <option value=""> Select State</option>
                 <option *ngFor="let ste of statesList" [value]="ste.name">
@@ -174,20 +176,24 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label">District <span class="text-danger">*</span></label>
-                  <select class="form-control" formControlName="district" required>
-                    <option value=""> Select District</option>
-                    <option *ngFor="let dst of districtsList" [value]="dst.name">
-                      {{dst.name}}
-                    </option>
-                  </select>
-                </div>
-              </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="control-label">City <span class="text-danger">*</span></label>
+              <label class="control-label">District
+                <span class="text-danger">*</span>
+              </label>
+              <select class="form-control" formControlName="district" required>
+                <option value=""> Select District</option>
+                <option *ngFor="let dst of districtsList" [value]="dst.name">
+                  {{dst.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">City
+                <span class="text-danger">*</span>
+              </label>
               <input type="text" class="form-control" formControlName="city" required>
             </div>
           </div>
@@ -212,32 +218,34 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-              <div class="form-group" [ngClass]="{
+            <div class="form-group" [ngClass]="{
                 'has-error': studentForm.controls['email'].invalid && studentForm.controls['email'].dirty, 
                 'has-success': studentForm.controls['email'].valid && studentForm.controls['email'].dirty 
               }">
-              <label class="control-label">Email</label>
-              <input type="text" class="form-control" formControlName="email" >
+              <label class="control-label">Email
+                  <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" formControlName="email">
             </div>
           </div>
           <div class="col-md-6">
-              <div class="form-group" [ngClass]="{
+            <div class="form-group" [ngClass]="{
                 'has-error': studentForm.controls['mobile'].invalid && studentForm.controls['mobile'].dirty, 
                 'has-success': studentForm.controls['mobile'].valid && studentForm.controls['mobile'].dirty 
               }">
-              <label class="control-label">Mobile <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" 
-                     formControlName="mobile" 
-                     required>
+              <label class="control-label">Mobile
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" formControlName="mobile" required>
               <!-- <input type="text" class="form-control" 
                      formControlName="mobile" 
                      (change) = "studentAvailStaus($event)"
                      required> -->
             </div>
           </div>
-          <div class="col-xs-12 alert alert-warning"  *ngIf="stuAvailStaus.length > 0">
-              {{stuAvailStaus}}
-            </div>
+          <div class="col-xs-12 alert alert-warning" *ngIf="stuAvailStaus.length > 0">
+            {{stuAvailStaus}}
+          </div>
         </div>
       </form>
     </div>
@@ -246,7 +254,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="studentForm.invalid || disableButton" (click)="saveStudent(studentForm)">Save</button>
+      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="studentForm.invalid || disableButton"
+        (click)="saveStudent(studentForm)">Save</button>
       <button type="button" class="btn btn-success" *ngIf="showUpdateButton" (click)="updateStudent(studentForm)">Update</button>
     </div>
   </ng-template>

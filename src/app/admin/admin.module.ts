@@ -6,7 +6,16 @@ import { HttpModule } from '@angular/http';
 import { ModalModule } from 'ngx-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TimepickerModule } from 'ngx-bootstrap';
-import { DataTablesModule } from 'angular-datatables';
+
+import {
+  BreadcrumbModule,
+  CalendarModule,
+  DropdownModule,
+  DataTableModule,
+  GrowlModule,
+  TreeModule,
+  TreeTableModule
+} from 'primeng/primeng';
 
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
@@ -51,7 +60,7 @@ import { NonTeachingStaffComponent } from './non-teaching-staff/non-teaching-sta
     FileUploadModule,
     ChartsModule,
     BrowserAnimationsModule,
-    DataTablesModule,
+    DataTableModule,
     ToastrModule.forRoot({timeOut: 2000,
       positionClass: 'toast-top-full-width',
       preventDuplicates: true,}),

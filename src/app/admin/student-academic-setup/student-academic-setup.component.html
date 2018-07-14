@@ -40,12 +40,15 @@
                             <td *ngFor="let subjectName of subject.subjects; let i = index">
                               <input type="checkbox" [(ngModel)]="subjectName.selected"> {{subjectName.subjectName}}
                             </td>
+                            <!-- <td *ngFor="let subjectNames of subject.subjects; let i = index">
+                              <input type="checkbox" [(ngModel)]="subjectNames.selected" (change)="getSelectedSubject(subjectNames)"> {{subjectNames.subjectName}}
+                            </td> -->
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                    <div class="col-md-12">
-                      <button type="button" class="btn btn-success pull-right" (click)="saveSubjects(subjectList)">Save</button>
+                    <div class="col-md-12" *ngIf="subjectList.length > 0 ">
+                      <button type="button" class="btn btn-success pull-right" (click)="saveSubjects(subjectList)"  [disabled]="disableSave">Save</button>
                     </div>
                   </div>
                 </div>

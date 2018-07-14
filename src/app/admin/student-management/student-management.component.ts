@@ -7,7 +7,6 @@ import { DataService } from '../../shared/data.service';
 import { countriesList, statesList, districtsList, validation } from '../../shared/AppConstants';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DataTablesModule } from 'angular-datatables';
 declare var AdminLTE: any;
 @Component({
   selector: 'app-student-management',
@@ -77,11 +76,11 @@ export class StudentManagementComponent implements OnInit {
     // this.photoPath = new FormControl('', []);
     this._id = new FormControl('', []);
 
-    this.formFileds();
+    
     this.getClassesList().then((canLoadStudent)=>{
       if(canLoadStudent)  this.getStudentList();
     })
-
+    this.formFileds();
   }
 
 
@@ -103,7 +102,6 @@ export class StudentManagementComponent implements OnInit {
       gender: this.gender,
       email: this.email,
       mobile: this.mobile,
-      // photoPath: this.photoPath,
       _id: this._id,
     });
   }
@@ -130,13 +128,16 @@ export class StudentManagementComponent implements OnInit {
   
   public getStudentList() {
     // get this info from LocalStorage
+    this.loadingIndicator.hide();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     this.dataService.getStudentsList({schoolUserName,instituteUserName })
       .then((resp) => {
-        this.loadingIndicator.hide();
-        if (resp.json().success) this.studentList = resp.json().studentsList;
-        else this.error = 'students list loading failed..!';
+        if (resp.json().success) {
+          this.studentList = resp.json().studentsList;
+          this.loadingIndicator.hide();
+        } 
+        else { this.error = 'students list loading failed..!' };
       });
   }
 

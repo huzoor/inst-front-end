@@ -23,36 +23,33 @@
           </div>
           <div class="box-body table-responsive">
             <div class="row">
-              <div class="col-sm-12">
-                <table datatable class="table table-bordered table-striped" *ngIf="SchoolsList">
-                  <thead>
-                    <tr>
-                      <th>School Name</th>
-                      <th>School Code</th>
-                      <th>School Address</th>
-                      <th>Registered On</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let School of SchoolsList">
-                      <td>{{School.schoolName}}</td>
-                      <td>{{School.code}} </td>
-                      <td>{{School.address}}</td>
-                      <td>{{School.registeredDate  | date:'dd-MM-yyyy'}}</td>
-                      <td>
-                        <div class="actions">
-                          <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, School)">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteSchoolInfo(deleteModal, School)">
-                            <i class="fa fa-close"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="col-md-3 pull-right">
+                <input #schoolSearch type="text" class="form-control" pInputText size="50" placeholder="Search Student">
+              </div>
+              <div class="col-sm-12 mt-10">
+                <p-dataTable [value]="SchoolsList" [globalFilter]="schoolSearch" #dt [rows]="20" [paginator]="true" sortMode="multiple">
+                  <p-column field="schoolName" header="School Name" [sortable]="true"></p-column>
+                  <p-column field="code" header="School Code" [sortable]="true"></p-column>
+                  <p-column field="address" header="School Address" [sortable]="true"></p-column>
+                  <p-column field="registeredDate" header="Registered On" [sortable]="true">
+                    <ng-template let-col let-school="rowData" pTemplate="body">
+                      <span>{{school.registeredDate | date:'dd-MM-yyyy'}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button">
+                    <ng-template pTemplate="header">
+                      Actions
+                    </ng-template>
+                    <ng-template let-school="rowData" pTemplate="body">
+                      <button type="button" class="btn btn-sm btn-primary" (click)="createEditForm(schoolmodal, school)">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="deleteSchoolInfo(deleteModal, school)">
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
               </div>
             </div>
           </div>
@@ -91,22 +88,23 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">School Code</label>
-                    <input type="text" class="form-control" formControlName="code" required>
-                  </div>
-              <!-- <div class="form-group">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">School Code</label>
+              <input type="text" class="form-control" formControlName="code" required>
+            </div>
+            <!-- <div class="form-group">
                 <label class="control-label">School Logo</label>
                 <input type="file" class="form-control" formControlName="logo"> 
               </div> -->
-              </div>
-              <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label">Registration Date</label>
-                <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate" required></my-date-picker>
-              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label">Registration Date</label>
+              <my-date-picker name="mydate" [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="registeredDate"
+                required></my-date-picker>
             </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -116,47 +114,45 @@
             </div>
           </div>
           <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label">Country</label>
-                <select class="form-control" formControlName="country" 
-                (change)="changeCountry(country.value)" required>
-                  <option value=""> Select Country</option>
-                  <option *ngFor="let ctry of countriesList" [value]="ctry.code" >
-                    {{ctry.name}}
-                  </option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label class="control-label">Country</label>
+              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
+                <option value=""> Select Country</option>
+                <option *ngFor="let ctry of countriesList" [value]="ctry.code">
+                  {{ctry.name}}
+                </option>
+              </select>
             </div>
-            <div class="col-md-6">
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">State</label>
-              <select class="form-control" formControlName="state" 
-                      (change)="changeState(state.value)" required>
+              <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
                 <option value=""> Select State</option>
                 <option *ngFor="let ste of statesList" [value]="ste.name">
                   {{ste.name}}
                 </option>
               </select>
-              </div>
             </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-              <div class="form-group">
-                  <label class="control-label">City</label>
-                  <input type="text" class="form-control" formControlName="city" required>
-                </div>
+            <div class="form-group">
+              <label class="control-label">City</label>
+              <input type="text" class="form-control" formControlName="city" required>
+            </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">District</label>
-              <select class="form-control" formControlName="district" required> 
+              <select class="form-control" formControlName="district" required>
                 <option value=""> Select District</option>
                 <option *ngFor="let dst of districtsList" [value]="dst.name">
                   {{dst.name}}
                 </option>
               </select>
-          </div>
+            </div>
           </div>
         </div>
         <div class="main-body">
@@ -166,17 +162,14 @@
           <div class="col-md-12">
             <div class="form-group">
               <label class="control-label">User Name</label>
-              <input type="text" class="form-control" 
-                                 formControlName="userName" 
-                                 (change) = "schoolAvailStaus($event)"
-                                 required [readonly]="showUpdateButton">
+              <input type="text" class="form-control" formControlName="userName" (change)="schoolAvailStaus($event)" required [readonly]="showUpdateButton">
             </div>
-            <div class="col-xs-6 alert alert-warning"  *ngIf="schAvailStaus.length > 0">
+            <div class="col-xs-6 alert alert-warning" *ngIf="schAvailStaus.length > 0">
               {{schAvailStaus}}
             </div>
           </div>
         </div>
-       
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group" [ngClass]="{
@@ -204,7 +197,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="schoolForm.invalid || disableButton" (click)="saveSchoolForm(schoolForm)">Submit</button>
+      <button type="button" class="btn btn-success" *ngIf="!showUpdateButton" [disabled]="schoolForm.invalid || disableButton"
+        (click)="saveSchoolForm(schoolForm)">Submit</button>
       <button type="button" class="btn btn-success" *ngIf="showUpdateButton" [disabled]="schoolForm.invalid" (click)="updateSchoolForm(schoolForm)">Update</button>
     </div>
   </ng-template>

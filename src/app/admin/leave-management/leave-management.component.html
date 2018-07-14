@@ -1,4 +1,4 @@
-<div class="content-wrapper" >
+<div class="content-wrapper">
   <section class="content">
     <div class="row">
       <section class="content-header">
@@ -17,7 +17,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Leave Management</h3>
             <div class="pull-right box-tools">
-              <button type="button" class="btn btn-primary btn-sm" (click)="openModal(leaveModal)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="createEditLeave(leaveModal, '')">
                 <i class="fa fa-plus"></i> APPLY LEAVE </button>
             </div>
           </div>
@@ -28,94 +28,84 @@
                   <a href="#leaveList" data-toggle="tab">Leave List</a>
                 </li>
                 <li *ngIf="userRoleType !== 104 && userRoleType !== 105 ">
-                  <a href="#approveList" data-toggle="tab" id="getApproveList">Leaves To Be Approve</a>
+                  <a href="#approveList" data-toggle="tab" (click)="showLeaveApprovedList = true" id="getApproveList">Leaves To Be Approve</a>
                 </li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="leaveList" *ngIf="userRoleType !== 101">
-                  <div class="row mt-10">
-                    <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                            <!-- <th>Approved By</th> -->
-                            <th>actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let leave of leavesList">
-                            <td>{{leave.fromDate | date:'dd-MM-yyyy'}}</td>
-                            <td>{{leave.toDate | date:'dd-MM-yyyy' }} </td>
-                            <td>{{leave.reason}}</td>
-                            <td> {{leave.status}}</td>
-                            <!-- <td>
-                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple"> Waiting for approval </div>
-                              <ng-template #notApprovedTmple>
-                                <div class="text-success"> {{leave.approvedBy}} </div>
-                              </ng-template>
-                            </td> -->
-                            <td>
-                              <div class="actions" *ngIf="leave.rejectedBy.length <= 0 &&  leave.deletedBy.length <= 0 ">
-                                <div *ngIf="!leave.isApproved">
-                                  <button type="button" class="btn btn-sm btn-primary">
-                                    <i class="fa fa-edit"></i>
-                                  </button>
-                                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteLeaveInfo(deleteModal, leave)">
-                                    <i class="fa fa-close"></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  <div class="row">
+                    <div class="col-md-3 pull-right">
+                      <input #leaveSearch type="text" class="form-control" pInputText size="50" placeholder="Search Leaves">
+                    </div>
+                    <div class="col-sm-12 mt-10">
+                      <p-dataTable [value]="leavesList" [globalFilter]="leaveSearch" #dt [rows]="10" [paginator]="true" sortMode="multiple">
+                        <p-column field="fromDate" header="From Date" [sortable]="true">
+                          <ng-template let-col let-leaveList="rowData" pTemplate="body">
+                            <span>{{leaveList.fromDate | date:'dd-MM-yyyy'}}</span>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="toDate" header="To Date" [sortable]="true">
+                          <ng-template let-col let-leaveList="rowData" pTemplate="body">
+                            <span>{{leaveList.toDate | date:'dd-MM-yyyy'}}</span>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="reason" header="Reason" [sortable]="true"></p-column>
+                        <p-column field="status" header="Status" [sortable]="true"></p-column>
+                        <p-column styleClass="col-button">
+                          <ng-template pTemplate="header">
+                            Actions
+                          </ng-template>
+                          <ng-template let-leaveList="rowData" pTemplate="body">
+                            <div class="actions" *ngIf="leaveList.rejectedBy.length <= 0 &&  leaveList.deletedBy.length <= 0 ">
+                              <button type="button" class="btn btn-sm btn-primary" (click)="createEditLeave(leaveModal, leaveList)">
+                                <i class="fa fa-edit"></i>
+                              </button>
+                              <button type="button" class="btn btn-sm btn-danger" (click)="deleteLeaveInfo(deleteModal, leaveList)">
+                                <i class="fa fa-close"></i>
+                              </button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
                     </div>
                   </div>
                 </div>
 
-                <div class="tab-pane" id="approveList" >
-                  <div class="row mt-10">
-                    <div class="col-sm-12">
-                      <table class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                            <!-- <th>Approved By</th> -->
-                            <th>actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let leave of approveLeavesList">
-                            <td>{{leave.fromDate | date:'dd-MM-yyyy'}}</td>
-                            <td>{{leave.toDate | date:'dd-MM-yyyy' }} </td>
-                            <td>{{leave.reason}}</td>
-                            <td>{{leave.status}}</td>
-                            <!-- <td>
-                              <div class="text-warning" *ngIf="!leave.isApproved; else notApprovedTmple"> Waiting for approval </div>
-                              <ng-template #notApprovedTmple>
-                                <div class="text-success"> {{leave.approvedBy}} </div>
-                              </ng-template>
-                            </td> -->
-                            <td>
-                              <div class="actions" *ngIf="leave.deletedBy.length <= 0 "> 
-                                <button type="button" class="btn btn-sm btn-success" (click)="approveLeave(leave)">
-                                  <i class="fa fa-check"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-danger" (click)="rejectLeave(leave)">
-                                  <i class="fa fa-close"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                <div class="tab-pane" id="approveList" *ngIf="showLeaveApprovedList">
+                  <div class="row">
+                    <div class="col-md-3 pull-right">
+                      <input #approveSearch type="text" class="form-control" pInputText size="50" placeholder="Search Approved Leaves">
+                    </div>
+                    <div class="col-sm-12 mt-10">
+                      <p-dataTable [value]="approveLeavesList" [globalFilter]="approveSearch" #dt [rows]="10" [paginator]="true" sortMode="multiple">
+                        <p-column field="fromDate" header="From Date" [sortable]="true">
+                          <ng-template let-col let-approveList="rowData" pTemplate="body">
+                            <span>{{approveList.fromDate | date:'dd-MM-yyyy'}}</span>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="toDate" header="To Date" [sortable]="true">
+                          <ng-template let-col let-approveList="rowData" pTemplate="body">
+                            <span>{{approveList.toDate | date:'dd-MM-yyyy'}}</span>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="reason" header="Reason" [sortable]="true"></p-column>
+                        <p-column field="status" header="Status" [sortable]="true"></p-column>
+                        <p-column styleClass="col-button">
+                          <ng-template pTemplate="header">
+                            Actions
+                          </ng-template>
+                          <ng-template let-approveList="rowData" pTemplate="body">
+                            <div class="actions" *ngIf="approveList.deletedBy.length <= 0 ">
+                              <button type="button" class="btn btn-sm btn-success" (click)="approveLeave(approveList)">
+                                <i class="fa fa-check"></i>
+                              </button>
+                              <button type="button" class="btn btn-sm btn-danger" (click)="rejectLeave(approveList)">
+                                <i class="fa fa-close"></i>
+                              </button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
                     </div>
                   </div>
                 </div>
@@ -165,7 +155,7 @@
               <label class="control-label">From Date
                 <span class="text-danger">*</span>
               </label>
-              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="fromDate"></my-date-picker>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="fromDate" required></my-date-picker>
             </div>
           </div>
           <div class="col-md-6">
@@ -173,7 +163,7 @@
               <label class="control-label">To Date
                 <span class="text-danger">*</span>
               </label>
-              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="toDate"></my-date-picker>
+              <my-date-picker [options]="myDatePickerOptions" [placeholder]="placeholder" formControlName="toDate" required></my-date-picker>
             </div>
           </div>
         </div>
@@ -184,7 +174,8 @@
     </div>
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
-      <button type="button" class="btn btn-success" [disabled]="leaveForm.invalid || disableButton" (click)="onSubmit(leaveForm)">Apply Leave</button>
+      <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="leaveForm.invalid || disableButton" (click)="applyLeave(leaveForm)">Apply Leave</button>
+      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="leaveForm.invalid || disableButton" (click)="upDateLeave(leaveForm)">Update Leave</button>
     </div>
   </ng-template>
 </div>

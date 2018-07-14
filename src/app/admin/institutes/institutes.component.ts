@@ -6,7 +6,6 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { countriesList, statesList, districtsList, validation }  from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
-import { DataTablesModule } from 'angular-datatables';
 declare var AdminLTE: any;
 const date = new Date();
 @Component({
