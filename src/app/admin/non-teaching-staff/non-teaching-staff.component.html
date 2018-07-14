@@ -33,7 +33,7 @@
                     </tr>
                     <tr *ngFor="let staff of staffList.nonTeching">
                       <td>{{staff.staffName}}</td>
-                      <td>{{getSubjectName(staff.subject)}}</td>
+                      <td>{{staff.designation}}</td>
                       <td>{{staff.qualification}} </td>
                       <td>{{staff.mobile}} </td>
                       <td>{{staff.address}}</td>
@@ -137,10 +137,10 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Department/Designation</label>
-              <select class="form-control" formControlName="subject">
+              <select class="form-control" formControlName="designation">
                 <option value="">Select Department</option>
                 <option *ngFor="let subj of subjectsList" [value]="subj._id">
-                  {{subj.subjectName}}
+                  {{subj.designation}}
                 </option>
               </select>
             </div>

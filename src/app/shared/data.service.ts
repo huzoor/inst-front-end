@@ -70,6 +70,15 @@ export class DataService {
     let url: string = `${this.BASE_URL}/${passwordInfo.instanceUrl}`;
     return this.http.put(url, {...passwordInfo}, { headers: this.headers }).toPromise();
   }
+  
+  changePassword(formInfo): Promise<any> {
+    let url: string = `${this.BASE_URL}/changePassword`;
+    let insHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json',
+      ...formInfo
+    });
+    return this.http.get(url, { headers: insHeaders }).toPromise();
+  }
 
   getInstitutes(): Promise<any> {
     let url: string = `${this.BASE_URL}/getInstitutes`;
