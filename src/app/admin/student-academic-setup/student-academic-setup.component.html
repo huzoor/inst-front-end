@@ -37,8 +37,8 @@
                           <tr *ngFor="let subject of subjectList; let i = index">
                             <td>{{i+1}}</td>
                             <td>{{subject.class}}</td>
-                            <td *ngFor="let subjectNames of subject.subjects; let i = index">
-                              <input type="checkbox" [(ngModel)]="subjectNames.selected"> {{subjectNames.subjectName}}
+                            <td *ngFor="let subjectName of subject.subjects; let i = index">
+                              <input type="checkbox" [(ngModel)]="subjectName.selected"> {{subjectName.subjectName}}
                             </td>
                           </tr>
                         </tbody>
@@ -62,32 +62,33 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngIf="staffList.length === 0 ">
+                          <tr *ngIf="classListStf.length === 0 ">
                             <td colspan="3">
                               <div class="text-center"> No staff </div>
                             </td>
                           </tr>
-                          <tr *ngFor="let staff of staffList; let i = index">
+                          <tr *ngFor="let clstf of classListStf; let i = index">
                             <td>{{i+1}}</td>
-                            <td>{{staff.staffName}}</td>
+                            <td>{{clstf?.staffName}}</td>
                             <td>
                               <form class="form-horizontal">
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <select class="form-control" (change)="selectClass($event.target.value)">
+                                    <select class="form-control" (change)="selectClass($event.target.value, i)">
                                       <option value="">Select Class</option>
-                                      <option *ngFor="let class of classList" [ngValue]="class.className">{{class.className}}</option>
+                                      <option *ngFor="let class of clstf?.classes"  [selected]="class.selected" [ngValue]="class.className">{{class.className}}</option>
                                     </select>
                                   </div>
                                 </div>
                               </form>
                             </td>
                           </tr>
+                     
                         </tbody>
                       </table>
                     </div>
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-success pull-right" (click)="saveStaff({})">Save</button>
+                      <button type="button" class="btn btn-success pull-right" (click)="saveStaff(classListStf)">Save</button>
                     </div>
                   </div>
                 </div>

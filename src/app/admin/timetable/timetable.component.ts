@@ -27,6 +27,7 @@ export class TimetableComponent implements OnInit {
   public selectedClass: FormControl;
   public timeTableList: any = [];
   public timetableInfo: any = [];
+  public userRole: Number;
   constructor(private dataService: DataService,
     private loadingIndicator: NgxSpinnerService) {
   }
@@ -36,8 +37,9 @@ export class TimetableComponent implements OnInit {
     this.loadingIndicator.show();
     this.getClassesList();
     this.getHoursList();
-    // changing subject as readonly for staff(103) user
-    this.readOnlyField = (parseInt(localStorage.getItem('role')) === 103 ? true : false);
+    // changing subject as readonly for staff(103) / Student (104) user
+    this.userRole = parseInt(localStorage.getItem('role'));
+    this.readOnlyField = ( (this.userRole === 103 || this.userRole === 104)  ? true : false);
     this.selectedClass = new FormControl('', []);
     this.subjectCode = new FormControl('', []);
     this.classForm = new FormGroup({
@@ -94,6 +96,8 @@ export class TimetableComponent implements OnInit {
     this.getSubjectsList(selectedClass).then(canLoad => {
       if (canLoad) {
         this.loadingIndicator.hide();
+        // userRole == stf filter selectedSubjectsList with the subject added
+        let selectedSubjectsList = this.subjectsList.filter();
         this.timeTableList = daysList.map((item, index) => {
           return {
             dayName: item,

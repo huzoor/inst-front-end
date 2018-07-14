@@ -17,6 +17,8 @@ export class StudentAcademicSetupComponent implements OnInit {
   public subjectList: any[] = new Array();
   public subjsList: any[] = new Array();
   public classList: any[] = new Array();
+  public classListStf: any[] = new Array();
+  public classListStfForSave: any[] = new Array();
   public staffList: any[] = [];
 
   public error: any;
@@ -40,7 +42,27 @@ export class StudentAcademicSetupComponent implements OnInit {
       this.loadingIndicator.hide();
       if (resp.json().success) {
         this.staffList = resp.json().staffList;
-        console.log(this.staffList);
+        this.getClassesList().then((calLoad)=>{
+          console.log('classListStf',this.classList, this.staffList);
+          this.classListStf = this.staffList.map(item =>{
+            return {
+              staffName: item.staffName,
+              staffID: item._id,
+              classes: this.classList.map(i=> { 
+                let isSelected =  i.associatedWith.filter(i => i.staffId === item._id );
+                return { 
+                  staffID: item._id, 
+                  classID: i._id, 
+                  className: i.className, 
+                  selected: (isSelected.length > 0),
+                  schoolUserName
+                }
+              })
+            }
+          });
+          console.log('classListStf', this.classListStf)
+        })
+        
       } else {
         console.log('Staff Load Failed');
         this.error = 'StaffInfo loading failed..!';
@@ -48,12 +70,45 @@ export class StudentAcademicSetupComponent implements OnInit {
     });
   }
 
-  public selectClass(className): void {
-    console.log(className);
+  public selectClass(className, index): void {
+    this.classListStfForSave[index] = {
+      ...this.classListStf[index],
+      classes: this.classListStf[index].classes.map(i=> {
+        let selected = (i.className == className);
+        return {
+          ...i,
+          selected
+        }
+      })
+    }
+    
+    console.log(className, this.classListStfForSave);
   }
 
   public saveStaff(staffData: any): void {
-    console.log(staffData);
+    console.log(this.classListStfForSave);
+      // Get instituteUserName from localStorage
+      let instituteUserName = localStorage.getItem('instituteUserName');
+      let schoolUserName = localStorage.getItem('schoolUserName');
+  
+      let mappedList: any[] = new Array();
+      let filteresList = this.classListStfForSave.map(i => i.classes.filter(s=> s.selected)).filter(x => x.length > 0);
+      filteresList.map(i => i.map(s=> { if(!mappedList[s]) mappedList.push(s)}));
+  
+      console.log(mappedList);
+      this.dataService.addStaffAcadamicSetup({ mappedList, instituteUserName, schoolUserName}).then((resp)=>{
+        this.loadingIndicator.hide();
+          if (resp.json().success) {
+            this.error = resp.json().message;
+            this.toastr.success(`Staff Setup Added/Updated Successfully`);
+          } else this.error = resp.json().message;
+      }).catch((err) => {
+          console.log('err',err)
+          this.toastr.error(`Staff Setup Added/Updated Error`);
+          this.error = err.json().message;
+        });
+
+
   }
 
   // Staff setup end
@@ -69,6 +124,7 @@ export class StudentAcademicSetupComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
+          // this.classListStf = res.Classes;
           return true;
         } else {
           this.error = resp.json().message;
@@ -85,17 +141,18 @@ export class StudentAcademicSetupComponent implements OnInit {
   public getSubjectsList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-     let schoolUserName = localStorage.getItem('schoolUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType ='subjects';
     this.loadingIndicator.hide();
-   this.dataService.getEntitiesList({instituteUserName, entityType })
+    this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
           this.subjsList = res.Subjects;
           this.getClassesList().then((calLoad)=>{
-            this.subjectList = this.classList.map(item=>{
+            let classesList = [...this.classList];
+            this.subjectList = classesList.map(item=>{
               return {
                 class: item.className,
                 subjects: this.subjsList.map(i=> { 

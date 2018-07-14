@@ -37,6 +37,7 @@ export class DataService {
     window.localStorage.removeItem('staffUserName');
     window.localStorage.removeItem('studentUserName');
     window.localStorage.removeItem('logo');
+    window.localStorage.removeItem('stfSubject');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
@@ -292,6 +293,11 @@ export class DataService {
  
   addAcadamicSetup(fromInfo):  Promise<any> {
     let url: string = `${this.BASE_URL}/addAcadamicSetup`;
+    return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
+  }
+  
+  addStaffAcadamicSetup(fromInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/addStaffAcadamicSetup`;
     return this.http.post(url, fromInfo, { headers: this.headers }).toPromise();
   }
   

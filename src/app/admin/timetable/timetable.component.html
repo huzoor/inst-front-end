@@ -56,7 +56,7 @@
                 </table>
               </div>
               <div class="col-md-12 text-right" *ngIf="timeTableList">
-                <button (click)="saveTimeTableInfo()" class="btn btn-success">Save</button>
+                <button (click)="saveTimeTableInfo()" class="btn btn-success" *ngIf="!readOnlyField">Save</button>
               </div>
             </div>
           </div>

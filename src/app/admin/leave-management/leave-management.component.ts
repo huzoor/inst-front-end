@@ -103,6 +103,7 @@ export class LeaveManagementComponent implements OnInit {
     this.leaveForm.value.schoolUserName = localStorage.getItem('schoolUserName');
     this.leaveForm.value.instituteUserName = localStorage.getItem('instituteUserName');
     this.leaveForm.value.appliedBy = localStorage.getItem('userName');
+    this.leaveForm.value.appliedUser = localStorage.getItem('name');
     this.leaveForm.value.userRole = localStorage.getItem('roleType');
 
     if (this.leaveForm.valid) {
@@ -136,8 +137,10 @@ export class LeaveManagementComponent implements OnInit {
   public approveLeave(approveLeave: any): void {
     console.log(approveLeave);
     this.loadingIndicator.show();
-    let approvedUser = localStorage.getItem('userName');
-    this.dataService.approveLeave({ ...approveLeave, approvedUser })
+    let approvedUser = localStorage.getItem('name');
+    let approvedUserName = localStorage.getItem('userName');
+    let userRole = localStorage.getItem('roleType');
+    this.dataService.approveLeave({ ...approveLeave, approvedUser, approvedUserName, userRole })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
@@ -155,8 +158,10 @@ export class LeaveManagementComponent implements OnInit {
   public rejectLeave(removeLeave: any): void {
     console.log(removeLeave);
     this.loadingIndicator.show();
-    let rejectedUser = localStorage.getItem('userName');
-    this.dataService.rejectLeave({ ...removeLeave, rejectedUser })
+    let rejectedUser = localStorage.getItem('name');
+    let rejectedUserName = localStorage.getItem('userName');
+    let userRole = localStorage.getItem('roleType');
+    this.dataService.rejectLeave({ ...removeLeave, rejectedUser, rejectedUserName, userRole })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
@@ -179,8 +184,10 @@ export class LeaveManagementComponent implements OnInit {
   removeLeaveRecord(data) {
     this.loadingIndicator.show();
     this.modalRef.hide();
-    let deletedUser = localStorage.getItem('userName');
-    this.dataService.deleteLeave({ ...data, deletedUser })
+    let deletedUser = localStorage.getItem('name');
+    let deletedUserName = localStorage.getItem('userName');
+    let userRole = localStorage.getItem('roleType');
+    this.dataService.deleteLeave({ ...data, deletedUser, deletedUserName, userRole })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {

@@ -67,6 +67,7 @@ export class SigninComponent implements OnInit {
                   localStorage.setItem('role', '105');
                 }else {
                   localStorage.setItem('role', userInfo.json().role);
+                  localStorage.setItem('stfSubject', userInfo.json().user.stfSubject);
                 }
 
                 localStorage.setItem('roleType', userInfo.json().user.roleType);
