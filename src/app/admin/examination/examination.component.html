@@ -24,7 +24,7 @@
                       <form novalidate [formGroup]="examinationForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="classCode" (change)="onClassChange($event.target.value)">
+                            <select class="form-control" formControlName="classCode" (change)="onClassChange($event.target.value)" required>
                               <option value="">Select Class</option>
                               <option *ngFor="let class of classList" [value]="class._id">
                                 {{class.className}}
@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="subjectCode">
+                            <select class="form-control" formControlName="subjectCode" required>
                               <option value="">Select Subject</option>
                               <option *ngFor="let subj of subjectsList" [value]="subj._id">
                                 {{subj.subjectName}}
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="examType">
+                            <select class="form-control" formControlName="examType" required>
                               <option value="">Exam Type</option>
                               <option *ngFor="let exam of examsList" [value]="exam._id">
                                 {{exam.testName}}
@@ -53,16 +53,11 @@
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <button type="button" class="btn btn-success" (click)="enterStudentMarks(examinationForm)">Enter</button>
+                          <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="enterStudentMarks(examinationForm)">Enter</button>
                         </div>
                       </form>
                     </div>
                     
-                    <div class="row mt-10" *ngIf="error.length > 0" style="padding: 35px 45px;">
-                      <div class="alert alert-warning">
-                       {{error}}
-                      </div>
-                    </div>
                     <div class="col-md-12" *ngIf="showStudentsList" style="padding: 20px 30px;">
                       <div class="box">
                         <div class="box-header with-border bg-info">
@@ -80,6 +75,9 @@
                                   </tr>
                                 </thead>
                                 <tbody>
+                                  <tr *ngIf="studentList.length === 0">
+                                    <td colspan="3"><div class="text-center">No Records Available</div></td>
+                                  </tr>
                                   <tr *ngFor="let student of studentList">
                                     <td> {{student.name}}</td>
                                     <td> {{student.rollNumber}}</td>
@@ -90,8 +88,8 @@
                                 </tbody>
                               </table>
                             </div>
-                            <div class="col-md-12">
-                              <button type="button" class="btn btn-success pull-right" (click)="addStudentMarks(studentList)">Save Marks</button>
+                            <div class="col-md-12"  *ngIf="studentList.length !== 0">
+                              <button type="button" class="btn btn-success pull-right" (click)="addStudentMarks(studentList, examinationForm)">Save Marks</button>
                             </div>
                           </div>
                         </div>

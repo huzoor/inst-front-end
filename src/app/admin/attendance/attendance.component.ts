@@ -35,6 +35,7 @@ export class AttendanceComponent implements OnInit {
   public viewCurrentAttendance: any;
   public showAttendance = false;
   public error: String = '';
+  public currentDate: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
@@ -57,6 +58,10 @@ export class AttendanceComponent implements OnInit {
     this.getClassesList();
     this.getSubjectsList();
     // this.getEntitiesList();
+    
+    let currentDate: Date = new Date();
+    this.selectDate.setValue({ date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
+    this.viewSelectDate.setValue({ date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
   }
 
   formFileds() {
@@ -74,16 +79,23 @@ export class AttendanceComponent implements OnInit {
   }
 
   public myDatePickerOptions: IMyDpOptions = {
-    dateFormat: 'm/d/yyyy',
+    dateFormat: 'm/d/yyyy'
   };
+
+  public takeAttendancedatePickerOptions: IMyDpOptions = {
+    dateFormat: 'm/d/yyyy',
+    disableDateRanges: [{begin: {year: 1900, month: 1, day: 1}, end: {year: 2099, month: 12, day: 31}}],
+    disableHeaderButtons: true
+  }
 
   public getStudentsList(formInfo) {
     // get this info from LocalStorage
+    this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let classEnrolled = formInfo.value.className;
     this.showAttendanceList = true;
-    // console.log('formInfo', formInfo.value);
+     console.log('formInfo', formInfo.value);
     this.dataService.getStudentsList({ schoolUserName, instituteUserName, classEnrolled })
       .then((resp) => {
         this.loadingIndicator.hide();

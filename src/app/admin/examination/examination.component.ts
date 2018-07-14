@@ -6,6 +6,7 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { examTypes } from '../../shared/AppConstants';
 import { DataService } from '../../shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 declare var AdminLTE: any;
 
 @Component({
@@ -36,6 +37,7 @@ export class ExaminationComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
+    private toastr: ToastrService,
     private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -87,11 +89,13 @@ export class ExaminationComponent implements OnInit {
 
   public onClassChange(classId) {
     this.error = '';
+    this.subjectCode.setValue('');
     this.getSubjectsList(classId);
   }
 
   public getSubjectsList(classId): void {
     // Get instituteUserName from localStorage
+    this.loadingIndicator.show();
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
 
@@ -162,6 +166,7 @@ export class ExaminationComponent implements OnInit {
 
   public getStudentList(marksForm) {
     // get this info from LocalStorage
+    this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let classEnrolled = marksForm.value.classCode;
@@ -180,8 +185,7 @@ export class ExaminationComponent implements OnInit {
               subjectId,
               marks: this.getMarks(stu._id)
             }
-          })
-          // console.log(this.studentList)
+          });
         } else this.error = 'students list loading failed..!';
       });
   }
@@ -194,6 +198,7 @@ export class ExaminationComponent implements OnInit {
   }
 
   getMarksList(marksForm): Promise<any> {
+    this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
     let instituteUserName = localStorage.getItem('instituteUserName');
     let classId = marksForm.value.classCode;
@@ -225,7 +230,7 @@ export class ExaminationComponent implements OnInit {
 
   }
 
-  public addStudentMarks(studentMarks): void {
+  public addStudentMarks(studentMarks, selectedExamData): void {
     // console.log(studentMarks);
     this.loadingIndicator.show();
     let schoolUserName = localStorage.getItem('schoolUserName');
@@ -238,15 +243,13 @@ export class ExaminationComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.error = resp.json().message;
           this.showStudentsList = false;
-          this.fetchedMarksList = [];
-          this.studentList = [];
-          this.examinationForm.reset();
+          this.toastr.success(`${resp.json().message}`);
+           this.enterStudentMarks(selectedExamData);
         }
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        this.toastr.error(`${err.json().message}`);
       });
   }
 }

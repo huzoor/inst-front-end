@@ -3,10 +3,10 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
-import { DatePipe } from '@angular/common';
 import { DataService } from '../../shared/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+
 declare var AdminLTE: any;
 @Component({
   selector: 'app-leave-management',
@@ -14,10 +14,10 @@ declare var AdminLTE: any;
   styleUrls: ['./leave-management.component.css']
 })
 export class LeaveManagementComponent implements OnInit {
-
   public placeholder = 'mm/dd/yyyy';
   public leavesList: any;
   public approveLeavesList: any;
+  public showApprovedData: boolean = false;
   public modalRef: BsModalRef;
   public leaveForm: FormGroup;
   public fromDate: FormControl;
@@ -31,7 +31,8 @@ export class LeaveManagementComponent implements OnInit {
   public deleteLeaveRecord: any;
   public disableButton: boolean = false;
   public userRoleType: any;
-
+  public showTable: boolean = false;
+  public showEditForm: boolean = false;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
@@ -54,11 +55,11 @@ export class LeaveManagementComponent implements OnInit {
 
     // if (this.userRoleType == 102 || this.userRoleType == 103)
     //   this.getLeavesList('approve');
-    
-    if (this.userRoleType !== 101 )
-       this.getLeavesList('approve');
 
+    if (this.userRoleType !== 101)
+      this.getLeavesList('approve');
     // if (this.userRoleType == 101) document.getElementById('getApproveList').click();
+
   }
 
   getLeavesList(listMode) {
@@ -72,10 +73,14 @@ export class LeaveManagementComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          if (listMode == 'approve')
+          if (listMode == 'approve') {
             this.approveLeavesList = resp.json().LeavesList;
-          else
+            this.showApprovedData = this.approveLeavesList.length === 0 ? true : false;
+          }
+          else {
             this.leavesList = resp.json().LeavesList;
+            this.showTable = this.leavesList.length === 0 ? true : false;
+          }
         } else {
           this.loadingIndicator.hide();
           this.error = 'LeavesList loading failed..!';
@@ -91,12 +96,30 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
 
-  public openModal(template: TemplateRef<any>) {
+  public createEditLeave(template: TemplateRef<any>, editLeave) {
     this.modalRef = this.modalService.show(template, { ignoreBackdropClick: true });
-    this.disableButton = false;
+    console.log(editLeave);
+    if (editLeave !== '') {
+      this.disableButton = false;
+      this.showEditForm = true;
+      const fromDate = new Date(editLeave.fromDate);
+      const setFromDate = { "date": { "year": fromDate.getFullYear(), "month": (fromDate.getMonth() + 1), "day": fromDate.getDate() }, "jsdate": "", "formatted": editLeave.fromDate, "epoc": "" }
+      const toDate = new Date(editLeave.toDate);
+      const setToDate = { "date": { "year": toDate.getFullYear(), "month": (toDate.getMonth() + 1), "day": toDate.getDate() }, "jsdate": "", "formatted": editLeave.toDate, "epoc": "" }
+      this.leaveForm.setValue({
+        fromDate: setFromDate,
+        reason: editLeave.reason,
+        toDate: setToDate
+      });
+    } else {
+      this.leaveForm.reset();
+      this.disableButton = false;
+      this.showEditForm = false;
+    }
+
   }
 
-  public onSubmit(leaveForm) {
+  public applyLeave(leaveForm) {
     // Get this info From local storage
     this.loadingIndicator.show();
     this.disableButton = true;
@@ -115,9 +138,7 @@ export class LeaveManagementComponent implements OnInit {
             this.leaveForm.reset();
             this.modalRef.hide();
             this.getLeavesList('list');
-            // if (role == 102 || role == 103)
-            //   this.getLeavesList('approve');
-            if (role == 101 || role == 102 || role == 103 )
+            if (role == 101 || role == 102 || role == 103)
               this.getLeavesList('approve');
 
             this.toastr.success(`${resp.json().message}`);
@@ -132,6 +153,11 @@ export class LeaveManagementComponent implements OnInit {
         });
     }
   }
+
+  //Update Leave form
+  public updateLeave(leaveForm): void {
+    console.log(leaveForm);
+  };
 
   public approveLeave(approveLeave: any): void {
     console.log(approveLeave);
