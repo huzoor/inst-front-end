@@ -28,7 +28,7 @@
                   <a href="#leaveList" data-toggle="tab">Leave List</a>
                 </li>
                 <li *ngIf="userRoleType !== 104 && userRoleType !== 105 ">
-                  <a href="#approveList" data-toggle="tab" (click)="showLeaveApprovedList = true" id="getApproveList">Leaves To Be Approve</a>
+                  <a href="#approveList" data-toggle="tab" (click)="showLeaveApproveList()" id="getApproveList">Leaves To Be Approve</a>
                 </li>
               </ul>
               <div class="tab-content">
@@ -56,7 +56,7 @@
                             Actions
                           </ng-template>
                           <ng-template let-leaveList="rowData" pTemplate="body">
-                            <div class="actions" *ngIf="leaveList.rejectedBy.length <= 0 &&  leaveList.deletedBy.length <= 0 ">
+                            <div class="actions" *ngIf="leaveList.rejectedBy.length <= 0 &&  leaveList.deletedBy.length <= 0 && leaveList.approvedBy.length <= 0">
                               <button type="button" class="btn btn-sm btn-primary" (click)="createEditLeave(leaveModal, leaveList)">
                                 <i class="fa fa-edit"></i>
                               </button>
@@ -175,7 +175,7 @@
     <div class="modal-footer">
       <button type="button" id="closeInstForm" class="btn btn-default" (click)="modalRef.hide()">Close</button>
       <button type="button" class="btn btn-success" *ngIf="!showEditForm" [disabled]="leaveForm.invalid || disableButton" (click)="applyLeave(leaveForm)">Apply Leave</button>
-      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="leaveForm.invalid || disableButton" (click)="upDateLeave(leaveForm)">Update Leave</button>
+      <button type="button" class="btn btn-success" *ngIf="showEditForm" [disabled]="leaveForm.invalid || disableButton" (click)="updateLeave(leaveForm)">Update Leave</button>
     </div>
   </ng-template>
 </div>

@@ -27,12 +27,14 @@ export class LeaveManagementComponent implements OnInit {
   public userRole: FormControl;
   public schoolUserName: FormControl;
   public instituteUserName: FormControl;
+  public leaveID: FormControl;
   public error: any;
   public deleteLeaveRecord: any;
   public disableButton: boolean = false;
   public userRoleType: any;
   public showTable: boolean = false;
-  public showEditForm: boolean = false;
+  public showEditForm: boolean = false; 
+  public showLeaveApprovedList: boolean = false; 
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
@@ -49,17 +51,18 @@ export class LeaveManagementComponent implements OnInit {
     this.userRole = new FormControl('', []);
     this.schoolUserName = new FormControl('', []);
     this.instituteUserName = new FormControl('', []);
+    this.leaveID = new FormControl('', []);
     this.formFileds();
     this.userRoleType = parseInt(localStorage.getItem('role'), 10);
+    if (this.userRoleType !== 101 )
     this.getLeavesList('list');
 
     // if (this.userRoleType == 102 || this.userRoleType == 103)
     //   this.getLeavesList('approve');
 
-    if (this.userRoleType !== 101)
+    if (this.userRoleType !== 104 )
       this.getLeavesList('approve');
-    // if (this.userRoleType == 101) document.getElementById('getApproveList').click();
-
+    
   }
 
   getLeavesList(listMode) {
@@ -76,6 +79,7 @@ export class LeaveManagementComponent implements OnInit {
           if (listMode == 'approve') {
             this.approveLeavesList = resp.json().LeavesList;
             this.showApprovedData = this.approveLeavesList.length === 0 ? true : false;
+            if (this.userRoleType == 101) this.showLeaveApprovedList = true;
           }
           else {
             this.leavesList = resp.json().LeavesList;
@@ -92,7 +96,8 @@ export class LeaveManagementComponent implements OnInit {
     this.leaveForm = new FormGroup({
       fromDate: this.fromDate,
       reason: this.reason,
-      toDate: this.toDate
+      toDate: this.toDate,
+      leaveID: this.leaveID,
     });
   }
 
@@ -107,10 +112,12 @@ export class LeaveManagementComponent implements OnInit {
       const toDate = new Date(editLeave.toDate);
       const setToDate = { "date": { "year": toDate.getFullYear(), "month": (toDate.getMonth() + 1), "day": toDate.getDate() }, "jsdate": "", "formatted": editLeave.toDate, "epoc": "" }
       this.leaveForm.setValue({
+        leaveID: editLeave._id,
         fromDate: setFromDate,
         reason: editLeave.reason,
         toDate: setToDate
       });
+
     } else {
       this.leaveForm.reset();
       this.disableButton = false;
@@ -157,11 +164,31 @@ export class LeaveManagementComponent implements OnInit {
 
   //Update Leave form
   public updateLeave(leaveForm): void {
-    console.log(leaveForm);
+    console.log(leaveForm.value);
+    this.loadingIndicator.show();
+    this.dataService.updateLeave({ ...leaveForm.value })
+      .then((resp) => {
+        this.loadingIndicator.hide();
+        if (resp.json().success) {
+          this.modalRef.hide();
+          this.getLeavesList('list');
+          this.getLeavesList('approve');
+          this.toastr.success(`${resp.json().message}`);
+        } else this.toastr.error(`${resp.json().message}`);
+      })
+      .catch((err) => {
+        this.loadingIndicator.hide();
+        this.error = err.json().message;
+        this.toastr.success(`Error in approving leave, please retry`);
+      });
+  };
+
+  public showLeaveApproveList(): void {
+    this.showLeaveApprovedList = true;
   };
 
   public approveLeave(approveLeave: any): void {
-    console.log(approveLeave);
+    // console.log(approveLeave);
     this.loadingIndicator.show();
     let approvedUser = localStorage.getItem('name');
     let approvedUserName = localStorage.getItem('userName');

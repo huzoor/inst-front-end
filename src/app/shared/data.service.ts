@@ -200,24 +200,29 @@ export class DataService {
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
 
-  applyLeave(timeLine): Promise<any> {
+  applyLeave(leaveInfo): Promise<any> {
     let url: string = `${this.BASE_URL}/applyLeave`;
-    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+    return this.http.post(url, leaveInfo, { headers: this.headers }).toPromise();
   }
  
-  approveLeave(timeLine): Promise<any> {
+  approveLeave(leaveInfo): Promise<any> {
     let url: string = `${this.BASE_URL}/approveLeave`;
-    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
-  }
-
-  rejectLeave(timeLine): Promise<any> {
-    let url: string = `${this.BASE_URL}/rejectLeave`;
-    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+    return this.http.post(url, leaveInfo, { headers: this.headers }).toPromise();
   }
   
-  deleteLeave(timeLine): Promise<any> {
+  updateLeave(leaveInfo): Promise<any> {
+    let url: string = `${this.BASE_URL}/updateLeave`;
+    return this.http.post(url, leaveInfo, { headers: this.headers }).toPromise();
+  }
+
+  rejectLeave(leaveInfo): Promise<any> {
+    let url: string = `${this.BASE_URL}/rejectLeave`;
+    return this.http.post(url, leaveInfo, { headers: this.headers }).toPromise();
+  }
+  
+  deleteLeave(leaveInfo): Promise<any> {
     let url: string = `${this.BASE_URL}/deleteLeave`;
-    return this.http.post(url, timeLine, { headers: this.headers }).toPromise();
+    return this.http.post(url, leaveInfo, { headers: this.headers }).toPromise();
   }
  
   getleavesList(requestDetails): Promise<any> {

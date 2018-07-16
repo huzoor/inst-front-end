@@ -70,7 +70,7 @@
     "routerLink": "leave-management",
     "icon": "fa fa-list-alt",
     "displayName": "Leave Management",
-    "roles": [102, 103, 104, 105]
+    "roles": [101, 102, 103, 104, 105]
   },
   {
     "routerLink": "timetable",
