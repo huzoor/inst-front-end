@@ -38,6 +38,8 @@ export class DataService {
     window.localStorage.removeItem('studentUserName');
     window.localStorage.removeItem('logo');
     window.localStorage.removeItem('stfSubject');
+    window.localStorage.removeItem('studentsCount');
+    window.localStorage.removeItem('studentId');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);
@@ -162,6 +164,15 @@ export class DataService {
 
   getStudentsList(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getStudentsList`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+  
+  getStudentsListById(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getStudentsListById`;
     let localHeaders: Headers = new Headers({ 
       'Content-Type': 'application/json', 
       ...requestDetails,

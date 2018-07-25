@@ -65,9 +65,10 @@ export class SigninComponent implements OnInit {
                 localStorage.setItem('token', userInfo.json().auth_token);
                 if(userInfo.json().user.roleType && userInfo.json().user.roleType == 'Non-Teaching'){
                   localStorage.setItem('role', '105');
-                }else {
+                } else {
+                  let stfSubj = userInfo.json().user.stfSubject;
                   localStorage.setItem('role', userInfo.json().role);
-                  localStorage.setItem('stfSubject', userInfo.json().user.stfSubject);
+                  if(stfSubj) localStorage.setItem('stfSubject', userInfo.json().user.stfSubject);
                 }
 
                 localStorage.setItem('roleType', userInfo.json().user.roleType);
@@ -88,6 +89,8 @@ export class SigninComponent implements OnInit {
                   localStorage.setItem('instituteUserName', userInfo.json().user.instituteUserName);
                   localStorage.setItem('schoolUserName', userInfo.json().user.schoolUserName);
                   localStorage.setItem('studentUserName', userInfo.json().user.userName);
+                  localStorage.setItem('studentId', userInfo.json().user.studentId);
+                  localStorage.setItem('studentsCount', userInfo.json().user.usersCont);
                 }
               } else {
                 this.error = userInfo.json().message;

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../shared/data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 declare var AdminLTE: any;
 @Component({
   selector: 'app-dashboard',
@@ -31,8 +34,10 @@ export class DashboardComponent implements OnInit {
     {
         backgroundColor: ['#00a65a','#f39c12', '#002d76']
     }
-  ]
-  constructor() { }
+  ];
+  public userRole: number;
+  public studentsLists: any[] = new Array();
+  constructor(private dataService: DataService, private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     AdminLTE.init();
@@ -45,9 +50,37 @@ export class DashboardComponent implements OnInit {
 
     this.marksLabel = ['Pass', 'Failure', 'Absent'];
     this.marksData = [80, 15, 5];
+    this.userRole = parseInt(localStorage.getItem('role'),10)
+
+    if(this.userRole == 104){
+      let studentsCount = parseInt(localStorage.getItem('studentsCount'),10);
+      let userName = localStorage.getItem('studentUserName');
+      if(studentsCount >1){
+        this.dataService.getStudentsListById({userName})
+        .then((resp) => {
+          if (resp.json().success) {
+            this.loadingIndicator.hide();
+            console.log('Inst Loaded ', resp.json().studentsList);
+            this.studentsLists = resp.json().studentsList;
+          } else {
+            this.loadingIndicator.hide();
+          
+          }
+        });
+      }
+    }
   }
 
   chartHovered($eve){}
   chartClicked($eve){}
+
+  changeStudent(studentId){
+
+    let currentStudent = this.studentsLists.filter(item=> item._id == studentId);
+    console.log(currentStudent);
+
+    localStorage.setItem('studentId', studentId);
+    localStorage.setItem('name',currentStudent[0].name);
+  }
 
 }

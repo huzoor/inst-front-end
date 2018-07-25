@@ -1,8 +1,8 @@
-// export const serviceUrl = `http://ec2-18-191-120-54.us-east-2.compute.amazonaws.com:26666/api`;
-// export const imageBaseUri = `http://ec2-18-191-120-54.us-east-2.compute.amazonaws.com:26666/`;
+// export const serviceUrl = `http://ec2-18-218-136-200.us-east-2.compute.amazonaws.com:26666/api`;
+// export const imageBaseUri = `http://ec2-18-218-136-200.us-east-2.compute.amazonaws.com:26666/`;
 
-// export const serviceUrl = `http://18.222.186.26:26666/api`;
-// export const imageBaseUri = `http://18.222.186.26:26666/`;
+// export const serviceUrl = `http://18.218.136.200:26666/api`;
+// export const imageBaseUri = `http://18.218.136.200:26666/`;
 
 export const serviceUrl = `http://localhost:26666/api`;
 export const imageBaseUri = `http://localhost:26666/`;
