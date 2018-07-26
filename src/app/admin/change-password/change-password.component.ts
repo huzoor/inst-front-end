@@ -27,7 +27,7 @@ export class ChangePasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loadingIndicator: NgxSpinnerService) {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      console.log('queryParams', params  );
+      // console.log('queryParams', params  );
       this.parmUserName = params.userName;
       this.parmType = params.type;
     });
@@ -58,13 +58,12 @@ export class ChangePasswordComponent implements OnInit {
     }
   }
   changePaswword(formData: any): void {
-    console.log(formData.value);
     var passwordForm: any = formData.value;
     this.loadingIndicator.show();
     // check currentpassword from backend if it required
     if ("success") {
       if(passwordForm.newPassword === passwordForm.confirmPassword) {
-        console.log("success");
+        // console.log("success");
         let resetFormInfo = {}
         this.passwordMatchError = ``;
         if(this.parmUserName && this.parmType)
