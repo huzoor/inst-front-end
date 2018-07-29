@@ -37,25 +37,27 @@
                       <td *ngFor="let hour of ttl.hoursList; let i = index">
                         <div class="periods-list" id="checkbox">
                         <div>{{hour.startTime | date:'hh:mm a'  }} - {{hour.endTime | date:'hh:mm a' }}</div>
-                        <form class="form-horizontal" [formGroup]="timetableForm">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <select class="form-control"  (change)="onSubjectChange($event.target.value, ttl.dayName, hour.hourName)" [disabled]="readOnlyField">
-                                <option value="">Select Subject</option>
-                                <option *ngFor="let subj of hour.subjectsList" [selected]="subj.isSelected" [value]="subj._id">
-                                  {{subj.subjName}}
-                                </option>
-                              </select>
+                        <div>
+                          <form class="form-horizontal" [formGroup]="timetableForm">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <select class="form-control"  (change)="onSubjectChange($event.target.value, ttl.dayName, hour.hourName)" [disabled]="readOnlyField">
+                                  <option value="">Select Subject</option>
+                                  <option *ngFor="let subj of hour.subjectsList" [selected]="subj.isSelected" [value]="subj._id">
+                                    {{subj.subjName}}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-                        </form>
+                          </form>
+                        </div>
                       </div>
                       </td> 
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="col-md-12 text-right" *ngIf="timeTableList.length > 0">
+              <div class="col-md-12 text-right" *ngIf="timeTableList.length > 0 && !readOnlyField">
                 <button (click)="saveTimeTableInfo()" class="btn btn-success">Save</button>
               </div>
             </div>

@@ -52,10 +52,10 @@ export class DashboardComponent implements OnInit {
     this.marksData = [80, 15, 5];
     this.userRole = parseInt(localStorage.getItem('role'),10)
 
-    if(this.userRole == 104){
+    if(this.userRole === 104){
       let studentsCount = parseInt(localStorage.getItem('studentsCount'),10);
       let userName = localStorage.getItem('studentUserName');
-      if(studentsCount >1){
+      if(studentsCount > 1){
         this.dataService.getStudentsListById({userName})
         .then((resp) => {
           if (resp.json().success) {
