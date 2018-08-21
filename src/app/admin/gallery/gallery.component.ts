@@ -72,20 +72,24 @@ export class GalleryComponent implements OnInit {
   public addGalleryData(formData: any): void {
     // console.log(formData.value);
     const url = `${serviceUrl}/addToGallery`;
-    this.loadingIndicator.show();
-    this.makeFileRequest([], this.filesToUpload, formData.value, url).then((result) => {
-      // console.log(result);
-      this.galleryId = '';
-      if (result) {
-        this.galleryModal.hide();
-        this.loadingIndicator.hide();
-        this.galleryForm.reset();
-        this.getGalleryList();
-        this.toastr.success(`Image Added Successfully`);
-      }
-    }, (error) => {
-      console.error(error);
-    });
+    if(!formData.valid || !this.filesToUpload){
+      this.toastr.error(`Please fill the form`);
+    } else {
+      this.loadingIndicator.show();
+      this.makeFileRequest([], this.filesToUpload, formData.value, url).then((result) => {
+        // console.log(result);
+        this.galleryId = '';
+        if (result) {
+          this.galleryModal.hide();
+          this.loadingIndicator.hide();
+          this.galleryForm.reset();
+          this.getGalleryList();
+          this.toastr.success(`Image Added Successfully`);
+        }
+      }, (error) => {
+        console.error(error);
+      });
+    }
   }
 
   public updateGallery(updateForm: any): void {
@@ -100,7 +104,7 @@ export class GalleryComponent implements OnInit {
         entityType
       }
       // console.log(galFormInfo)
-       if(this.filesToUpload)
+      if(this.filesToUpload)
       this.makeFileRequest([], this.filesToUpload, {...galFormInfo}, editUrl).then((result) => {
         console.log(result);
         this.galleryId = '';
@@ -192,15 +196,15 @@ export class GalleryComponent implements OnInit {
     let entityType = ((role === 101) ? localStorage.getItem('instituteUserName') :
       localStorage.getItem('schoolUserName'))
     return new Promise((resolve, reject) => {
-      var formData: any = new FormData();
-      var xhr = new XMLHttpRequest();
+      let formData: any = new FormData();
+      let xhr = new XMLHttpRequest();
       if (formInfo) {
         formData.append("title", formInfo.title)
         formData.append("description", formInfo.description)
         formData.append("entityType", entityType)
         if(formInfo.galId)  formData.append("galId", formInfo.galId)
       }
-      for (var i = 0; i < files.length; i++) {
+      for (let i = 0; i < files.length; i++) {
         formData.append("imageName", files[i], files[i].name);
       }
 

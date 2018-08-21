@@ -71,8 +71,9 @@ export class LeaveManagementComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
     let appliedBy = localStorage.getItem('userName');
     let role = parseInt(localStorage.getItem('role'), 10);
+    let staffId = role ==103 ? localStorage.getItem('staffId'): ''
 
-    this.dataService.getleavesList({ schoolUserName, instituteUserName, appliedBy, role, listMode })
+    this.dataService.getleavesList({ schoolUserName, instituteUserName, staffId, appliedBy, role, listMode })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
@@ -135,6 +136,7 @@ export class LeaveManagementComponent implements OnInit {
     this.leaveForm.value.appliedBy = localStorage.getItem('userName');
     this.leaveForm.value.appliedUser = localStorage.getItem('name');
     this.leaveForm.value.userRole = localStorage.getItem('roleType');
+    this.leaveForm.value.staffId = localStorage.getItem('staffId');
 
     if (this.leaveForm.valid) {
       this.error = '';

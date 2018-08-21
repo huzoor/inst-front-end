@@ -35,6 +35,7 @@ export class AttendanceComponent implements OnInit {
   public viewCurrentAttendance: any;
   public showAttendance = false;
   public error: String = '';
+  public userRoleType: any;
   public currentDate: any;
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
@@ -52,7 +53,7 @@ export class AttendanceComponent implements OnInit {
     this.viewSelectDate = new FormControl('', []);
     this.viewClassName = new FormControl('', []);
     this.viewSubject = new FormControl('', []);
-
+    this.userRoleType = parseInt(localStorage.getItem('role'), 10);
 
     this.formFileds();
     this.getClassesList();
