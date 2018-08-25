@@ -8,6 +8,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { TimepickerModule } from 'ngx-bootstrap';
 
 import {
+  AccordionModule,
   BreadcrumbModule,
   CalendarModule,
   DropdownModule,
@@ -60,6 +61,7 @@ import { NonTeachingStaffComponent } from './non-teaching-staff/non-teaching-sta
     FileUploadModule,
     ChartsModule,
     BrowserAnimationsModule,
+    AccordionModule,
     DataTableModule,
     ToastrModule.forRoot({timeOut: 2000,
       positionClass: 'toast-top-full-width',

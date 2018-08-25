@@ -25,7 +25,6 @@ export class ExaminationComponent implements OnInit {
   public classCode: FormControl;
   public examType: FormControl;
 
-
   public externalExamTypes: any[];
   public examsList: any[];
   public classList: any = [];
@@ -34,6 +33,8 @@ export class ExaminationComponent implements OnInit {
   public fetchedMarksList: any = [];
   public studentList: any = [];
   public error: any = '';
+  public userRoleType: any;
+  
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
@@ -47,6 +48,7 @@ export class ExaminationComponent implements OnInit {
     this.classCode = new FormControl('', []);
     this.subjectCode = new FormControl('', []);
     this.examType = new FormControl('', []);
+    this.userRoleType = parseInt(localStorage.getItem('role'), 10);
 
     this.formFileds();
     this.getClassesList();
@@ -79,11 +81,13 @@ export class ExaminationComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
-        } else this.error = resp.json().message;
+        } else this.toastr.error(`${resp.json().message}`); 
+        // this.error = resp.json().message;
 
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        // this.error = err.json().message;
+        this.toastr.error(`${err.json().message}`);
       });
   }
 
@@ -105,11 +109,13 @@ export class ExaminationComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
-        } else this.error = resp.json().message;
+        } else this.toastr.error(`${resp.json().message}`); 
+        //this.error = resp.json().message;
 
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        // this.error = err.json().message;
+        this.toastr.error(`${err.json().message}`);
       });
   }
 
@@ -139,10 +145,12 @@ export class ExaminationComponent implements OnInit {
           if (resp.json().success) {
             this.modalRef.hide();
             this.getExamsList();
-          } else this.error = resp.json().message;
+          } else this.toastr.error(`${resp.json().message}`);
+          // this.error = resp.json().message;
         }).catch((err) => {
           this.loadingIndicator.hide();
-          this.error = 'Error in adding Exam';
+          // this.error = 'Error in adding Exam';
+          this.toastr.error(`Error in adding Exam`);
         });
     }
   }
@@ -157,10 +165,12 @@ export class ExaminationComponent implements OnInit {
         this.loadingIndicator.hide();
         if (resp.json().success) {
           this.examsList = resp.json().examsList
-        } else this.error = resp.json().message;
+        } else this.toastr.error(`${resp.json().message}`);
+        // this.error = resp.json().message;
       }).catch((err) => {
         console.log('err', err)
-        this.error = 'Error in adding Exam';
+        // this.error = 'Error in adding Exam';
+        this.toastr.error(`Error in adding Exam`);
       });
   }
 
@@ -186,7 +196,8 @@ export class ExaminationComponent implements OnInit {
               marks: this.getMarks(stu._id)
             }
           });
-        } else this.error = 'students list loading failed..!';
+        } else this.toastr.error(`students list loading failed..!`); 
+        // this.error = 'students list loading failed..!';
       });
   }
   getMarks(stuId) {
@@ -212,7 +223,8 @@ export class ExaminationComponent implements OnInit {
           this.fetchedMarksList = resp.json().MarksList;
           return true;
         } else {
-          this.error = 'students list loading failed..!';
+          this.toastr.error(`students list loading failed..!`); 
+          // this.error = 'students list loading failed..!';
           return false;
         }
       });
@@ -225,7 +237,7 @@ export class ExaminationComponent implements OnInit {
       if (canLoadStudents) {
         this.getStudentList(marksForm);
         this.showStudentsList = true;
-      } else { this.error = 'students list loading failed..!'; }
+      } else  this.toastr.error(`students list loading failed..!`); 
     })
 
   }
@@ -245,7 +257,7 @@ export class ExaminationComponent implements OnInit {
         if (resp.json().success) {
           this.showStudentsList = false;
           this.toastr.success(`${resp.json().message}`);
-           this.enterStudentMarks(selectedExamData);
+          this.enterStudentMarks(selectedExamData);
         }
       }).catch((err) => {
         this.loadingIndicator.hide();

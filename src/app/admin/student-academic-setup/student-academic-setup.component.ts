@@ -36,9 +36,11 @@ export class StudentAcademicSetupComponent implements OnInit {
   }
   // Staff Setup start
   public getStaffDetails(): void {
-    let instituteUserName = localStorage.getItem('instituteUserName');
-    let schoolUserName = localStorage.getItem('schoolUserName');
-     this.dataService.getStaffList({schoolUserName, instituteUserName})
+    let instituteUserName = localStorage.getItem('instituteUserName'),
+        schoolUserName = localStorage.getItem('schoolUserName'),
+        staffRole='Teaching';
+
+     this.dataService.getStaffList({schoolUserName, instituteUserName, staffRole})
     .then((resp) => {
       this.loadingIndicator.hide();
       if (resp.json().success) {

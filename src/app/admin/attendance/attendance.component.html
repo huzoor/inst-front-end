@@ -10,10 +10,10 @@
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
                 <li class="active" *ngIf="userRoleType !=104">
-                  <a href="#tab_1" data-toggle="tab">Take Attendance</a>
+                  <a href="#tab_1" data-toggle="tab"  id="_tab1">Take Attendance</a>
                 </li>
                 <li>
-                  <a href="#tab_2" data-toggle="tab">View Attendance</a>
+                  <a href="#tab_2" data-toggle="tab" id="_tab2">View Attendance</a>
                 </li>
               </ul>
               <div class="tab-content">
@@ -65,9 +65,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngIf="studentList.length === 0">
-                            <td colspan="3"><div class="text-center">No Records Available</div></td>
-                          </tr>
                           <tr *ngFor="let student of studentList">
                             <td>{{student.rollNumber}}</td>
                             <td>{{student.name}}</td>
@@ -114,7 +111,7 @@
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <button type="button" class="btn btn-success" [disabled]="viewAttendanceForm.invalid" (click)="viewAttendance(viewAttendanceForm)">Submit</button>
+                          <button type="button" class="btn btn-success" [disabled]="viewAttendanceForm.invalid" (click)="viewAttendance(viewAttendanceForm)">Get Attendance</button>
                         </div>
                       </form>
                     </div>

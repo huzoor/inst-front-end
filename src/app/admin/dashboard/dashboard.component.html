@@ -13,64 +13,21 @@
   </section>
   <!-- Main content -->
   <section class="content">
-    <!-- <div class="row">
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-          <div class="inner">
-            <h3>150</h3>
-            <p>Students</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-user-plus"></i>
-          </div>
-          <a routerLink="/students" class="small-box-footer">More info
-            <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
+    <div class="row">
+      <div class="col-md-12 pad-btm-10">
+          <p-accordion>
+              <p-accordionTab header="Header 1">
+                 Content 1
+              </p-accordionTab>
+              <p-accordionTab header="Header 2">
+                  Content 2
+              </p-accordionTab>
+              <p-accordionTab header="Header 3">
+                  Content 3    
+              </p-accordionTab>
+          </p-accordion>
       </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
-          <div class="inner">
-            <h3>53</h3>
-            <p>Teachers</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-user-circle-o"></i>
-          </div>
-          <a routerLink="/teacher" class="small-box-footer">More info
-            <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-          <div class="inner">
-            <h3>44</h3>
-            <p>Messages</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-envelope"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info
-            <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-red">
-          <div class="inner">
-            <h3>65</h3>
-            <p>Invoice</p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-pie-chart"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info
-            <i class="fa fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-    </div> -->
+    </div>
 
     <div class="row" *ngIf="studentsLists.length > 1">
       <div class="col-md-8">

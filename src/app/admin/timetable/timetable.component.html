@@ -36,7 +36,7 @@
                       </td>
                       <td *ngFor="let hour of ttl.hoursList; let i = index">
                         <div class="periods-list" id="checkbox">
-                        <div>{{hour.startTime | date:'hh:mm a'  }} - {{hour.endTime | date:'hh:mm a' }}</div>
+                        <div>{{ hour.startTime | date:'hh:mm a'  }}-{{ hour.endTime | date:'hh:mm a' }}</div>
                         <div>
                           <form class="form-horizontal" [formGroup]="timetableForm">
                             <div class="col-md-12">

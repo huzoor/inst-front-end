@@ -16,6 +16,9 @@ body {
 .pd-15 {
   padding: 15px;
 }
+.pad-btm-10 {
+  padding-bottom: 10px;
+}
 .login-box {
   width: 400px;
 }

@@ -18,9 +18,15 @@
               <div class="col-sm-12 mt-10">
                 <p-dataTable [value]="instituteList" [globalFilter]="instituteSearch" #dt [rows]="20" [paginator]="true" sortMode="multiple" resizableColumns="true" columnResizeMode="expand">
                   <p-column field="instituteName" header="INST Name" [sortable]="true"></p-column>
-                  <p-column field="code" header=" Code" [sortable]="true"></p-column>
-                  <p-column field="address" header=" Address" [sortable]="true"></p-column>
-                  <p-column field="schoolsRegistered" header="Schools" [sortable]="true"></p-column>
+                  <p-column field="code" header="Code" [sortable]="true" [style]="{'width':'70px'}"></p-column>
+                  <p-column field="address" header="Address" [sortable]="true"></p-column>
+                  <p-column field="schoolsRegistered" header="Schools Registered" [sortable]="true" [style]="{'width':'155px'}">
+                    <ng-template let-col let-institute="rowData" pTemplate="body">
+                        <!-- <span>{{getRegSchoolsCount(institute.instituteName)}}</span> -->
+                        <!-- <span innerHTML="{{ getRegSchoolsCount(institute.instituteName) }}"></span> -->
+                        <span innerHTML="{{ 0}}"></span>
+                    </ng-template>
+                  </p-column>
                   <p-column field="userName" header="Admin" [sortable]="true"></p-column>
                   <p-column field="email" header="Email" [sortable]="true"></p-column>
                   <p-column field="mobile" header="Mobile" [sortable]="true"></p-column>

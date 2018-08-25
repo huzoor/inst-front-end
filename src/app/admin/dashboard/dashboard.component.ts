@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import {AccordionModule} from 'primeng/accordion';
 import { DataService } from '../../shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 

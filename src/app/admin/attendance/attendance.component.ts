@@ -49,7 +49,6 @@ export class AttendanceComponent implements OnInit {
     this.selectDate = new FormControl('', []);
     this.subject = new FormControl('', []);
     this.className = new FormControl('', []);
-
     this.viewSelectDate = new FormControl('', []);
     this.viewClassName = new FormControl('', []);
     this.viewSubject = new FormControl('', []);
@@ -61,8 +60,10 @@ export class AttendanceComponent implements OnInit {
     // this.getEntitiesList();
     
     let currentDate: Date = new Date();
-    this.selectDate.setValue({ date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
-    this.viewSelectDate.setValue({ date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
+    let formatted = `${ currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    this.selectDate.setValue({ formatted, date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
+    this.viewSelectDate.setValue({ formatted, date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
+    document.getElementById('_tab2').click()
   }
 
   formFileds() {
@@ -101,10 +102,13 @@ export class AttendanceComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          if (resp.json().studentsList.length == 0) this.error = 'No students found...';
+          if (resp.json().studentsList.length == 0){
+            //  this.error = 'No students found...';
+             this.toastr.success(`No students found...`);
+          }
           else this.studentList = resp.json().studentsList;
         }
-        else this.error = 'students list loading failed..!';
+        else this.toastr.error(`students list loading failed..!`);
       });
   }
 
@@ -119,11 +123,12 @@ export class AttendanceComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.classList = res.Classes;
-        } else this.error = resp.json().message;
-
+        } else this.toastr.success(`${resp.json().message}`);
+        
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        // this.error = err.json().message;
+        this.toastr.success(`${err.json().message}`);
       });
   }
 
@@ -138,11 +143,13 @@ export class AttendanceComponent implements OnInit {
         let res = resp.json()
         if (res.success) {
           this.subjectsList = res.Subjects;
-        } else this.error = resp.json().message;
+        } else this.toastr.error(`${resp.json().message}`); 
+        // this.error = resp.json().message;
 
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        // this.error = err.json().message;
+        this.toastr.error(`${err.json().message}`);
       });
   }
 
@@ -214,12 +221,14 @@ export class AttendanceComponent implements OnInit {
           this.studentList.map((item, i) => this.studentList[i].selected = false);
           this.resetAttendanceForm();
           this.toastr.success('Attendance taken successfully');
-          this.error = resp.json().message;
+          // this.error = resp.json().message;
+          this.toastr.error(`${resp.json().message}`);
         }
         else this.error = resp.json().message;
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message;
+        // this.error = err.json().message;
+        this.toastr.error(`${err.json().message}`);
       })
   }
 
@@ -238,12 +247,13 @@ export class AttendanceComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          if (resp.json().attendanceInfo.length == 0) this.error = 'No records found...';
+          if (resp.json().attendanceInfo.length == 0) this.toastr.error(`No Records Found`); 
           else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
-        } else this.error = resp.json().message;
+        } else this.toastr.error(`${resp.json().message}`); 
       }).catch((err) => {
         this.loadingIndicator.hide();
-        this.error = err.json().message
+        // this.error = err.json().message
+        this.toastr.error(`${err.json().message}`);
       });
   }
 }

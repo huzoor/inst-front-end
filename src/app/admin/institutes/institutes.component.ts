@@ -75,6 +75,21 @@ export class InstitutesComponent implements OnInit {
   public changeState(ste) {
     this.districtsList = districtsList.filter((item) => item.stateCode === ste);
   }
+  
+  public getRegSchoolsCount(instituteUserName): any {
+
+    this.dataService.getRegSchoolsCount({instituteUserName})
+      .then((resp) => {
+
+        if (resp.json().success) {
+          this.loadingIndicator.hide();
+          console.log('Inst Loaded ', resp.json().count);
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+  }
 
   getInstitutesList() {
     this.dataService.getInstitutes()

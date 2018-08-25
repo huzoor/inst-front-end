@@ -156,6 +156,15 @@ export class DataService {
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
+ 
+  getRegSchoolsCount(instituteUserName): Promise<any> {
+    let url: string = `${this.BASE_URL}/getRegSchoolsCount`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...instituteUserName,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
 
   addStudent(student): Promise<any> {
     let url: string = `${this.BASE_URL}/addStudent`;

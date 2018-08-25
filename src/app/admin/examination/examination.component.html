@@ -5,7 +5,7 @@
         <div class="box">
           <div class="box-header with-border">
             <h3 class="box-title">Examination</h3>
-            <div class="pull-right box-tools">
+            <div class="pull-right box-tools" *ngIf="userRoleType != 104">
               <button type="button" class="btn btn-primary btn-sm" (click)="openModal(exams)">
                 <i class="fa fa-plus"></i> Create Test </button>
             </div>
