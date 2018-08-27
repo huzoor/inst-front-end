@@ -29,7 +29,7 @@
               <div class="col-sm-12 mt-10">
                 <p-dataTable [value]="SchoolsList" [globalFilter]="schoolSearch" #dt [rows]="20" [paginator]="true" sortMode="multiple">
                   <p-column field="schoolName" header="School Name" [sortable]="true"></p-column>
-                  <p-column field="code" header="School Code" [sortable]="true"></p-column>
+                  <p-column field="code" header="School Code" [sortable]="true" styleClass="p-col-txt-center"></p-column>
                   <p-column field="address" header="School Address" [sortable]="true"></p-column>
                   <p-column field="registeredDate" header="Registered On" [sortable]="true">
                     <ng-template let-col let-school="rowData" pTemplate="body">

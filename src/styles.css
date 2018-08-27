@@ -19,6 +19,9 @@ body {
 .pad-btm-10 {
   padding-bottom: 10px;
 }
+.p-col-txt-center {
+  text-align: center;
+}
 .login-box {
   width: 400px;
 }
