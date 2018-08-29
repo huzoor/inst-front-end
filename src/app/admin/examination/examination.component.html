@@ -13,8 +13,16 @@
           <div class="box-body">
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
-                <li class="active">
-                  <a href="#tab_1" data-toggle="tab">Create Examination</a>
+                <li class="active"> 
+                  <a href="#tab_1" data-toggle="tab" *ngIf="userRoleType != 104;else createExam">
+                      Create Examination
+                  </a>
+                  <ng-template #createExam>
+                      <a href="#tab_1" data-toggle="tab" >
+                          View Examination Results
+                      </a>
+                  </ng-template>
+
                 </li>
               </ul>
               <div class="tab-content">
@@ -53,7 +61,7 @@
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="enterStudentMarks(examinationForm)">Enter</button>
+                          <button type="button" class="btn btn-success" [disabled]="examinationForm.invalid" (click)="enterStudentMarks(examinationForm)">Proceed</button>
                         </div>
                       </form>
                     </div>
@@ -61,7 +69,10 @@
                     <div class="col-md-12" *ngIf="showStudentsList" style="padding: 20px 30px;">
                       <div class="box">
                         <div class="box-header with-border bg-info">
-                          <h3 class="box-title">Enter Marks For <b> {{getExamName(examType)}} </b></h3>
+                          <h3 class="box-title">
+                            <span *ngIf="userRoleType == 104;else subjectDesc">View Marks For :</span>
+                            <ng-template #subjectDesc><span>Enter Marks For :</span></ng-template>
+                            <b> {{getExamName(examType)}} </b></h3>
                         </div>
                         <div class="box-body">
                           <div class="row">
@@ -82,14 +93,14 @@
                                     <td> {{student.name}}</td>
                                     <td> {{student.rollNumber}}</td>
                                     <td>
-                                      <input type="number" class="form-control" [(ngModel)]="student.marks">
+                                      <input type="number" disabled="userRoleType == 104" class="form-control" [(ngModel)]="student.marks">
                                     </td>
                                   </tr>
                                 </tbody>
                               </table>
                             </div>
                             <div class="col-md-12"  *ngIf="studentList.length !== 0">
-                              <button type="button" class="btn btn-success pull-right" (click)="addStudentMarks(studentList, examinationForm)">Save Marks</button>
+                              <button type="button" *ngIf="userRoleType != 104" class="btn btn-success pull-right" (click)="addStudentMarks(studentList, examinationForm)">Save Marks</button>
                             </div>
                           </div>
                         </div>

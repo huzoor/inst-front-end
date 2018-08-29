@@ -40,6 +40,7 @@ export class DataService {
     window.localStorage.removeItem('stfSubject');
     window.localStorage.removeItem('studentsCount');
     window.localStorage.removeItem('studentId');
+    window.localStorage.removeItem('staffId');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);

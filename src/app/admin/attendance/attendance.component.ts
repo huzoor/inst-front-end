@@ -32,7 +32,7 @@ export class AttendanceComponent implements OnInit {
   public selectedAll: any;
   public selectedStudent: any = new Array;
   public addAttendance: any;
-  public viewCurrentAttendance: any;
+  public viewCurrentAttendance: any = new Array;
   public showAttendance = false;
   public error: String = '';
   public userRoleType: any;
@@ -63,7 +63,9 @@ export class AttendanceComponent implements OnInit {
     let formatted = `${ currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
     this.selectDate.setValue({ formatted, date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
     this.viewSelectDate.setValue({ formatted, date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
-    document.getElementById('_tab2').click()
+    
+    if(this.userRoleType == 104)
+      document.getElementById('_tab2').click()
   }
 
   formFileds() {
@@ -86,9 +88,17 @@ export class AttendanceComponent implements OnInit {
 
   public takeAttendancedatePickerOptions: IMyDpOptions = {
     dateFormat: 'm/d/yyyy',
-    disableDateRanges: [{begin: {year: 1900, month: 1, day: 1}, end: {year: 2099, month: 12, day: 31}}],
     disableHeaderButtons: true
   }
+
+  public onClassChange(classId) {
+    this.studentList = [];
+  }
+  
+  public onViewClassChange(classId) {
+    this.viewCurrentAttendance = [];
+  }
+
 
   public getStudentsList(formInfo) {
     // get this info from LocalStorage
@@ -105,6 +115,7 @@ export class AttendanceComponent implements OnInit {
           if (resp.json().studentsList.length == 0){
             //  this.error = 'No students found...';
              this.toastr.success(`No students found...`);
+             this.studentList=[];
           }
           else this.studentList = resp.json().studentsList;
         }
@@ -161,6 +172,7 @@ export class AttendanceComponent implements OnInit {
           classCode: this.className.value,
           subjectCode: this.subject.value,
           rollNumber: this.studentList[i].rollNumber,
+          studentName: this.studentList[i].name,
         });
       }
       else {
@@ -186,9 +198,15 @@ export class AttendanceComponent implements OnInit {
   }
 
   public resetAttendanceForm() {
-    this.selectDate = new FormControl('', []);
-    this.subject = new FormControl('', []);
-    this.className = new FormControl('', []);
+    let currentDate: Date = new Date();
+    let formatted = `${ currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    this.selectDate.setValue({ formatted, date: {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()} });
+    
+    // this.selectDate = new FormControl('', []);
+    // // this.attendanceForm.reset();
+    // this.subject = new FormControl('', []);
+    // this.className = new FormControl('', []);
+    this.studentList = [];
   }
 
   public saveAttendance(): void {
@@ -222,9 +240,7 @@ export class AttendanceComponent implements OnInit {
           this.resetAttendanceForm();
           this.toastr.success('Attendance taken successfully');
           // this.error = resp.json().message;
-          this.toastr.error(`${resp.json().message}`);
-        }
-        else this.error = resp.json().message;
+        } else this.error = resp.json().message;
       }).catch((err) => {
         this.loadingIndicator.hide();
         // this.error = err.json().message;
@@ -247,7 +263,10 @@ export class AttendanceComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          if (resp.json().attendanceInfo.length == 0) this.toastr.error(`No Records Found`); 
+          if (resp.json().attendanceInfo.length == 0){
+             this.viewCurrentAttendance = [];
+             this.toastr.error(`No Records Found`);
+            } 
           else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
         } else this.toastr.error(`${resp.json().message}`); 
       }).catch((err) => {

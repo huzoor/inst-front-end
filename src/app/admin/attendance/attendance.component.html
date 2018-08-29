@@ -23,7 +23,7 @@
                       <form novalidate [formGroup]="attendanceForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="className" required>
+                            <select class="form-control" formControlName="className" (change)="onClassChange($event.target.value)" required>
                               <option value="">Select Class</option>
                               <option *ngFor="let cls of classList" [value]="cls._id">
                                 {{cls.className}}
@@ -52,7 +52,7 @@
                       </form>
                     </div>
                   </div>
-                  <div class="row" *ngIf="showAttendanceList">
+                  <div class="row" *ngIf="studentList.length > 0">
                     <div class="col-sm-12">
                       <table class="table table-bordered table-striped">
                         <thead>
@@ -87,7 +87,7 @@
                       <form novalidate [formGroup]="viewAttendanceForm" class="custom-form">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="viewClassName" required>
+                            <select class="form-control" formControlName="viewClassName"  (change)="onViewClassChange($event.target.value)"  required>
                               <option value="">Select Class</option>
                               <option *ngFor="let cls of classList" [value]="cls._id">
                                 {{cls.className}}
@@ -115,16 +115,16 @@
                         </div>
                       </form>
                     </div>
-                    <div class="col-md-12" *ngIf="showAttendance" style="padding: 20px 30px;">
+                    <div class="col-md-12" *ngIf="viewCurrentAttendance.length > 0" style="padding: 20px 30px;">
                       <div class="box">
                         <div class="box-header with-border bg-info">
                           <h3 class="box-title">View Attendance</h3>
                         </div>
                         <div class="box-body">
                           <div class="col-sm-12">
-                            <div class="alert alert-warning" *ngIf="error">
+                            <!-- <div class="alert alert-warning" *ngIf="error">
                               {{error}}
-                            </div>
+                            </div> -->
                           </div>
                           <div class="col-sm-12">
                             <table class="table table-bordered table-striped">
@@ -138,7 +138,7 @@
                               <tbody>
                                 <tr *ngFor="let roll of viewCurrentAttendance">
                                   <td>{{roll.rollNumber}}</td>
-                                  <td>{{roll.rollNumber}}</td>
+                                  <td>{{roll.studentName}}</td>
                                   <td>
                                     <span *ngIf="roll.rollNumber">P</span>
                                     <span *ngIf="!roll.rollNumber">A</span>
