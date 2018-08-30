@@ -189,6 +189,15 @@ export class DataService {
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
+ 
+  getStaffByClassId(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getStaffByClassId`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
   
   removeStudent(stuId): Promise<any> {
     let url: string = `${this.BASE_URL}/removeStudent`;

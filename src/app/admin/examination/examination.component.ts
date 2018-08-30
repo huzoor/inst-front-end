@@ -95,6 +95,10 @@ export class ExaminationComponent implements OnInit {
     this.error = '';
     this.subjectCode.setValue('');
     this.getSubjectsList(classId);
+    this.studentList = [];
+  }
+  public makeStudentsEmpty(classId) {
+    this.studentList = [];
   }
 
   public getSubjectsList(classId): void {

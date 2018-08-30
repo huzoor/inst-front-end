@@ -176,7 +176,7 @@ export class StudentAcademicSetupComponent implements OnInit {
               return {
                 class: item.className,
                 subjects: this.subjsList.map(i => {
-                  let isSelected = i.associatedWith.filter(i => i.classId === item._id);
+                  let isSelected = i.associatedWith.filter(i => (i.classId === item._id && i.schoolUserName == schoolUserName));
                   return {
                     classID: item._id,
                     subjectID: i._id,

@@ -76,12 +76,32 @@ export class DashboardComponent implements OnInit {
   chartClicked($eve){}
 
   changeStudent(studentId){
-
     let currentStudent = this.studentsLists.filter(item=> item._id == studentId);
-    console.log(currentStudent);
+    // console.log(currentStudent);
+    this.getStaffByClassId(currentStudent[0].classEnrolled, 
+                           currentStudent[0].instituteUserName, 
+                           currentStudent[0].schoolUserName)
 
-    localStorage.setItem('studentId', studentId);
+
+    localStorage.setItem('instituteUserName',currentStudent[0].instituteUserName);
+    localStorage.setItem('schoolUserName',currentStudent[0].schoolUserName);
+    localStorage.setItem('studentId', currentStudent[0]._id);
     localStorage.setItem('name',currentStudent[0].name);
+    localStorage.setItem('staffId','');
+    document.getElementById('studentInfoName').innerText = currentStudent[0].name;
+  }
+
+  public getStaffByClassId(classId, instituteUserName, schoolUserName){
+    this.dataService.getStaffByClassId({classId, instituteUserName, schoolUserName})
+        .then((resp) => {
+          if (resp.json().success) {
+            this.loadingIndicator.hide();
+            // console.log('Staff Loaded ', resp.json());
+            localStorage.setItem('staffId',resp.json().staffId);
+          } else {
+            this.loadingIndicator.hide();
+          }
+        });
   }
 
 }

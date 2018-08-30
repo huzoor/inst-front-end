@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="subjectCode" required>
+                            <select class="form-control" formControlName="subjectCode" (change)="makeStudentsEmpty($event.target.value)" required>
                               <option value="">Select Subject</option>
                               <option *ngFor="let subj of subjectsList" [value]="subj._id">
                                 {{subj.subjectName}}
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <select class="form-control" formControlName="examType" required>
+                            <select class="form-control" formControlName="examType" (change)="makeStudentsEmpty($event.target.value)" required>
                               <option value="">Exam Type</option>
                               <option *ngFor="let exam of examsList" [value]="exam._id">
                                 {{exam.testName}}
@@ -93,7 +93,7 @@
                                     <td> {{student.name}}</td>
                                     <td> {{student.rollNumber}}</td>
                                     <td>
-                                      <input type="number" disabled="userRoleType == 104" class="form-control" [(ngModel)]="student.marks">
+                                      <input type="number" disabled="{{userRoleType == 104}}" class="form-control" [(ngModel)]="student.marks">
                                     </td>
                                   </tr>
                                 </tbody>
