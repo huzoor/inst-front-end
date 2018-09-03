@@ -89,6 +89,8 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('name',currentStudent[0].name);
     localStorage.setItem('staffId','');
     document.getElementById('studentInfoName').innerText = currentStudent[0].name;
+    document.getElementById('studentInfoTopRight').innerText = currentStudent[0].name;
+    document.getElementById('studentInfoTopRightBox').innerText = currentStudent[0].name;
   }
 
   public getStaffByClassId(classId, instituteUserName, schoolUserName){

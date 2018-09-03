@@ -135,7 +135,7 @@ export class ExaminationComponent implements OnInit {
     return this.examsList.filter(i => i._id == code)[0].testName
   }
 
-  public createExam(examForm): void {
+  public createNewExam(examForm): void {
     this.loadingIndicator.show();
     this.error = '';
     let instituteUserName = localStorage.getItem('instituteUserName');

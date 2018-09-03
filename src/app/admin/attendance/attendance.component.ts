@@ -56,7 +56,7 @@ export class AttendanceComponent implements OnInit {
 
     this.formFileds();
     this.getClassesList();
-    this.getSubjectsList();
+    // this.getSubjectsList();
     // this.getEntitiesList();
     
     let currentDate: Date = new Date();
@@ -92,11 +92,14 @@ export class AttendanceComponent implements OnInit {
   }
 
   public onClassChange(classId) {
+    this.error = '';
+    this.getSubjectsList(classId);
     this.studentList = [];
   }
   
   public onViewClassChange(classId) {
     this.viewCurrentAttendance = [];
+    this.getSubjectsList(classId);
   }
 
 
@@ -143,12 +146,13 @@ export class AttendanceComponent implements OnInit {
       });
   }
 
-  public getSubjectsList(): void {
+  public getSubjectsList(classId): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     let entityType = 'subjects';
 
-    this.dataService.getEntitiesList({ instituteUserName, entityType })
+    this.dataService.getEntitiesList({ instituteUserName, entityType, schoolUserName, classId })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()

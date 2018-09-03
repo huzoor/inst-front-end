@@ -53,9 +53,10 @@ export class TimetableComponent implements OnInit {
   public getHoursList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
+    let schoolUserName = localStorage.getItem('schoolUserName');
     // let entityType = `classes`;
 
-    this.dataService.getHoursList({ instituteUserName })
+    this.dataService.getHoursList({ instituteUserName, schoolUserName })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()
@@ -139,10 +140,10 @@ export class TimetableComponent implements OnInit {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
     let schoolUserName = localStorage.getItem('schoolUserName');
-    return this.dataService.getEntitiesList({ instituteUserName, classId })
+    return this.dataService.getEntitiesList({ instituteUserName, schoolUserName, classId })
       .then((resp) => {
         this.loadingIndicator.hide();
-        let res = resp.json()
+        let res = resp.json();
         if (res.success) {
           this.subjectsList = res.Subjects;
           return true;

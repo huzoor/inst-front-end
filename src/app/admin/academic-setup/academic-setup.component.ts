@@ -118,7 +118,8 @@ export class AcademicSetupComponent implements OnInit {
   public getHoursList(): void {
     // Get instituteUserName from localStorage
     let instituteUserName = localStorage.getItem('instituteUserName');
-    this.dataService.getHoursList({ instituteUserName })
+    let schoolUserName = localStorage.getItem('schoolUserName');
+    this.dataService.getHoursList({ instituteUserName, schoolUserName })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()
