@@ -261,19 +261,27 @@ export class AttendanceComponent implements OnInit {
     let subjectCode = formInfo.value.viewSubject;
     let createdOn = formInfo.value.viewSelectDate.formatted;
     this.loadingIndicator.show();
-    console.log(this.viewAttendanceForm.value);
+    // console.log(this.viewAttendanceForm.value);
 
     this.dataService.getAttendance({ instituteUserName, schoolUserName, classCode, subjectCode, createdOn })
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
+          this.viewCurrentAttendance = [];
           if (resp.json().attendanceInfo.length == 0){
-             this.viewCurrentAttendance = [];
              this.toastr.error(`No Records Found`);
             } 
-          else this.viewCurrentAttendance = resp.json().attendanceInfo[0].presentiesList;
+          else{
+            let studentsInfo = resp.json().attendanceInfo[0].presentiesList;
+            let presentiesList = studentsInfo.filter(item => item.subjectCode == subjectCode );
+            if(this.userRoleType == 104 ){
+              let selectedStudentName = localStorage.getItem('name').trim();
+              this.viewCurrentAttendance = presentiesList.filter(item => item.studentName == selectedStudentName );
+            } else this.viewCurrentAttendance = presentiesList
+          }
         } else this.toastr.error(`${resp.json().message}`); 
       }).catch((err) => {
+        console.log(err)
         this.loadingIndicator.hide();
         // this.error = err.json().message
         this.toastr.error(`${err.json().message}`);

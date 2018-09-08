@@ -41,6 +41,7 @@ export class DataService {
     window.localStorage.removeItem('studentsCount');
     window.localStorage.removeItem('studentId');
     window.localStorage.removeItem('staffId');
+    window.localStorage.removeItem('classID');
 
     this.isLoggedin = false;
     this._router.navigate(['/signin']);

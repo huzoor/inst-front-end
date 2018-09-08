@@ -93,6 +93,7 @@ export class SigninComponent implements OnInit {
                   localStorage.setItem('studentId', userInfo.json().user.studentId);
                   localStorage.setItem('studentsCount', userInfo.json().user.usersCont);
                   localStorage.setItem('staffId', userInfo.json().user.staffId);
+                  localStorage.setItem('classID', userInfo.json().user.classEnrolled);
                 }
               } else {
                 this.error = userInfo.json().message;

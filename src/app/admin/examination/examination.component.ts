@@ -80,7 +80,10 @@ export class ExaminationComponent implements OnInit {
         this.loadingIndicator.hide();
         let res = resp.json()
         if (res.success) {
-          this.classList = res.Classes;
+          if(this.userRoleType == 104){
+            let studentClsId = localStorage.getItem('classID');
+            this.classList = res.Classes.filter(item => item._id == studentClsId )
+          } else this.classList = res.Classes;
         } else this.toastr.error(`${resp.json().message}`); 
         // this.error = resp.json().message;
 
@@ -190,7 +193,13 @@ export class ExaminationComponent implements OnInit {
       .then((resp) => {
         this.loadingIndicator.hide();
         if (resp.json().success) {
-          this.studentList = resp.json().studentsList.map(stu => {
+          let stuList = resp.json().studentsList;
+          if(this.userRoleType == 104){
+            let studentId = localStorage.getItem('studentId');
+            stuList = resp.json().studentsList.filter(item => item._id == studentId )
+          } 
+
+          this.studentList = stuList.map(stu => {
             return {
               name: stu.name,
               rollNumber: stu.rollNumber,
@@ -200,6 +209,7 @@ export class ExaminationComponent implements OnInit {
               marks: this.getMarks(stu._id)
             }
           });
+          
         } else this.toastr.error(`students list loading failed..!`); 
         // this.error = 'students list loading failed..!';
       });
