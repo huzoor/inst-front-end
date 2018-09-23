@@ -22,6 +22,8 @@ import { StudentAcademicSetupComponent } from '../student-academic-setup/student
 import { GalleryComponent } from '../gallery/gallery.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { NonTeachingStaffComponent } from '../non-teaching-staff/non-teaching-staff.component';
+import { BulkUploadComponent } from '../bulk-upload/bulk-upload.component';
+
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -113,6 +115,11 @@ import { NonTeachingStaffComponent } from '../non-teaching-staff/non-teaching-st
           {
             path: 'gallery',
             component: GalleryComponent,
+            canActivate: [EnsureAuthenticated]
+          },
+          {
+            path: 'bulk-upload',
+            component: BulkUploadComponent,
             canActivate: [EnsureAuthenticated]
           }
         ]

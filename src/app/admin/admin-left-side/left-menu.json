@@ -83,4 +83,10 @@
     "icon": "fa fa-building",
     "displayName": "Gallery",
     "roles": [101, 102, 103, 104, 105]
+  },
+  {
+    "routerLink": "bulk-upload",
+    "icon": "fa fa-building",
+    "displayName": "Bulk Upload",
+    "roles": [102]
   }]

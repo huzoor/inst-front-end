@@ -220,7 +220,7 @@ export class AttendanceComponent implements OnInit {
     let instituteUserName = localStorage.getItem('instituteUserName');
     let attendanceTakenBy = localStorage.getItem('userName');
 
-    let filterdArr = this.removeDuplicates(this.selectedStudent, 'rollNumber')
+    let filterdArr = this.removeDuplicates(this.selectedStudent, 'studentName')
 
     let saveAttendance: Object = {
       classCode: this.className.value,
@@ -273,7 +273,8 @@ export class AttendanceComponent implements OnInit {
             } 
           else{
             let studentsInfo = resp.json().attendanceInfo[0].presentiesList;
-            let presentiesList = studentsInfo.filter(item => item.subjectCode == subjectCode );
+            let presentiesList = studentsInfo.filter(item => item.classCode == classCode )
+                                             .filter(item => item.subjectCode == subjectCode );
             if(this.userRoleType == 104 ){
               let selectedStudentName = localStorage.getItem('name').trim();
               this.viewCurrentAttendance = presentiesList.filter(item => item.studentName == selectedStudentName );

@@ -45,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NonTeachingStaffComponent } from './non-teaching-staff/non-teaching-staff.component';
+import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
 
 @NgModule({
   imports: [
@@ -88,7 +89,8 @@ import { NonTeachingStaffComponent } from './non-teaching-staff/non-teaching-sta
     StudentAcademicSetupComponent,
     GalleryComponent,
     ChangePasswordComponent,
-    NonTeachingStaffComponent
+    NonTeachingStaffComponent,
+    BulkUploadComponent
   ],
   exports: [AdminComponent]
 })

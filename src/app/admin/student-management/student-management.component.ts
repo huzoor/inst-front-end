@@ -144,10 +144,10 @@ export class StudentManagementComponent implements OnInit {
   public getClassesList(): Promise<any> {
     // Get instituteUserName from localStorage
     let instituteUserName =  localStorage.getItem('instituteUserName');
-    let schoolUserName =  localStorage.getItem('schoolUserName');
+    // let schoolUserName =  localStorage.getItem('schoolUserName');
     let entityType ='classes';
 
-    return this.dataService.getEntitiesList({instituteUserName, schoolUserName, entityType })
+    return this.dataService.getEntitiesList({instituteUserName, entityType })
       .then((resp) => {
         this.loadingIndicator.hide();
         let res = resp.json()

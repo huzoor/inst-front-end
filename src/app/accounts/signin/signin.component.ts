@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
 
 @Component({
@@ -16,7 +16,8 @@ export class SigninComponent implements OnInit {
   public error: any;
 
 
-  constructor(private router: Router, private auth: DataService) { }
+  constructor(private router: Router, private auth: DataService, 
+              private loadingIndicator: NgxSpinnerService) { }
 
   ngOnInit() {
     this.username = new FormControl('', [Validators.required]);
@@ -58,9 +59,10 @@ export class SigninComponent implements OnInit {
               userName,
               role,
             };
-
+            this.loadingIndicator.show();
             this.auth.login(loginInfo)
             .then((userInfo) => {
+              this.loadingIndicator.hide();
               if (userInfo.json().success) {
                 localStorage.setItem('token', userInfo.json().auth_token);
                 if(userInfo.json().user.roleType && userInfo.json().user.roleType == 'Non-Teaching'){
@@ -100,6 +102,7 @@ export class SigninComponent implements OnInit {
               }
             })
             .catch((err) => {
+              this.loadingIndicator.hide();
               console.log('Login Err', err);
               this.error = err.json().message;
             });

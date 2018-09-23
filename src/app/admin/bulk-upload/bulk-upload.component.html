@@ -1,0 +1,40 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <h3 class="box-title">Upload Files</h3>
+          </div>
+          <form novalidate [formGroup]="bulkUploadForm" class="custom-form">
+              <div class="box-body">
+               
+                  <div class="form-group row">
+                      <label class="col-sm-2 control-label">Upload Type</label>
+                      <div class="col-sm-4">
+                      <select class="form-control " formControlName="uploadType" required>
+                        <option value=""> Select Upload Type</option>
+                        <option value="staff"> Staff </option>
+                        <option value="students"> Students </option>
+                      </select>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 control-label"> Xls File</label>
+                    <div class="col-sm-4">
+                        <input type="file" class="form-control" (change)="uploadXls($event)">
+                    </div>
+                  </div>
+                 
+              </div>
+              <div class="box-footer">
+                  <div class="col-md-offset-2">
+                    <button type="submit" class="btn btn-success" [disabled]="bulkUploadForm.invalid">Upload File</button>
+                  </div>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
