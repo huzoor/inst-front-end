@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { serviceUrl } from './AppConstants';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -190,6 +192,15 @@ export class DataService {
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
   }
+
+  getStudentsListByClass(requestDetails): Promise<any> {
+    let url: string = `${this.BASE_URL}/getStudentsListByClass`;
+    let localHeaders: Headers = new Headers({ 
+      'Content-Type': 'application/json', 
+      ...requestDetails,
+     });
+    return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
  
   getStaffByClassId(requestDetails): Promise<any> {
     let url: string = `${this.BASE_URL}/getStaffByClassId`;
@@ -372,6 +383,24 @@ export class DataService {
       ...requestDetails,
      });
     return this.http.get(url, { headers: localHeaders }).toPromise();
+  }
+
+  public requestDataFromMultipleSources(fileredClsList): Observable<any[]> {
+    let requests = [];
+    fileredClsList.map(item =>{
+      let url: string = `${this.BASE_URL}/getStudentsListByClass`;
+      let localHeaders: Headers = new Headers({ 
+        'Content-Type': 'application/json', 
+       classid: item,
+       });
+       requests.push(this.http.get(url, { headers: localHeaders }))
+      })
+    return Observable.forkJoin(requests);
+  }
+
+  bulkUpload(inputInfo):  Promise<any> {
+    let url: string = `${this.BASE_URL}/${inputInfo.uri}`;
+    return this.http.post(url, inputInfo, { headers: this.headers }).toPromise();
   }
 
   test(): string {

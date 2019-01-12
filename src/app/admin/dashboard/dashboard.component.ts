@@ -23,14 +23,13 @@ export class DashboardComponent implements OnInit {
       }]
     }
   };
-  public classChartLabels:string[];
+  public classChartLabels:string[] = new Array();
   public classChartType:string = 'bar';
   public classChartLegend:boolean = true;
   public graphColors: any[] = ['#00a65a', '#f39c12', '#002d76'];
-  public classChartData:any[];
-
-  public marksLabel:string[];
-  public marksData:number[];
+  public classChartData:any[] = new Array();
+  public marksLabel:string[] = new Array();;
+  public marksData:number[] = new Array();;
   public marksChartType:string = 'doughnut';
   public marksChartColor:any = [
     {
@@ -42,6 +41,8 @@ export class DashboardComponent implements OnInit {
   public classesList: any[] = new Array();
   public classNames: any[] = new Array();
   public attendanceInfo = new Array();
+  public studentsCountOfCls = {};
+  public studentsCountOfSubj = {};
 
   constructor(private dataService: DataService, 
               private loadingIndicator: NgxSpinnerService,
@@ -50,12 +51,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     AdminLTE.init();
     // this.classChartLabels = ['I Class', 'II Class', 'III Class', 'IV Class'];
-    this.classChartData = [
-      {data: [10, 11, 20, 25], label:'Present', backgroundColor: '#00a65a'},
-      {data: [11, 11, 11, 40], label:'Absent', backgroundColor: '#3c8dbc'},
-      {data: [11, 22, 22, 55], label:'Leave', backgroundColor: '#f39c12'}
-    ];
-
+    
     this.marksLabel = ['Pass', 'Failure', 'Absent'];
     this.marksData = [80, 15, 5];
     this.userRole = parseInt(localStorage.getItem('role'),10)
@@ -162,20 +158,68 @@ export class DashboardComponent implements OnInit {
               return item.classCode 
             });
             let fileredClsList = fullClsList.filter((v, i, a) => a.indexOf(v) === i); 
-            this.classChartLabels = [];
-            
+            let fileredStdList = studentsInfo.filter((v, i) => v)
+           let allClsStudents = {};
             fileredClsList.map(item => {
-              let cArr = this.classesList.filter(cls => cls._id == item )
-              if(cArr.length>0) this.classChartLabels.push(cArr[0].className);
+              // let cArr = this.classesList.filter(cls => cls._id == item )
+              // if(cArr.length>0) this.classChartLabels.push(cArr[0].className);
+              fileredStdList.map(fs => {
+               if( fs.classCode == item){
+                if(!Array.isArray(allClsStudents[item]))
+                    allClsStudents[item] = []
+                    allClsStudents[item].push(fs);
+               }
+              })
             });
 
-            let fileredStdList = studentsInfo.filter((v, i) => v)
-            console.log('fileredStdList', fileredStdList, this.classChartLabels);
-            this.classChartData = [
-              {data: [10, 11, 20, 25], label:'Present', backgroundColor: '#00a65a'},
-              // {data: [11, 11, 11, 40], label:'Absent', backgroundColor: '#3c8dbc'},
-              // {data: [11, 22, 22, 55], label:'Leave', backgroundColor: '#f39c12'}
-            ];
+        
+            Object.keys(allClsStudents).map((itemKey)=>{
+              let uniq = allClsStudents[itemKey].filter(function (a) {
+                let key = a.classCode + '|' + a.subjectCode;
+                if (!this[key]) {
+                    this[key] = true;
+                    return true;
+                }
+             }, Object.create(null));
+            //  let cObj = {itemKey : uniq.length}
+              this.studentsCountOfSubj[itemKey]= uniq.length;
+            })
+            
+            this.dataService.requestDataFromMultipleSources(fileredClsList).subscribe(responseList => {
+              responseList.map((item, index)=>{
+                let crrRes = item.json();
+                this.studentsCountOfCls[fileredClsList[index]] = crrRes.studentsCount;
+
+                if(index == responseList.length-1 ){
+                  console.log('fileredStdList', fileredStdList, fileredClsList, allClsStudents, this.studentsCountOfCls, this.studentsCountOfSubj);
+                  
+                  let finalDistribution = [];
+                  Object.keys(this.studentsCountOfCls).map( stClsId =>{
+                    let studentPercentileCnt =  this.studentsCountOfSubj[stClsId] * this.studentsCountOfCls[stClsId];
+                    let allStudentsCnt = allClsStudents[stClsId].length;
+                    let percentile = 0;
+                    if(studentPercentileCnt == allStudentsCnt) percentile = 100;
+                    else {
+                      let instanceVal = (studentPercentileCnt - allStudentsCnt);
+                      percentile = (instanceVal * 100 / allStudentsCnt)
+                    }
+
+                    let className = allClsStudents[stClsId][0].className;
+                    if(percentile  > 100) percentile -= 100;
+                    finalDistribution.push({classId: stClsId, className, percentile})
+                  });
+
+                  this.classChartLabels = finalDistribution.map(item => item.className);
+                  this.classChartData = [{
+                    data: finalDistribution.map(item => item.percentile),
+                    label:'Present', backgroundColor: '#00a65a'
+                  }];
+                  console.log('finalDistribution', finalDistribution, this.classChartData, this.classChartLabels);
+
+                }
+
+              })
+            });          
           }
         } else this.toastr.error(`${resp.json().message}`); 
       }).catch((err) => {

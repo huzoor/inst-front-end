@@ -7,15 +7,17 @@ import { HttpModule } from '@angular/http';
 import { MyDatePickerModule } from 'mydatepicker';
 
 import { DataService } from './shared/data.service';
+import { CountryService } from './shared/countryservice';
 import { EnsureAuthenticated } from './shared/ensure-authenticated.service';
 import { LoginRedirect } from './shared/login-redirect.service';
+import { FileUtil } from './shared/file.util';
 
 import { AppComponent } from './app.component';
 import { SigninComponent } from './accounts/signin/signin.component';
 import { RegistrationComponent } from './accounts/registration/registration.component';
 import { ForgotPasswordComponent } from './accounts/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './accounts/reset-password/reset-password.component';
-import {FileUploadModule} from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import {FileUploadModule} from 'ng2-file-upload';
   ],
   providers: [
     DataService,
+    CountryService,
+    FileUtil,
     EnsureAuthenticated,
     LoginRedirect
   ],

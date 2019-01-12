@@ -74,7 +74,7 @@
       <div class="box-body">
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
-            <li class="active" *ngIf="userRoleType !=104">
+            <li class="active" *ngIf="userRole !=104">
               <a href="#tab_1" data-toggle="tab"  id="_tab1">Fee Details</a>
             </li>
             <li>
@@ -114,11 +114,11 @@
                         <div class="box-header with-border">
                           <h3 class="box-title">Student's Attendance</h3>
                         </div>
-                        <div class="box-body">
+                        <!-- <div class="box-body" ng-if="classChartData.length > 0">
                           <canvas baseChart style="height: 300px; width: 100%;" [datasets]="classChartData" [labels]="classChartLabels" [options]="classChartOptions"
                             [legend]="classChartLegend" [chartType]="classChartType" [colors]="graphColors" (chartHover)="chartHovered($event)"
                             (chartClick)="chartClicked($event)"></canvas>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
         <div class="box-body">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active" *ngIf="userRoleType !=104">
+              <li class="active" *ngIf="userRole !== 104">
                 <a href="#tab_1" data-toggle="tab"  id="_tab1">Fee Details</a>
               </li>
               <li>
@@ -161,11 +161,11 @@
                 <b>Acadamics A/c to class Wise</b>
                 <div class="row" style="background-color:#3c8dbc;padding-top: 10px;">
                   <div class="col-md-8">
-                      <div class="box box-success">
+                      <div class="box box-success" *ngIf="marksData.length > 0">
                         <div class="box-header with-border">
                           <h3 class="box-title">Student's Results</h3>
                         </div>
-                        <div class="box-body ">
+                        <div class="box-body " >
                           <canvas baseChart style="height: 200px; width: 100%;" [data]="marksData" [labels]="marksLabel" [chartType]="marksChartType"
                             [colors]="marksChartColor"></canvas>
                         </div>
@@ -178,13 +178,13 @@
                   <div class="row" style="background-color:#3c8dbc;padding-top: 10px;">
                       <div class="col-md-12">
                         <div class="box box-info">
-                          <div class="box-header with-border">
-                            <h3 class="box-title">Student's Attendance</h3>
+                          <div class="box-header with-border" *ngIf="classChartData.length > 0">
+                            <h3 class="box-title">Student's Attendance! - {{classChartData.length}}</h3>
                           </div>
-                          <div class="box-body">
+                          <div class="box-body" >
                             <canvas baseChart style="height: 300px; width: 100%;" [datasets]="classChartData" [labels]="classChartLabels" [options]="classChartOptions"
                               [legend]="classChartLegend" [chartType]="classChartType" [colors]="graphColors" (chartHover)="chartHovered($event)"
-                              (chartClick)="chartClicked($event)"></canvas>
+                              (chartClick)="chartClicked($event)" *ngIf="classChartData.length > 0"></canvas>
                           </div>
                         </div>
                       </div>

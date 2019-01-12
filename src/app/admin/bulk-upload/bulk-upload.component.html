@@ -8,7 +8,6 @@
           </div>
           <form novalidate [formGroup]="bulkUploadForm" class="custom-form">
               <div class="box-body">
-               
                   <div class="form-group row">
                       <label class="col-sm-2 control-label">Upload Type</label>
                       <div class="col-sm-4">
@@ -22,14 +21,18 @@
                   <div class="form-group row">
                     <label class="col-sm-2 control-label"> Xls File</label>
                     <div class="col-sm-4">
-                        <input type="file" class="form-control" (change)="uploadXls($event)">
+                        <input type="file" 
+                        #csvImportInput
+                        class="form-control" 
+                        name="uploadedFile" 
+                        (change)="uploadXls($event)">
                     </div>
                   </div>
                  
               </div>
               <div class="box-footer">
                   <div class="col-md-offset-2">
-                    <button type="submit" class="btn btn-success" [disabled]="bulkUploadForm.invalid">Upload File</button>
+                    <button type="button" class="btn btn-success" [disabled]="bulkUploadForm.invalid" (click)="proceedToUpload(bulkUploadForm)">Upload File</button>
                   </div>
                 </div>
           </form>

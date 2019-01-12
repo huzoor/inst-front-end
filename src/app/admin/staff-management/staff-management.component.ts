@@ -7,6 +7,10 @@ import { MyDatePickerModule, IMyDpOptions } from 'mydatepicker';
 import { staffRoles, staffQualifications, countriesList, statesList, districtsList, yearsList } from '../../shared/AppConstants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../shared/data.service';
+import { CountryService } from '../../shared/countryservice';
+import { Country } from '../../shared/country';
+import { State } from '../../shared/state';
+
 declare var AdminLTE: any;
 const date = new Date();
 @Component({
@@ -54,13 +58,17 @@ export class StaffManagementComponent implements OnInit {
   public stfAvailStaus: String = '';
   public showUpdateButton: boolean = false;
   public deleteStaff: any;
+  public selectedCountry: Country = new Country(0, 'India'); 
+  public countries: Country[];  
+  public states: State[];  
 
   constructor(private modalService: BsModalService,
     private eleRef: ElementRef,
     private dataService: DataService,
+    private _countryService: CountryService,
     private $http: Http,
     private loadingIndicator: NgxSpinnerService) {
-    
+      this.countries = this._countryService.getCountries();  
   }
 
   ngOnInit() {
@@ -116,6 +124,9 @@ export class StaffManagementComponent implements OnInit {
       instituteUserName: this.instituteUserName,
       _id: this._id,
     });
+  }
+  public onSelect(countryid) {  
+      this.states = this._countryService.getStates().filter((item) => item.countryid == countryid);  
   }
   public uploadImage(data: any): void {
     console.log(data[0]);

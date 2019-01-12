@@ -189,23 +189,27 @@
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">Country</label>
-              <select class="form-control" formControlName="country" (change)="changeCountry(country.value)" required>
-                <option value=""> Select Country</option>
-                <option *ngFor="let ctry of countriesList" [value]="ctry.code">
-                  {{ctry.name}}
-                </option>
-              </select>
+              <select class="form-control" formControlName="state"  [(ngModel)]="selectedCountry.id" (change)="onSelect($event.target.value)" required>
+                  <option value=""> Select State</option>
+                  <option *ngFor="let country of countries" value={{country.id}}>
+                    {{country.name}}
+                  </option> 
+                </select>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label class="control-label">State</label>
-              <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
+              <select class="form-control" formControlName="state" [(ngModel)]="selectedCountry.id"  (change)="changeState(state.value)">  
+                <option *ngIf='selectedCountry.id == 0' value="0">--Select State--</option>  
+                <option *ngFor="let state of states " value={{state.id}}>{{state.name}}</option>  
+              </select> 
+              <!-- <select class="form-control" formControlName="state" (change)="changeState(state.value)" required>
                 <option value=""> Select State</option>
                 <option *ngFor="let ste of statesList" [value]="ste.name">
                   {{ste.name}}
                 </option>
-              </select>
+              </select> -->
             </div>
           </div>
         </div>

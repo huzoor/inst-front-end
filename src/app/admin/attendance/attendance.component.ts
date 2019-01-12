@@ -174,7 +174,9 @@ export class AttendanceComponent implements OnInit {
       if (this.selectedAll) {
         this.selectedStudent.push({
           classCode: this.className.value,
+          className: (this.classList.filter(item => item._id == this.className.value)[0].className) || ``,
           subjectCode: this.subject.value,
+          subjectName: (this.subjectsList.filter(item => item._id == this.subject.value)[0].subjectName) || ``,
           rollNumber: this.studentList[i].rollNumber,
           studentName: this.studentList[i].name,
         });
@@ -187,7 +189,13 @@ export class AttendanceComponent implements OnInit {
 
   public checkAllSelected(row) {
     if (row.selected === true) {
-      this.selectedStudent.push({ classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber });
+      this.selectedStudent.push({ 
+        classCode: this.className.value, 
+        className: (this.classList.filter(item => item._id == this.className.value)[0].className) || ``,
+        subjectCode: this.subject.value, 
+        subjectName: (this.subjectsList.filter(item => item._id == this.subject.value)[0].subjectName) || ``,
+        rollNumber: row.rollNumber 
+      });
     } else {
       // this.selectedStudent.splice(this.selectedStudent.indexOf({classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber, isAttended: true}), 1);
       this.selectedStudent.splice(this.selectedStudent.indexOf({ classCode: this.className.value, subjectCode: this.subject.value, rollNumber: row.rollNumber }), 1);
